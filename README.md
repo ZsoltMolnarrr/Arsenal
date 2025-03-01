@@ -1,6 +1,6 @@
 ![Title](.github/title.png)
 
-### 🎖 Unleash your true potential with powerful trinkets! 🔮
+### 🗡️ Wield legendary weapons of the past, conquer the battlefield!
 
 This is a content mod for Spell Engine.
 

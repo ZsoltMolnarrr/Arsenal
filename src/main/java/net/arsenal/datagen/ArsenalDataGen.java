@@ -1,5 +1,6 @@
 package net.arsenal.datagen;
 
+import net.arsenal.item.ArsenalWeapons;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -31,8 +32,9 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         pack.addProvider(ItemTagGenerator::new);
         pack.addProvider(LangGenerator::new);
         pack.addProvider(ModelProvider::new);
-        pack.addProvider(RelicsSpellGen::new);
+        pack.addProvider(SpellGen::new);
         pack.addProvider(SoundGen::new);
+        pack.addProvider(WeaponGen::new);
     }
 
     public static class ItemTagGenerator extends FabricTagProvider<Item> {
@@ -43,7 +45,7 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             var all = getOrCreateTagBuilder(ArsenalItemTags.ALL);
-//            RelicItems.entries.forEach(entry -> all.addOptional(entry.id()));
+            ArsenalWeapons.entries.forEach(entry -> all.addOptional(entry.id()));
 //
 //            // Map<Integer, Tag> rpgSeriesTierTag
 //            for (var entry: RelicItems.entries) {
@@ -74,13 +76,10 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
 
         @Override
         public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-            translationBuilder.add("trinkets.slot.spell.trinket", "Trinket");
-            translationBuilder.add("trinkets.slot.charm.trinket", "Trinket");
-            translationBuilder.add(Group.translationKey, "Relics");
-//            RelicItems.entries.forEach(entry ->
-//                translationBuilder.add(entry.item().get().getTranslationKey(), entry.translatedName())
-//            );
-            //   "spell.archers.entangling_roots.name": "Entangling Roots",
+            translationBuilder.add(Group.translationKey, "Arsenal");
+            ArsenalWeapons.entries.forEach(entry ->
+                translationBuilder.add(entry.item().getTranslationKey(), entry.translatedName())
+            );
             ArsenalSpells.entries.forEach(entry -> {
                 var id = entry.id();
                 translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".name" , entry.title());
@@ -111,8 +110,8 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         }
     }
 
-    public static class RelicsSpellGen extends SpellGenerator {
-        public RelicsSpellGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public static class SpellGen extends SpellGenerator {
+        public SpellGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
@@ -133,6 +132,21 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         public void generateSounds(Builder builder) {
             builder.entries.add(new Entry(ArsenalMod.NAMESPACE,
                     ArsenalSounds.entries.stream().map(ArsenalSounds.Entry::name).toList()));
+        }
+    }
+
+    public static class WeaponGen extends WeaponAttributeGenerator {
+        public WeaponGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+            super(dataOutput, registryLookup);
+        }
+
+        @Override
+        public void generateWeaponAttributes(Builder builder) {
+            ArsenalWeapons.entries.forEach(entry -> {
+                if (entry.weaponAttributesPreset != null && !entry.weaponAttributesPreset.isEmpty()) {
+                    builder.entries.add(new Entry(entry.id(), entry.weaponAttributesPreset));
+                }
+            });
         }
     }
 }

@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "arsenal:unique_claymore_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_staff_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_hammer_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_hammer_sw",
+      "required": false
+    }
+  ]
+}

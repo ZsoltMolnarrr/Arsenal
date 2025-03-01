@@ -1,5 +1,6 @@
 package net.arsenal;
 
+import net.arsenal.item.ArsenalWeapons;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.registry.Registries;
@@ -38,7 +39,7 @@ public class ArsenalMod implements ModInitializer {
                 .displayName(Text.translatable(Group.translationKey))
                 .build();
         Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
-//        RelicItems.register(itemConfig.value.entries);
+        ArsenalWeapons.register(itemConfig.value.weapons);
         itemConfig.save();
         ArsenalEffects.register(effectConfig.value);
         effectConfig.save();
