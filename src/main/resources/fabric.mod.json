@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "arsenal",
+  "version": "${version}",
+  "name": "Relics (RPG Series)",
+  "description": "Unleash your true potential with powerful trinkets!",
+  "authors": [ "Daedelus" ],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/arsenal/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.arsenal.client.ArsenalClient"
+    ],
+    "main": [
+      "net.arsenal.ArsenalMod"
+    ],
+    "fabric-datagen": [
+      "net.arsenal.datagen.ArsenalDataGen"
+    ]
+  },
+  "mixins": [
+    "arsenal.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=${minecraft_compat_version}",
+    "fabricloader": ">=${fabric_loader_version}",
+    "spell_engine": ">=${spell_engine_version}",
+    "ranged_weapon_api": ">=${ranged_weapon_api_version}"
+  }
+}
