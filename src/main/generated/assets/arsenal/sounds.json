@@ -1,1 +1,9 @@
-{}
+{
+  "shield_equip": {
+    "sounds": [
+      "arsenal:shield_equip_1",
+      "arsenal:shield_equip_2",
+      "arsenal:shield_equip_3"
+    ]
+  }
+}

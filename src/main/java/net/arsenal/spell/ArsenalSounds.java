@@ -1,27 +1,26 @@
 package net.arsenal.spell;
 
+import net.arsenal.ArsenalMod;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.arsenal.ArsenalMod;
+import net.spell_engine.fx.SpellEngineSounds;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArsenalSounds {
-    public record Entry(String name) {
-        public Identifier id() {
-            return Identifier.of(ArsenalMod.NAMESPACE, name);
-        }
-    }
-    public static final List<Entry> entries = new ArrayList<>();
-    public static Entry add(Entry entry) {
+    public static final List<SpellEngineSounds.Entry> entries = new ArrayList<>();
+    private static SpellEngineSounds.Entry add(SpellEngineSounds.Entry entry) {
         entries.add(entry);
         return entry;
     }
+    private static SpellEngineSounds.Entry entry(String name) {
+        return new SpellEngineSounds.Entry(Identifier.of(ArsenalMod.NAMESPACE, name));
+    }
 
-    // public static final Entry SHARPEN = add(new Entry("sharpen"));
+    public static final SpellEngineSounds.Entry shield_equip = add(entry("shield_equip").variants(3));
 
     public static void register() {
         for (var entry: entries) {

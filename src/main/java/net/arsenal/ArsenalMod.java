@@ -1,5 +1,6 @@
 package net.arsenal;
 
+import net.arsenal.item.ArsenalShields;
 import net.arsenal.item.ArsenalWeapons;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -14,9 +15,15 @@ import net.tinyconfig.ConfigManager;
 
 public class ArsenalMod implements ModInitializer {
     public static final String NAMESPACE = "arsenal";
-    public static final String DIRECTORY = "relics";
+    public static final String DIRECTORY = NAMESPACE;
     public static ConfigManager<ConfigFile.Equipment> itemConfig = new ConfigManager<>
-            ("items", new ConfigFile.Equipment())
+            ("equipment", new ConfigFile.Equipment())
+            .builder()
+            .setDirectory(DIRECTORY)
+            .sanitize(true)
+            .build();
+    public static ConfigManager<ConfigFile.Shields> shieldConfig = new ConfigManager<>
+            ("shields", new ConfigFile.Shields())
             .builder()
             .setDirectory(DIRECTORY)
             .sanitize(true)
@@ -31,9 +38,14 @@ public class ArsenalMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ArsenalSounds.register();
         itemConfig.refresh();
+        shieldConfig.refresh();
         effectConfig.refresh();
+        ArsenalSounds.register();
+
+        ArsenalEffects.register(effectConfig.value);
+        effectConfig.save();
+
         Group.GROUP = FabricItemGroup.builder()
                 .icon(Group.ICON)
                 .displayName(Text.translatable(Group.translationKey))
@@ -41,7 +53,7 @@ public class ArsenalMod implements ModInitializer {
         Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
         ArsenalWeapons.register(itemConfig.value.weapons);
         itemConfig.save();
-        ArsenalEffects.register(effectConfig.value);
-        effectConfig.save();
+        ArsenalShields.register(shieldConfig.value.shields);
+        shieldConfig.save();
     }
 }

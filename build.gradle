@@ -53,6 +53,7 @@ dependencies {
     implementation include("com.github.ZsoltMolnarrr:TinyConfig:${project.tiny_config_version}")
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
+
     modImplementation(files("run/mods/dev/spell_engine-${project.spell_engine_version}.jar"))
 //    modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}")
 
@@ -61,7 +62,7 @@ dependencies {
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}")
     modImplementation("maven.modrinth:spell-power:${project.spell_power_version}")
     modImplementation("maven.modrinth:ranged-weapon-api:${project.ranged_weapon_api_version}")
-
+    include(modImplementation("maven.modrinth:shield-api:${project.shield_api_version}"))
 }
 
 processResources {

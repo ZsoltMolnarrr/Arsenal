@@ -1,5 +1,6 @@
 package net.arsenal.datagen;
 
+import net.arsenal.item.ArsenalShields;
 import net.arsenal.item.ArsenalWeapons;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -21,7 +22,9 @@ import net.arsenal.spell.ArsenalEffects;
 import net.arsenal.spell.ArsenalSounds;
 import net.arsenal.spell.ArsenalSpells;
 import net.spell_engine.api.datagen.SimpleSoundGenerator;
+import net.spell_engine.api.datagen.SimpleSoundGeneratorV2;
 import net.spell_engine.api.datagen.SpellGenerator;
+import net.spell_engine.fx.SpellEngineSounds;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -80,6 +83,9 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
             ArsenalWeapons.entries.forEach(entry ->
                 translationBuilder.add(entry.item().getTranslationKey(), entry.translatedName())
             );
+            ArsenalShields.entries.forEach(entry ->
+                translationBuilder.add(entry.translationKey(), entry.translatedName())
+            );
             ArsenalSpells.entries.forEach(entry -> {
                 var id = entry.id();
                 translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".name" , entry.title());
@@ -123,7 +129,7 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         }
     }
 
-    public static class SoundGen extends SimpleSoundGenerator {
+    public static class SoundGen extends SimpleSoundGeneratorV2 {
         public SoundGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
             super(dataOutput, registryLookup);
         }
@@ -131,7 +137,11 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         @Override
         public void generateSounds(Builder builder) {
             builder.entries.add(new Entry(ArsenalMod.NAMESPACE,
-                    ArsenalSounds.entries.stream().map(ArsenalSounds.Entry::name).toList()));
+                            ArsenalSounds.entries.stream()
+                                    .map(entry -> SoundEntry.withVariants(entry.id().getPath(), entry.variants()))
+                                    .toList()
+                    )
+            );
         }
     }
 
