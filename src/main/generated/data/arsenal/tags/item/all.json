@@ -15,6 +15,14 @@
     {
       "id": "arsenal:unique_hammer_sw",
       "required": false
+    },
+    {
+      "id": "arsenal:unique_mace_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_mace_sw",
+      "required": false
     }
   ]
 }

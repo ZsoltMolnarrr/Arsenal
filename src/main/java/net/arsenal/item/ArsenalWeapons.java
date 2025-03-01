@@ -59,7 +59,11 @@ public class ArsenalWeapons {
         entry.weaponAttributesPreset = "staff";
         return entry;
     }
-
+    private static Weapon.Entry mace(String name, Weapon.CustomMaterial material, float damage) {
+        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -2.8F));
+        entry.weaponAttributesPreset = "mace";
+        return entry;
+    }
 
     public static final Weapon.Entry unique_claymore_1 = claymore("unique_claymore_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 13F)
@@ -75,6 +79,13 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_hammer_sw = hammer("unique_hammer_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 16F)
             .translatedName("Hammer of Sanctification");
+
+    public static final Weapon.Entry unique_mace_1 = mace("unique_mace_1",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
+            .translatedName("Bonecracker");
+    public static final Weapon.Entry unique_mace_sw = mace("unique_mace_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 11F)
+            .translatedName("Royal Scepter");
 
     static {
         entries.forEach(entry -> entry.rarity = Rarity.RARE);
