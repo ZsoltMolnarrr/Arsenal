@@ -1,0 +1,11 @@
+{
+  "parent": "arsenal:item/base/double_axe_32",
+  "gui_light": "front",
+  "display": {
+    "gui": {
+      "rotation": [ 0, 0, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale":[ 1.33, 1.33, 1 ]
+    }
+  }
+}

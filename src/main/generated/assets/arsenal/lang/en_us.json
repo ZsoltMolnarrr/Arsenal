@@ -1,5 +1,7 @@
 {
   "item.arsenal.unique_claymore_1": "Cataclysm's Edge",
+  "item.arsenal.unique_claymore_sw": "Apolyon, the Soul-Render",
+  "item.arsenal.unique_double_axe_1": "Dual-blade Butcher",
   "item.arsenal.unique_hammer_1": "Hammer of the Naaru",
   "item.arsenal.unique_hammer_sw": "Hammer of Sanctification",
   "item.arsenal.unique_mace_1": "Bonecracker",
@@ -7,5 +9,7 @@
   "item.arsenal.unique_shield_1": "Bulwark of Azzinoth",
   "item.arsenal.unique_shield_sw": "Sword Breaker's Bulwark",
   "item.arsenal.unique_staff_1": "Exodar Life-Staff",
+  "item.arsenal.unique_staff_damage_sw": "Grand Magister's Staff of Torrents",
+  "item.arsenal.unique_staff_heal_staff_sw": "Golden Staff of the Sin'dorei",
   "itemGroup.arsenal.generic": "Arsenal"
 }

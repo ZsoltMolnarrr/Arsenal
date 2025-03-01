@@ -8,11 +8,13 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.WeaponConfig;
 import net.spell_engine.api.item.weapon.SpellSwordItem;
 import net.spell_engine.api.item.weapon.SpellWeaponItem;
 import net.spell_engine.api.item.weapon.StaffItem;
 import net.spell_engine.api.item.weapon.Weapon;
+import net.spell_power.api.SpellSchools;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -64,14 +66,42 @@ public class ArsenalWeapons {
         entry.weaponAttributesPreset = "mace";
         return entry;
     }
+    private static Weapon.Entry glaive(String name, Weapon.CustomMaterial material, float damage) {
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.6F));
+        entry.weaponAttributesPreset = "glaive";
+        return entry;
+    }
+    private static Weapon.Entry axe(String name, Weapon.CustomMaterial material, float damage) {
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.8F));
+        entry.weaponAttributesPreset = "double_axe";
+        return entry;
+    }
+
+
+    public static final float TIER_5_SPELL_POWER = 7;
 
     public static final Weapon.Entry unique_claymore_1 = claymore("unique_claymore_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 13F)
             .translatedName("Cataclysm's Edge");
+    public static final Weapon.Entry unique_claymore_sw = claymore("unique_claymore_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 13F)
+            .translatedName("Apolyon, the Soul-Render");
 
     public static final Weapon.Entry unique_staff_1 = staff("unique_staff_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
+            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Exodar Life-Staff");
+    public static final Weapon.Entry unique_staff_damage_sw = staff("unique_staff_damage_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
+            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .translatedName("Grand Magister's Staff of Torrents");
+    public static final Weapon.Entry unique_staff_heal_staff_sw = staff("unique_staff_heal_staff_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
+            .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
+            .translatedName("Golden Staff of the Sin'dorei");
 
     public static final Weapon.Entry unique_hammer_1 = hammer("unique_hammer_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 16F)
@@ -79,6 +109,10 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_hammer_sw = hammer("unique_hammer_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 16F)
             .translatedName("Hammer of Sanctification");
+
+    public static final Weapon.Entry unique_double_axe_1 = axe("unique_double_axe_1",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
+            .translatedName("Dual-blade Butcher");
 
     public static final Weapon.Entry unique_mace_1 = mace("unique_mace_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
