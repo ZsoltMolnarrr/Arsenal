@@ -1,0 +1,6 @@
+{
+  "parent": "arsenal:item/base/glaive_38",
+  "textures": {
+    "layer0": "arsenal:item/unique_glaive_1"
+  }
+}

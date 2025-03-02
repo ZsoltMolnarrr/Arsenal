@@ -114,6 +114,13 @@ public class ArsenalWeapons {
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
             .translatedName("Dual-blade Butcher");
 
+    public static final Weapon.Entry unique_glaive_1 = glaive("unique_glaive_1",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 9.3F)
+            .translatedName("Hellreaver");
+    public static final Weapon.Entry unique_glaive_sw = glaive("unique_glaive_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 9.3F)
+            .translatedName("Shivering Felspine");
+
     public static final Weapon.Entry unique_mace_1 = mace("unique_mace_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
             .translatedName("Bonecracker");

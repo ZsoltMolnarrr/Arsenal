@@ -33,6 +33,14 @@
       "required": false
     },
     {
+      "id": "arsenal:unique_glaive_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_glaive_sw",
+      "required": false
+    },
+    {
       "id": "arsenal:unique_mace_1",
       "required": false
     },
