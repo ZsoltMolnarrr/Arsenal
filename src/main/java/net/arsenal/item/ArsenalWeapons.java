@@ -92,6 +92,11 @@ public class ArsenalWeapons {
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Exodar Life-Staff");
+    public static final Weapon.Entry unique_staff_2 = staff("unique_staff_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
+            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .translatedName("Nexus Key");
     public static final Weapon.Entry unique_staff_damage_sw = staff("unique_staff_damage_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
@@ -113,6 +118,9 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_double_axe_1 = axe("unique_double_axe_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
             .translatedName("Dual-blade Butcher");
+    public static final Weapon.Entry unique_double_axe_sw = axe("unique_double_axe_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 11F)
+            .translatedName("Sunreaver War Axe");
 
     public static final Weapon.Entry unique_glaive_1 = glaive("unique_glaive_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 9.3F)
