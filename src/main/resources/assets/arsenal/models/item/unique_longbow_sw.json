@@ -1,0 +1,28 @@
+{
+  "parent": "arsenal:item/base/bow_28",
+  "textures": {
+    "layer0": "arsenal:item/unique_longbow_sw"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pulling": 1
+      },
+      "model": "arsenal:item/unique_longbow_sw_pulling_0"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.65
+      },
+      "model": "arsenal:item/unique_longbow_sw_pulling_1"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.9
+      },
+      "model": "arsenal:item/unique_longbow_sw_pulling_2"
+    }
+  ]
+}

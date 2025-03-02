@@ -1,7 +1,6 @@
 package net.arsenal.datagen;
 
-import net.arsenal.item.ArsenalShields;
-import net.arsenal.item.ArsenalWeapons;
+import net.arsenal.item.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -16,8 +15,6 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.arsenal.ArsenalMod;
-import net.arsenal.item.Group;
-import net.arsenal.item.ArsenalItemTags;
 import net.arsenal.spell.ArsenalEffects;
 import net.arsenal.spell.ArsenalSounds;
 import net.arsenal.spell.ArsenalSpells;
@@ -81,6 +78,9 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
             translationBuilder.add(Group.translationKey, "Arsenal");
             ArsenalWeapons.entries.forEach(entry ->
+                translationBuilder.add(entry.item().getTranslationKey(), entry.translatedName())
+            );
+            ArsenalBows.entries.forEach(entry ->
                 translationBuilder.add(entry.item().getTranslationKey(), entry.translatedName())
             );
             ArsenalShields.entries.forEach(entry ->
@@ -153,6 +153,11 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         @Override
         public void generateWeaponAttributes(Builder builder) {
             ArsenalWeapons.entries.forEach(entry -> {
+                if (entry.weaponAttributesPreset != null && !entry.weaponAttributesPreset.isEmpty()) {
+                    builder.entries.add(new Entry(entry.id(), entry.weaponAttributesPreset));
+                }
+            });
+            ArsenalBows.entries.forEach(entry -> {
                 if (entry.weaponAttributesPreset != null && !entry.weaponAttributesPreset.isEmpty()) {
                     builder.entries.add(new Entry(entry.id(), entry.weaponAttributesPreset));
                 }

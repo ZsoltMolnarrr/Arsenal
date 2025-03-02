@@ -1,5 +1,7 @@
 package net.arsenal;
 
+import net.arsenal.config.RangedConfigFile;
+import net.arsenal.item.ArsenalBows;
 import net.arsenal.item.ArsenalShields;
 import net.arsenal.item.ArsenalWeapons;
 import net.fabricmc.api.ModInitializer;
@@ -22,6 +24,12 @@ public class ArsenalMod implements ModInitializer {
             .setDirectory(DIRECTORY)
             .sanitize(true)
             .build();
+    public static ConfigManager<RangedConfigFile> rangedConfig = new ConfigManager<>
+            ("ranged_weapons", new RangedConfigFile())
+            .builder()
+            .setDirectory(DIRECTORY)
+            .sanitize(true)
+            .build();
     public static ConfigManager<ConfigFile.Shields> shieldConfig = new ConfigManager<>
             ("shields", new ConfigFile.Shields())
             .builder()
@@ -39,6 +47,7 @@ public class ArsenalMod implements ModInitializer {
     @Override
     public void onInitialize() {
         itemConfig.refresh();
+        rangedConfig.refresh();
         shieldConfig.refresh();
         effectConfig.refresh();
         ArsenalSounds.register();
@@ -53,6 +62,8 @@ public class ArsenalMod implements ModInitializer {
         Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
         ArsenalWeapons.register(itemConfig.value.weapons);
         itemConfig.save();
+        ArsenalBows.register(rangedConfig.value.ranged_weapons);
+        rangedConfig.save();
         ArsenalShields.register(shieldConfig.value.shields);
         shieldConfig.save();
     }

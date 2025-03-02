@@ -1,0 +1,15 @@
+{
+  "parent": "arsenal:item/base/handheld_32",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [ -80, 260, -40 ],
+      "translation": [ -1, -2, 2.5 ],
+      "scale": [ 1.8, 1.8, 0.9 ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [ -80, -280, 40 ],
+      "translation": [ -1, -2, 2.5 ],
+      "scale": [ 1.8, 1.8, 0.9 ]
+    }
+  }
+}
