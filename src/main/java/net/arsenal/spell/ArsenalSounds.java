@@ -1,9 +1,6 @@
 package net.arsenal.spell;
 
 import net.arsenal.ArsenalMod;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.spell_engine.fx.SpellEngineSounds;
 
@@ -24,9 +21,7 @@ public class ArsenalSounds {
 
     public static void register() {
         for (var entry: entries) {
-            var soundId = entry.id();
-            var soundEvent = SoundEvent.of(soundId);
-            Registry.register(Registries.SOUND_EVENT, soundId, soundEvent);
+            entry.register();
         }
     }
 }
