@@ -114,7 +114,7 @@ public class ArsenalWeapons {
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
-            .translatedName("Antonidas' Staff of Rapt Concentration");
+            .translatedName("Antonidas's Staff of Rapt Concentration");
     public static final Weapon.Entry unique_staff_damage_3 = staff("unique_staff_damage_3",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
@@ -129,7 +129,7 @@ public class ArsenalWeapons {
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
-            .translatedName("Mage Lord Staff");
+            .translatedName("Mage Lord Cane");
     public static final Weapon.Entry unique_staff_damage_6 = staff("unique_staff_damage_6",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
