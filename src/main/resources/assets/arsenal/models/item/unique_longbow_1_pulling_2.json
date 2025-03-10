@@ -1,0 +1,6 @@
+{
+  "parent": "arsenal:item/unique_longbow_1",
+  "textures": {
+    "layer0": "arsenal:item/unique_longbow_1_pulling_2"
+  }
+}

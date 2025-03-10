@@ -61,6 +61,11 @@ public class ArsenalWeapons {
         entry.weaponAttributesPreset = "staff";
         return entry;
     }
+    private static Weapon.Entry spear(String name, Weapon.CustomMaterial material, float damage) {
+        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -2.6F));
+        entry.weaponAttributesPreset = "spear";
+        return entry;
+    }
     private static Weapon.Entry mace(String name, Weapon.CustomMaterial material, float damage) {
         var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -2.8F));
         entry.weaponAttributesPreset = "mace";
@@ -76,6 +81,16 @@ public class ArsenalWeapons {
         entry.weaponAttributesPreset = "double_axe";
         return entry;
     }
+    private static Weapon.Entry dagger(String name, Weapon.CustomMaterial material, float damage) {
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -1.6F));
+        entry.weaponAttributesPreset = "dagger";
+        return entry;
+    }
+    private static Weapon.Entry sickle(String name, Weapon.CustomMaterial material, float damage) {
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2F));
+        entry.weaponAttributesPreset = "sickle";
+        return entry;
+    }
 
 
     public static final float TIER_5_SPELL_POWER = 7;
@@ -83,30 +98,119 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_claymore_1 = claymore("unique_claymore_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 13F)
             .translatedName("Cataclysm's Edge");
+    public static final Weapon.Entry unique_claymore_2 = claymore("unique_claymore_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 13F)
+            .translatedName("Champion's Greatsword");
     public static final Weapon.Entry unique_claymore_sw = claymore("unique_claymore_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 13F)
             .translatedName("Apolyon, the Soul-Render");
 
-    public static final Weapon.Entry unique_staff_1 = staff("unique_staff_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
-            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
-            .translatedName("Exodar Life-Staff");
-    public static final Weapon.Entry unique_staff_2 = staff("unique_staff_2",
+    public static final Weapon.Entry unique_staff_damage_1 = staff("unique_staff_damage_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
             .translatedName("Nexus Key");
+    public static final Weapon.Entry unique_staff_damage_2 = staff("unique_staff_damage_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
+            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
+            .translatedName("Antonidas' Staff of Rapt Concentration");
+    public static final Weapon.Entry unique_staff_damage_3 = staff("unique_staff_damage_3",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)))
+            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .translatedName("Draconic Battle Staff");
+    public static final Weapon.Entry unique_staff_damage_4 = staff("unique_staff_damage_4",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)))
+            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
+            .translatedName("Gargoyle's Bite");
+    public static final Weapon.Entry unique_staff_damage_5 = staff("unique_staff_damage_5",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)))
+            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .translatedName("Mage Lord Staff");
+    public static final Weapon.Entry unique_staff_damage_6 = staff("unique_staff_damage_6",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)))
+            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
+            .translatedName("Frostbitten Staff");
+
     public static final Weapon.Entry unique_staff_damage_sw = staff("unique_staff_damage_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
             .translatedName("Grand Magister's Staff of Torrents");
-    public static final Weapon.Entry unique_staff_heal_staff_sw = staff("unique_staff_heal_staff_sw",
+
+    public static final Weapon.Entry unique_staff_heal_1 = staff("unique_staff_heal_1",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
+            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
+            .translatedName("Exodar Life-Staff");
+    public static final Weapon.Entry unique_staff_heal_2 = staff("unique_staff_heal_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
+            .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
+            .translatedName("Staff of Immaculate Recovery");
+    public static final Weapon.Entry unique_staff_heal_sw = staff("unique_staff_heal_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Golden Staff of the Sin'dorei");
+
+    public static final Weapon.Entry unique_spear_1 = spear("unique_spear_1",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 8F)
+            .translatedName("Sonic Spear");
+    public static final Weapon.Entry unique_spear_2 = spear("unique_spear_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 8F)
+            .translatedName("Relentless Edge");
+    public static final Weapon.Entry unique_spear_sw = spear("unique_spear_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 8F)
+            .translatedName("Mounting Vengeance");
+
+    public static final Weapon.Entry unique_dagger_1 = dagger("unique_dagger_1",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.PRISMARINE)), 5.5F)
+            .translatedName("Frost Fang");
+    public static final Weapon.Entry unique_dagger_2 = dagger("unique_dagger_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 5.5F)
+            .translatedName("Demonic Shiv");
+    public static final Weapon.Entry unique_dagger_sw = dagger("unique_dagger_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 5.5F)
+            .translatedName("Crux of the Apocalypse");
+
+    public static final Weapon.Entry unique_sickle_1 = sickle("unique_sickle_1",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 6.8F)
+            .translatedName("Plague Sickle");
+    public static final Weapon.Entry unique_sickle_2 = sickle("unique_sickle_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 6.8F)
+            .translatedName("Infernal Harvester");
+    public static final Weapon.Entry unique_sickle_sw = sickle("unique_sickle_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 6.8F)
+            .translatedName("Thalassian Sickle");
+
+//    public static final Weapon.Entry unique_longsword_sw = sickle("unique_longsword_sw",
+//            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 6.8F)
+//            .translatedName("Dragonscale-Encrusted Longblade");
+
+
+    public static final Weapon.Entry unique_double_axe_1 = axe("unique_double_axe_1",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
+            .translatedName("Dual-blade Butcher");
+    public static final Weapon.Entry unique_double_axe_2 = axe("unique_double_axe_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 11F)
+            .translatedName("Arcanite Reaper");
+    public static final Weapon.Entry unique_double_axe_sw = axe("unique_double_axe_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 11F)
+            .translatedName("Sunreaver War Axe");
+
+    public static final Weapon.Entry unique_glaive_1 = glaive("unique_glaive_1",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 9.3F)
+            .translatedName("Hellreaver");
+    public static final Weapon.Entry unique_glaive_2 = glaive("unique_glaive_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 9.3F)
+            .translatedName("Crystalforge Glaive");
+    public static final Weapon.Entry unique_glaive_sw = glaive("unique_glaive_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 9.3F)
+            .translatedName("Shivering Felspine");
 
     public static final Weapon.Entry unique_hammer_1 = hammer("unique_hammer_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 16F)
@@ -115,26 +219,12 @@ public class ArsenalWeapons {
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 16F)
             .translatedName("Hammer of Sanctification");
 
-    public static final Weapon.Entry unique_double_axe_1 = axe("unique_double_axe_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
-            .translatedName("Dual-blade Butcher");
-    public static final Weapon.Entry unique_double_axe_sw = axe("unique_double_axe_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 11F)
-            .translatedName("Sunreaver War Axe");
-
-    public static final Weapon.Entry unique_glaive_1 = glaive("unique_glaive_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 9.3F)
-            .translatedName("Hellreaver");
-    public static final Weapon.Entry unique_glaive_sw = glaive("unique_glaive_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 9.3F)
-            .translatedName("Shivering Felspine");
-
     public static final Weapon.Entry unique_mace_1 = mace("unique_mace_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
             .translatedName("Bonecracker");
     public static final Weapon.Entry unique_mace_sw = mace("unique_mace_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 11F)
-            .translatedName("Royal Scepter");
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 11F)
+            .translatedName("Archon's Scepter");
 
     static {
         entries.forEach(entry -> entry.rarity = Rarity.RARE);

@@ -1,5 +1,5 @@
 {
-  "parent": "arsenal:item/base/claymore_32",
+  "parent": "arsenal:item/base/handheld_28",
   "display": {
     "gui": {
       "rotation": [ 0, 0, 0 ],

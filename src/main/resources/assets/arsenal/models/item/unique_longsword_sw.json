@@ -1,0 +1,18 @@
+{
+  "parent": "arsenal:item/base/claymore_24",
+  "textures": {
+    "layer0": "arsenal:item/unique_longsword_sw"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [ 0, -90, 55 ],
+      "translation": [ 0, 6, 0.5 ],
+      "scale": [ 1.7, 1.7, 0.85 ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [ 0, 90, -55 ],
+      "translation": [ 0, 6, 0.5 ],
+      "scale": [ 1.7, 1.7, 0.85 ]
+    }
+  }
+}

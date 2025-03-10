@@ -102,6 +102,7 @@ public class ArsenalBows {
     private static final int durabilityTier1 = 465; // Matches Vanilla Crossbow durability
     private static final int durabilityTier2 = ToolMaterials.DIAMOND.getDurability();
     private static final int durabilityTier3 = ToolMaterials.NETHERITE.getDurability();
+    private static final int durabilityTier4 = durabilityTier3 * 2;
 
     private static final float pullTime_shortBow = 0.8F - 1F;
     private static final float pullTime_longBow = 1.5F - 1F;
@@ -126,11 +127,31 @@ public class ArsenalBows {
         return entry;
     }
 
-    public static RangedEntry unique_longbow_sw = bow("unique_longbow_sw", durabilityTier1,
+    public static RangedEntry unique_longbow_1 = bow("unique_longbow_1", durabilityTier4,
+            () -> Ingredient.ofItems(Items.GOLD_BLOCK),
+            new RangedConfig(13.5F, pullTime_longBow, velocity_rapidCrossbow))
+            .translatedName("Sunfury Hawk-Bow");
+    public static RangedEntry unique_longbow_2 = bow("unique_longbow_2", durabilityTier4,
+            () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
+            new RangedConfig(13.5F, pullTime_longBow, velocity_rapidCrossbow))
+            .translatedName("Black Bow of the Betrayer");
+    public static RangedEntry unique_longbow_sw = bow("unique_longbow_sw", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(13.5F, pullTime_longBow, velocity_rapidCrossbow))
             .translatedName("Golden Bow of Quel'Thalas");
 
+    public static RangedEntry unique_heavy_crossbow_1 = crossbow("unique_heavy_crossbow_1", durabilityTier4,
+            () -> Ingredient.ofItems(Items.GOLD_BLOCK),
+            new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
+            .translatedName("Necropolis Ballista");
+    public static RangedEntry unique_heavy_crossbow_2 = crossbow("unique_heavy_crossbow_2", durabilityTier4,
+            () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
+            new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
+            .translatedName("Heavy Crossbow of the Phoenix");
+    public static RangedEntry unique_heavy_crossbow_sw = crossbow("unique_heavy_crossbow_sw", durabilityTier4,
+            () -> Ingredient.ofItems(Items.GOLD_BLOCK),
+            new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
+            .translatedName("Crossbow of Relentless Strikes");
 
     static {
         for (var entry: entries) {

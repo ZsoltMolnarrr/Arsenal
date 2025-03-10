@@ -1,6 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
+	"gui_light": "front",
 	"elements": [
 		{
 			"name": "handle",
@@ -414,7 +415,8 @@
 			"translation": [5, -4, 1]
 		},
 		"ground": {
-			"translation": [0, 7, 0]
+			"translation": [0, 5.75, 0],
+			"scale": [0.6, 0.6, 0.6]
 		},
 		"gui": {
 			"rotation": [0, 90, 0],
