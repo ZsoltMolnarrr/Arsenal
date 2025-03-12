@@ -39,5 +39,7 @@
   "item.arsenal.unique_staff_heal_1": "Exodar Life-Staff",
   "item.arsenal.unique_staff_heal_2": "Staff of Immaculate Recovery",
   "item.arsenal.unique_staff_heal_sw": "Golden Staff of the Sin'dorei",
-  "itemGroup.arsenal.generic": "Arsenal"
+  "itemGroup.arsenal.generic": "Arsenal",
+  "spell.arsenal.melee_radiance.description": "Chance on hit: Heals you and nearby allies by {heal}.",
+  "spell.arsenal.melee_radiance.name": "Radiance"
 }

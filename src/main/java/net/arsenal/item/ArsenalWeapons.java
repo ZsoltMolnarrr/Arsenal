@@ -1,6 +1,7 @@
 package net.arsenal.item;
 
 import net.arsenal.ArsenalMod;
+import net.arsenal.spell.ArsenalSpells;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterials;
@@ -100,7 +101,8 @@ public class ArsenalWeapons {
             .translatedName("Cataclysm's Edge");
     public static final Weapon.Entry unique_claymore_2 = claymore("unique_claymore_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 13F)
-            .translatedName("Champion's Greatsword");
+            .translatedName("Champion's Greatsword")
+            .spell(ArsenalSpells.melee_radiance.id());
     public static final Weapon.Entry unique_claymore_sw = claymore("unique_claymore_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 13F)
             .translatedName("Apolyon, the Soul-Render");

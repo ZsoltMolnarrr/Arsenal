@@ -1,11 +1,16 @@
 package net.arsenal.spell;
 
+import net.arsenal.ArsenalMod;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.fx.SpellEngineParticles;
+import net.spell_engine.fx.SpellEngineSounds;
+import net.spell_power.api.SpellSchools;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,7 +55,7 @@ public class ArsenalSpells {
     private static Spell activeSpellBase() {
         var spell = new Spell();
         spell.range = 0;
-        spell.tier = 7;
+        spell.tier = 8;
 
         spell.type = Spell.Type.ACTIVE;
         spell.active = new Spell.Active();
@@ -66,7 +71,7 @@ public class ArsenalSpells {
     private static Spell passiveSpellBase() {
         var spell = new Spell();
         spell.range = 0;
-        spell.tier = 7;
+        spell.tier = 8;
 
         spell.type = Spell.Type.PASSIVE;
         spell.passive = new Spell.Passive();
@@ -114,34 +119,55 @@ public class ArsenalSpells {
                 count, 0.14F, 0.15F);
     }
 
-//    public static Entry lesser_use_damage = add(lesser_use_damage());
-//    private static Entry lesser_use_damage() {
-//        var id = Identifier.of(ArsenalMod.NAMESPACE, "lesser_use_damage");
-//        var description = "Use: Increases attack damage by {bonus} for {effect_duration} seconds.";
-//        var effect = ArsenalEffects.LESSER_ATTACK_DAMAGE;
-//        var title = effect.title;
-//        SpellTooltip.DescriptionMutator mutator = (args) -> {
-//            var modifier = effect.config().firstModifier();
-//            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-//            return args.description().replace("{bonus}", bonus);
-//        };
-//
-//        var spell = activeSpellBase();
-//        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
-//
-//        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-//        spell.release.sound = new Sound(ArsenalSounds.SHARPEN.id().toString());
-//        spell.release.particles = new ParticleBatch[]{
-//                lesserActivateParticles(SpellEngineParticles.WHITE, 25)
-//        };
-//
-//        var buff = createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION);
-//        spell.impacts = List.of(buff);
-//
-//        spell.cost = new Spell.Cost();
-//        spell.cost.cooldown = new Spell.Cost.Cooldown();
-//        spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
-//
-//        return new Entry(id, spell, title, description, mutator);
-//    }
+    private static final Identifier HOLY_IMPACT_DECELERATE = SpellEngineParticles.getMagicParticleVariant(
+            SpellEngineParticles.HOLY,
+            SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
+            SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE
+    ).id();
+
+    public static Entry melee_radiance = add(melee_radiance());
+    private static Entry melee_radiance() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "melee_radiance");
+        var title = "Radiance";
+        var description = "Chance on hit: Heals you and nearby allies by {heal}.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        // spell.release.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.5F;
+        trigger.chance_batching = true;
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        spell.passive.triggers = List.of(trigger);
+
+        var heal = new Spell.Impact();
+        heal.attribute = EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString();
+        heal.action = new Spell.Impact.Action();
+        heal.action.type = Spell.Impact.Action.Type.HEAL;
+        heal.action.heal = new Spell.Impact.Action.Heal();
+        heal.action.heal.spell_power_coefficient = 0.5F;
+        heal.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.HOLY,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
+                        20, 0.1F, 0.1F),
+                new ParticleBatch(
+                        HOLY_IMPACT_DECELERATE.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        15, 0.2F, 0.25F)
+        };
+        heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
+
+        spell.impacts = List.of(heal);
+        spell.area_impact = new Spell.AreaImpact();
+        spell.area_impact.radius = 2;
+
+        configureCooldown(spell, 0.5F);
+        spell.cost.cooldown.hosting_item = false;
+
+        return new Entry(id, spell, title, description, null);
+    }
 }

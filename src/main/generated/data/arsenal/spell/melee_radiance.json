@@ -1,0 +1,65 @@
+{
+  "school": "spell_power:healing",
+  "range": 0.0,
+  "tier": 8,
+  "tooltip": {
+    "name": {
+      "show_in_compact": false,
+      "show_in_details": false
+    },
+    "description": {
+      "color": "dark_green"
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "MELEE_IMPACT",
+        "chance": 0.5,
+        "chance_batching": true
+      }
+    ]
+  },
+  "impacts": [
+    {
+      "attribute": "minecraft:generic.attack_damage",
+      "action": {
+        "type": "HEAL",
+        "heal": {
+          "spell_power_coefficient": 0.5
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_holy_spark_decelerate",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 20.0,
+          "min_speed": 0.1,
+          "max_speed": 0.1
+        },
+        {
+          "particle_id": "spell_engine:magic_holy_impact_decelerate",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 15.0,
+          "min_speed": 0.2,
+          "max_speed": 0.25
+        }
+      ],
+      "sound": {
+        "id": "spell_engine:generic_healing_impact_1"
+      }
+    }
+  ],
+  "area_impact": {
+    "radius": 2.0
+  },
+  "cost": {
+    "cooldown": {
+      "duration": 0.5,
+      "hosting_item": false
+    }
+  }
+}
