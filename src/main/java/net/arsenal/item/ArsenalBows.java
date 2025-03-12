@@ -129,25 +129,25 @@ public class ArsenalBows {
 
     public static RangedEntry unique_longbow_1 = bow("unique_longbow_1", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
-            new RangedConfig(13.5F, pullTime_longBow, velocity_rapidCrossbow))
+            new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
             .translatedName("Sunfury Hawk-Bow");
     public static RangedEntry unique_longbow_2 = bow("unique_longbow_2", durabilityTier4,
             () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
-            new RangedConfig(13.5F, pullTime_longBow, velocity_rapidCrossbow))
+            new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
             .translatedName("Black Bow of the Betrayer");
     public static RangedEntry unique_longbow_sw = bow("unique_longbow_sw", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
-            new RangedConfig(13.5F, pullTime_longBow, velocity_rapidCrossbow))
+            new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
             .translatedName("Golden Bow of Quel'Thalas");
 
     public static RangedEntry unique_heavy_crossbow_1 = crossbow("unique_heavy_crossbow_1", durabilityTier4,
-            () -> Ingredient.ofItems(Items.GOLD_BLOCK),
-            new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
-            .translatedName("Necropolis Ballista");
-    public static RangedEntry unique_heavy_crossbow_2 = crossbow("unique_heavy_crossbow_2", durabilityTier4,
             () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
             .translatedName("Heavy Crossbow of the Phoenix");
+    public static RangedEntry unique_heavy_crossbow_2 = crossbow("unique_heavy_crossbow_2", durabilityTier4,
+            () -> Ingredient.ofItems(Items.GOLD_BLOCK),
+            new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
+            .translatedName("Necropolis Ballista");
     public static RangedEntry unique_heavy_crossbow_sw = crossbow("unique_heavy_crossbow_sw", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
