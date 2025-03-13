@@ -15,7 +15,7 @@
   "passive": {
     "triggers": [
       {
-        "type": "MELEE_IMPACT",
+        "type": "SPELL_CAST",
         "chance": 0.25,
         "chance_batching": true,
         "equipment_condition": "MAINHAND"
@@ -24,7 +24,6 @@
   },
   "impacts": [
     {
-      "attribute": "minecraft:generic.attack_damage",
       "action": {
         "type": "HEAL",
         "heal": {
@@ -59,7 +58,7 @@
   },
   "cost": {
     "cooldown": {
-      "duration": 0.5,
+      "duration": 5.0,
       "hosting_item": false
     }
   }

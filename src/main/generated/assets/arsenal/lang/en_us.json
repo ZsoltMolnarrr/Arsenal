@@ -36,10 +36,14 @@
   "item.arsenal.unique_staff_damage_5": "Mage Lord Cane",
   "item.arsenal.unique_staff_damage_6": "Endless Winter",
   "item.arsenal.unique_staff_damage_sw": "Grand Magister's Staff of Torrents",
-  "item.arsenal.unique_staff_heal_1": "Exodar Life-Staff",
+  "item.arsenal.unique_staff_heal_1": "Crystalline Life-Staff",
   "item.arsenal.unique_staff_heal_2": "Staff of Immaculate Recovery",
   "item.arsenal.unique_staff_heal_sw": "Golden Staff of the Sin'dorei",
   "itemGroup.arsenal.generic": "Arsenal",
-  "spell.arsenal.melee_radiance.description": "Chance on hit: Heals you and nearby allies by {heal}.",
-  "spell.arsenal.melee_radiance.name": "Radiance"
+  "spell.arsenal.melee_radiance.description": "Chance on hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.",
+  "spell.arsenal.melee_radiance.name": "Radiance",
+  "spell.arsenal.ranged_radiance.description": "Chance on hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.",
+  "spell.arsenal.ranged_radiance.name": "Radiance",
+  "spell.arsenal.spell_radiance.description": "Chance on spell cast: {trigger_chance} chance to heal yourself and nearby allies by {heal}.",
+  "spell.arsenal.spell_radiance.name": "Radiance"
 }

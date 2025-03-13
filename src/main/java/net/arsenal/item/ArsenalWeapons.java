@@ -26,6 +26,7 @@ public class ArsenalWeapons {
 
     private static Weapon.Entry entry(String name, Weapon.CustomMaterial material, Weapon.Factory factory, WeaponConfig defaults) {
         var entry = new Weapon.Entry(ArsenalMod.NAMESPACE, name, material, factory, defaults, null);
+        entry.castSpell();
         entries.add(entry);
         return entry;
     }
@@ -149,7 +150,8 @@ public class ArsenalWeapons {
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
-            .translatedName("Exodar Life-Staff");
+            .translatedName("Crystalline Life-Staff")
+            .spell(ArsenalSpells.spell_radiance.id());
     public static final Weapon.Entry unique_staff_heal_2 = staff("unique_staff_heal_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
@@ -171,7 +173,8 @@ public class ArsenalWeapons {
 
     public static final Weapon.Entry unique_dagger_1 = dagger("unique_dagger_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.PRISMARINE)), 5.5F)
-            .translatedName("Frost Fang");
+            .translatedName("Frost Fang")
+            .spell(ArsenalSpells.melee_radiance.id());
     public static final Weapon.Entry unique_dagger_2 = dagger("unique_dagger_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 5.5F)
             .translatedName("Demonic Shiv");

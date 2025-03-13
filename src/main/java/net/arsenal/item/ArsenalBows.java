@@ -1,6 +1,7 @@
 package net.arsenal.item;
 
 import net.arsenal.ArsenalMod;
+import net.arsenal.spell.ArsenalSpells;
 import net.fabric_extras.ranged_weapon.api.CustomBow;
 import net.fabric_extras.ranged_weapon.api.CustomCrossbow;
 import net.fabric_extras.ranged_weapon.api.RangedConfig;
@@ -15,8 +16,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.Util;
 import net.spell_engine.api.item.Tiers;
+import net.spell_engine.api.spell.SpellDataComponents;
+import net.spell_engine.api.spell.container.SpellContainerHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -37,6 +41,7 @@ public class ArsenalBows {
         private String translatedName = "";
         public Rarity rarity = Rarity.COMMON;
         public Item item;
+        public List<Identifier> spells = null;
 
         public RangedEntry(Identifier id, RangedFactory factory, RangedConfig defaults, Supplier<Ingredient> repairIngredientSupplier, int durability) {
             this.id = id;
@@ -95,6 +100,16 @@ public class ArsenalBows {
         public String translationKey() {
             return Util.createTranslationKey("item", id());
         }
+
+        public RangedEntry castSpell() {
+            spells = List.of();
+            return this;
+        }
+
+        public RangedEntry spell(Identifier spellId) {
+            spells = List.of(spellId);
+            return this;
+        }
     }
     public static final ArrayList<RangedEntry> entries = new ArrayList<>();
 
@@ -130,7 +145,8 @@ public class ArsenalBows {
     public static RangedEntry unique_longbow_1 = bow("unique_longbow_1", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
-            .translatedName("Sunfury Hawk-Bow");
+            .translatedName("Sunfury Hawk-Bow")
+            .spell(ArsenalSpells.ranged_radiance.id());
     public static RangedEntry unique_longbow_2 = bow("unique_longbow_2", durabilityTier4,
             () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
             new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
@@ -176,6 +192,13 @@ public class ArsenalBows {
             }
             if (entry.rarity != Rarity.COMMON) {
                 settings.rarity(entry.rarity);
+            }
+            if (entry.spells != null) {
+                if (entry.spells.isEmpty()) {
+                    settings.component(SpellDataComponents.SPELL_CONTAINER, SpellContainerHelper.createForRangedWeapon());
+                } else {
+                    settings.component(SpellDataComponents.SPELL_CONTAINER, SpellContainerHelper.createForRangedWeapon(entry.spells));
+                }
             }
             var item = entry.create(settings);
             Registry.register(Registries.ITEM, entry.id, item);

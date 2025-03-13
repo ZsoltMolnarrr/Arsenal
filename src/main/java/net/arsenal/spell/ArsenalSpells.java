@@ -1,6 +1,8 @@
 package net.arsenal.spell;
 
 import net.arsenal.ArsenalMod;
+import net.fabric_extras.ranged_weapon.api.EntityAttributes_RangedWeapon;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -61,7 +63,8 @@ public class ArsenalSpells {
         spell.active = new Spell.Active();
 
         spell.tooltip = new Spell.Tooltip();
-        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
+        spell.tooltip.show_header = false;
+        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, true);
         spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
         spell.tooltip.description.show_in_compact = true;
 
@@ -77,7 +80,8 @@ public class ArsenalSpells {
         spell.passive = new Spell.Passive();
 
         spell.tooltip = new Spell.Tooltip();
-        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
+        spell.tooltip.show_header = false;
+        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, true);
         spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
         spell.tooltip.description.show_in_compact = true;
 
@@ -129,24 +133,78 @@ public class ArsenalSpells {
     private static Entry melee_radiance() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "melee_radiance");
         var title = "Radiance";
-        var description = "Chance on hit: Heals you and nearby allies by {heal}.";
+        var description = "Chance on hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
 
-        // spell.release.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
-
         var trigger = new Spell.Trigger();
-        trigger.chance = 0.5F;
+        trigger.chance = 0.25F;
         trigger.chance_batching = true;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
         trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
         spell.passive.triggers = List.of(trigger);
 
+        radianceImpact(spell, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
+
+        configureCooldown(spell, 0.5F);
+        spell.cost.cooldown.hosting_item = false;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry ranged_radiance = add(ranged_radiance());
+    private static Entry ranged_radiance() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "ranged_radiance");
+        var title = "Radiance";
+        var description = "Chance on hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.25F;
+        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        spell.passive.triggers = List.of(trigger);
+
+        radianceImpact(spell, EntityAttributes_RangedWeapon.DAMAGE.id.toString());
+
+        configureCooldown(spell, 0.5F);
+        spell.cost.cooldown.hosting_item = false;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry spell_radiance = add(spell_radiance());
+    private static Entry spell_radiance() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "spell_radiance");
+        var title = "Radiance";
+        var description = "Chance on spell cast: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.25F;
+        trigger.chance_batching = true;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.type = Spell.Trigger.Type.SPELL_CAST;
+        spell.passive.triggers = List.of(trigger);
+
+        radianceImpact(spell, null);
+
+        configureCooldown(spell, 5F);
+        spell.cost.cooldown.hosting_item = false;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    private static void radianceImpact(Spell spell, @Nullable String attribute) {
         var heal = new Spell.Impact();
-        heal.attribute = EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString();
+        if (attribute != null) {
+            heal.attribute = attribute;
+        }
         heal.action = new Spell.Impact.Action();
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
-        heal.action.heal.spell_power_coefficient = 0.5F;
+        heal.action.heal.spell_power_coefficient = 0.25F;
         heal.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
                         SpellEngineParticles.HOLY,
@@ -160,14 +218,8 @@ public class ArsenalSpells {
                         15, 0.2F, 0.25F)
         };
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
-
         spell.impacts = List.of(heal);
         spell.area_impact = new Spell.AreaImpact();
         spell.area_impact.radius = 2;
-
-        configureCooldown(spell, 0.5F);
-        spell.cost.cooldown.hosting_item = false;
-
-        return new Entry(id, spell, title, description, null);
     }
 }
