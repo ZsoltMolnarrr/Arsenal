@@ -2,15 +2,6 @@
   "school": "spell_power:healing",
   "range": 0.0,
   "tier": 8,
-  "tooltip": {
-    "show_header": false,
-    "name": {
-      "show_in_compact": false
-    },
-    "description": {
-      "color": "dark_green"
-    }
-  },
   "type": "PASSIVE",
   "passive": {
     "triggers": [

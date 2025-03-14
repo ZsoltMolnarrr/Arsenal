@@ -6,6 +6,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.fx.Sound;
@@ -13,7 +14,6 @@ import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_power.api.SpellSchools;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -79,11 +79,11 @@ public class ArsenalSpells {
         spell.type = Spell.Type.PASSIVE;
         spell.passive = new Spell.Passive();
 
-        spell.tooltip = new Spell.Tooltip();
-        spell.tooltip.show_header = false;
-        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, true);
-        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
-        spell.tooltip.description.show_in_compact = true;
+//        spell.tooltip = new Spell.Tooltip();
+//        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, true);
+//        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
+//        spell.tooltip.description.show_in_compact = true;
+        // spell.tooltip.show_header = false;
 
         return spell;
     }
@@ -106,21 +106,7 @@ public class ArsenalSpells {
             spell.cost.cooldown = new Spell.Cost.Cooldown();
         }
         spell.cost.cooldown.duration = duration;
-    }
-
-    private static @NotNull ParticleBatch lesserActivateParticles(SpellEngineParticles.MagicParticleFamily family, int count) {
-        return lesserActivateParticles(SpellEngineParticles.getMagicParticleVariant(
-                family,
-                SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
-                SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
-                count);
-    }
-
-    private static @NotNull ParticleBatch lesserActivateParticles(String particleId, int count) {
-        return new ParticleBatch(
-                particleId,
-                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                count, 0.14F, 0.15F);
+        spell.cost.cooldown.hosting_item = false;
     }
 
     private static final Identifier HOLY_IMPACT_DECELERATE = SpellEngineParticles.getMagicParticleVariant(
@@ -129,11 +115,11 @@ public class ArsenalSpells {
             SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE
     ).id();
 
-    public static Entry melee_radiance = add(melee_radiance());
-    private static Entry melee_radiance() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "melee_radiance");
+    public static Entry radiance_melee = add(radiance_melee());
+    private static Entry radiance_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "radiance_melee");
         var title = "Radiance";
-        var description = "Chance on hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
+        var description = "On melee hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
 
@@ -146,17 +132,17 @@ public class ArsenalSpells {
 
         radianceImpact(spell, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
 
-        configureCooldown(spell, 0.5F);
+        configureCooldown(spell, 3F);
         spell.cost.cooldown.hosting_item = false;
 
         return new Entry(id, spell, title, description, null);
     }
 
-    public static Entry ranged_radiance = add(ranged_radiance());
-    private static Entry ranged_radiance() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "ranged_radiance");
+    public static Entry radiance_ranged = add(radiance_ranged());
+    private static Entry radiance_ranged() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "radiance_ranged");
         var title = "Radiance";
-        var description = "Chance on hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
+        var description = "On arrow hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
 
@@ -173,11 +159,11 @@ public class ArsenalSpells {
         return new Entry(id, spell, title, description, null);
     }
 
-    public static Entry spell_radiance = add(spell_radiance());
-    private static Entry spell_radiance() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "spell_radiance");
+    public static Entry radiance_spell = add(radiance_spell());
+    private static Entry radiance_spell() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "radiance_spell");
         var title = "Radiance";
-        var description = "Chance on spell cast: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
+        var description = "On spell cast: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
 
@@ -221,5 +207,308 @@ public class ArsenalSpells {
         spell.impacts = List.of(heal);
         spell.area_impact = new Spell.AreaImpact();
         spell.area_impact.radius = 2;
+    }
+
+    public static Entry stunning_melee = add(stunning_melee());
+    private static Entry stunning_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "stunning_melee");
+        var title = "Stunning";
+        var description = "On melee hit: {trigger_chance} chance to stun the targets for {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.chance_batching = true;
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var stun = createEffectImpact(ArsenalEffects.STUN.id.toString(), T3_PERK_CC_DURATION);
+        stun.sound = new Sound(SpellEngineSounds.STUN_GENERIC.id().toString());
+        spell.impacts = List.of(stun);
+
+        configureCooldown(spell, T3_PERK_CC_COOLDOWN);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry exploding_melee = add(exploding_melee());
+    private static Entry exploding_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "exploding_melee");
+        var title = "Exploding";
+        var description = "On melee hit: {trigger_chance} chance to cause fiery explosion on a target, dealing {damage} damage.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var explosion = new Spell.Impact();
+        explosion.action = new Spell.Impact.Action();
+        explosion.action.type = Spell.Impact.Action.Type.DAMAGE;
+        explosion.action.damage = new Spell.Impact.Action.Damage();
+        explosion.action.damage.spell_power_coefficient = 0.5F;
+        spell.impacts = List.of(explosion);
+
+        spell.area_impact = new Spell.AreaImpact();
+        spell.area_impact.radius = 2.5F;
+        spell.area_impact.area.distance_dropoff = Spell.Target.Area.DropoffCurve.SQUARED;
+        spell.area_impact.particles = new ParticleBatch[]{
+                new ParticleBatch(
+                        SpellEngineParticles.fire_explosion.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        1, 0F, 0.1F)
+        };
+        spell.area_impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry wither_melee = add(wither_melee());
+    private static Entry wither_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "wither_melee");
+        var title = "Withering";
+        var description = "On melee hit: {trigger_chance} chance to inflict the target with strong Wither effect for {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        witherImpact(spell, 0.2F);
+
+        configureCooldown(spell, 3);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry wither_ranged = add(wither_ranged());
+    private static Entry wither_ranged() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "wither_ranged");
+        var title = "Withering";
+        var description = "On arrow hit: {trigger_chance} chance to inflict the target with strong Wither effect for {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        trigger.chance = 0.3F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        witherImpact(spell, 0.2F);
+
+        configureCooldown(spell, 3);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    private static void witherImpact(Spell spell, float amplifier_multiplier) {
+        var wither = createEffectImpact("wither", 5);
+        wither.action.status_effect.amplifier_power_multiplier = amplifier_multiplier;
+        wither.action.status_effect.show_particles = true;
+        final var witherParticles = new ParticleBatch("infested",
+                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                50, 0.1F, 0.2F);
+        wither.particles = new ParticleBatch[]{
+                witherParticles
+        };
+        spell.impacts = List.of(wither);
+    }
+
+    public static Entry flame_cloud_melee = add(flame_cloud_melee());
+    private static Entry flame_cloud_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "flame_cloud_melee");
+        var title = "Flame Cloud";
+        var description = "On melee hit: {trigger_chance} chance to create a cloud of fire around the target, dealing {damage} damage per second.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        flameCloud(spell, 0.4F);
+
+        configureCooldown(spell, 3);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry flame_cloud_ranged = add(flame_cloud_ranged());
+    private static Entry flame_cloud_ranged() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "flame_cloud_ranged");
+        var title = "Flame Cloud";
+        var description = "On arrow hit: {trigger_chance} chance to create a cloud of fire around the target, dealing {damage} damage per second.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        trigger.chance = 0.3F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        flameCloud(spell, 0.3F);
+
+        // configureCooldown(spell, 3);
+        // spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    private static void flameCloud(Spell spell, float coefficient) {
+        spell.deliver.type = Spell.Delivery.Type.CLOUD;
+        var cloud = new Spell.Delivery.Cloud();
+        cloud.volume.radius = 2;
+        cloud.volume.area.vertical_range_multiplier = 0.3F;
+        cloud.volume.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_2.id().toString());
+        cloud.impact_tick_interval = 8;
+        cloud.time_to_live_seconds = 4;
+        cloud.spawn.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IGNITE.id().toString());
+        cloud.client_data = new Spell.Delivery.Cloud.ClientData();
+        cloud.client_data.light_level = 15;
+        cloud.client_data.particles = new ParticleBatch[] {
+                new ParticleBatch(SpellEngineParticles.flame_ground.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        2, 0, 0),
+                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        3, 0.02F, 0.1F),
+                new ParticleBatch(SpellEngineParticles.flame_medium_b.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        2, 0.02F, 0.1F),
+                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        3, 0.03F, 0.2F),
+        };
+        spell.deliver.clouds = List.of(cloud);
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = coefficient;
+        damage.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
+        damage.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.flame.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        20, 0.05F, 0.15F),
+                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        20, 0.05F, 0.15F),
+        };
+        spell.impacts = List.of(damage);
+    }
+
+    public static Entry poison_cloud_melee = add(poison_cloud_melee());
+    private static Entry poison_cloud_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "poison_cloud_melee");
+        var title = "Poison Cloud";
+        var description = "On melee hit: {trigger_chance} chance to create a toxic cloud of smoke around the target, lasting for {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        poisonCloud(spell, 0.4F);
+
+        configureCooldown(spell, 1);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry poison_cloud_ranged = add(poison_cloud_ranged());
+    private static Entry poison_cloud_ranged() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "poison_cloud_ranged");
+        var title = "Poison Cloud";
+        var description = "On arrow hit: {trigger_chance} chance to create a toxic cloud of smoke around the target, lasting for {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        trigger.chance = 0.3F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        poisonCloud(spell, 0.3F);
+
+        // configureCooldown(spell, 3);
+        // spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    private static void poisonCloud(Spell spell, float coefficient) {
+        spell.deliver.type = Spell.Delivery.Type.CLOUD;
+        var cloud = new Spell.Delivery.Cloud();
+        cloud.volume.radius = 2;
+        cloud.volume.area.vertical_range_multiplier = 0.3F;
+        cloud.volume.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
+        cloud.impact_tick_interval = 8;
+        cloud.time_to_live_seconds = 3;
+        cloud.spawn.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IGNITE.id().toString());
+        cloud.client_data = new Spell.Delivery.Cloud.ClientData();
+        cloud.client_data.light_level = 0;
+        cloud.client_data.particles = new ParticleBatch[] {
+                new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        1, 0.01F, 0.02F)
+                        .color(0x009900FF),
+                new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        1, 0.01F, 0.02F)
+                        .color(0x33DD33AA),
+        };
+        spell.deliver.clouds = List.of(cloud);
+
+        var impact = new Spell.Impact();
+        impact.action = new Spell.Impact.Action();
+        impact.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
+        impact.action.status_effect = new Spell.Impact.Action.StatusEffect();
+        impact.action.status_effect.effect_id = "poison";
+        impact.action.status_effect.show_particles = true;
+        impact.action.status_effect.duration = 5;
+        impact.action.status_effect.amplifier_power_multiplier = coefficient;
+        impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_2.id().toString());
+        impact.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        0.5F, 0.01F, 0.02F)
+                        .color(0x33DD33AA),
+        };
+        spell.impacts = List.of(impact);
     }
 }

@@ -2,29 +2,18 @@
   "school": "spell_power:healing",
   "range": 0.0,
   "tier": 8,
-  "tooltip": {
-    "show_header": false,
-    "name": {
-      "show_in_compact": false
-    },
-    "description": {
-      "color": "dark_green"
-    }
-  },
   "type": "PASSIVE",
   "passive": {
     "triggers": [
       {
-        "type": "MELEE_IMPACT",
-        "chance": 0.25,
-        "chance_batching": true,
-        "equipment_condition": "MAINHAND"
+        "type": "ARROW_IMPACT",
+        "chance": 0.25
       }
     ]
   },
   "impacts": [
     {
-      "attribute": "minecraft:generic.attack_damage",
+      "attribute": "ranged_weapon:damage",
       "action": {
         "type": "HEAL",
         "heal": {

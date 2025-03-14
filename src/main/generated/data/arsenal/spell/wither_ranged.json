@@ -1,0 +1,47 @@
+{
+  "school": "spell_power:physical_ranged",
+  "range": 0.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "ARROW_IMPACT",
+        "chance": 0.3
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "wither",
+          "duration": 5.0,
+          "amplifier_power_multiplier": 0.2,
+          "show_particles": true
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "infested",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 50.0,
+          "min_speed": 0.1,
+          "max_speed": 0.2
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "batching": true,
+    "cooldown": {
+      "duration": 3.0,
+      "hosting_item": false
+    }
+  }
+}

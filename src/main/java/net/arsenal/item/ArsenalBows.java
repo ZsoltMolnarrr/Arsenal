@@ -146,11 +146,12 @@ public class ArsenalBows {
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
             .translatedName("Sunfury Hawk-Bow")
-            .spell(ArsenalSpells.ranged_radiance.id());
+            .spell(ArsenalSpells.radiance_ranged.id());
     public static RangedEntry unique_longbow_2 = bow("unique_longbow_2", durabilityTier4,
             () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
             new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
-            .translatedName("Black Bow of the Betrayer");
+            .translatedName("Black Bow of the Betrayer")
+            .spell(ArsenalSpells.wither_ranged.id());
     public static RangedEntry unique_longbow_sw = bow("unique_longbow_sw", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
@@ -159,11 +160,13 @@ public class ArsenalBows {
     public static RangedEntry unique_heavy_crossbow_1 = crossbow("unique_heavy_crossbow_1", durabilityTier4,
             () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
-            .translatedName("Heavy Crossbow of the Phoenix");
+            .translatedName("Heavy Crossbow of the Phoenix")
+            .spell(ArsenalSpells.flame_cloud_ranged.id());
     public static RangedEntry unique_heavy_crossbow_2 = crossbow("unique_heavy_crossbow_2", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
-            .translatedName("Necropolis Ballista");
+            .translatedName("Necropolis Ballista")
+            .spell(ArsenalSpells.poison_cloud_ranged.id());
     public static RangedEntry unique_heavy_crossbow_sw = crossbow("unique_heavy_crossbow_sw", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))

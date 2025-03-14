@@ -99,11 +99,12 @@ public class ArsenalWeapons {
 
     public static final Weapon.Entry unique_claymore_1 = claymore("unique_claymore_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 13F)
-            .translatedName("Cataclysm's Edge");
+            .translatedName("Cataclysm's Edge")
+            .spell(ArsenalSpells.exploding_melee.id());
     public static final Weapon.Entry unique_claymore_2 = claymore("unique_claymore_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 13F)
             .translatedName("Champion's Greatsword")
-            .spell(ArsenalSpells.melee_radiance.id());
+            .spell(ArsenalSpells.radiance_melee.id());
     public static final Weapon.Entry unique_claymore_sw = claymore("unique_claymore_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 13F)
             .translatedName("Apolyon, the Soul-Render");
@@ -151,7 +152,7 @@ public class ArsenalWeapons {
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Crystalline Life-Staff")
-            .spell(ArsenalSpells.spell_radiance.id());
+            .spell(ArsenalSpells.radiance_spell.id());
     public static final Weapon.Entry unique_staff_heal_2 = staff("unique_staff_heal_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
@@ -166,7 +167,7 @@ public class ArsenalWeapons {
             .translatedName("Sonic Spear");
     public static final Weapon.Entry unique_spear_2 = spear("unique_spear_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 8F)
-            .translatedName("Relentless Edge");
+            .translatedName("Spear of the Damned");
     public static final Weapon.Entry unique_spear_sw = spear("unique_spear_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 8F)
             .translatedName("Mounting Vengeance");
@@ -174,7 +175,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_dagger_1 = dagger("unique_dagger_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.PRISMARINE)), 5.5F)
             .translatedName("Frost Fang")
-            .spell(ArsenalSpells.melee_radiance.id());
+            .spell(ArsenalSpells.radiance_melee.id());
     public static final Weapon.Entry unique_dagger_2 = dagger("unique_dagger_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 5.5F)
             .translatedName("Demonic Shiv");
@@ -184,7 +185,8 @@ public class ArsenalWeapons {
 
     public static final Weapon.Entry unique_sickle_1 = sickle("unique_sickle_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 6.8F)
-            .translatedName("Plague Sickle");
+            .translatedName("Toxic Sickle")
+            .spell(ArsenalSpells.poison_cloud_melee.id());
     public static final Weapon.Entry unique_sickle_2 = sickle("unique_sickle_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 6.8F)
             .translatedName("Infernal Harvester");
@@ -199,17 +201,20 @@ public class ArsenalWeapons {
 
     public static final Weapon.Entry unique_double_axe_1 = axe("unique_double_axe_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
-            .translatedName("Dual-blade Butcher");
+            .translatedName("Dual-blade Butcher")
+            .spell(ArsenalSpells.exploding_melee.id());
     public static final Weapon.Entry unique_double_axe_2 = axe("unique_double_axe_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 11F)
-            .translatedName("Arcanite Reaper");
+            .translatedName("Arcanite Reaper")
+            .spell(ArsenalSpells.wither_melee.id());
     public static final Weapon.Entry unique_double_axe_sw = axe("unique_double_axe_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 11F)
             .translatedName("Sunreaver War Axe");
 
     public static final Weapon.Entry unique_glaive_1 = glaive("unique_glaive_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 9.3F)
-            .translatedName("Hellreaver");
+            .translatedName("Hellreaver")
+            .spell(ArsenalSpells.flame_cloud_melee.id());
     public static final Weapon.Entry unique_glaive_2 = glaive("unique_glaive_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 9.3F)
             .translatedName("Crystalforge Glaive");
@@ -219,7 +224,8 @@ public class ArsenalWeapons {
 
     public static final Weapon.Entry unique_hammer_1 = hammer("unique_hammer_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 16F)
-            .translatedName("Hammer of the Naaru");
+            .translatedName("Hammer of Destiny")
+            .spell(ArsenalSpells.stunning_melee.id());
     public static final Weapon.Entry unique_hammer_sw = hammer("unique_hammer_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 16F)
             .translatedName("Hammer of Sanctification");
