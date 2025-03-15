@@ -346,8 +346,8 @@ public class ArsenalSpells {
     public static Entry flame_cloud_melee = add(flame_cloud_melee());
     private static Entry flame_cloud_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "flame_cloud_melee");
-        var title = "Flame Cloud";
-        var description = "On melee hit: {trigger_chance} chance to create a cloud of fire around the target, dealing {damage} damage per second.";
+        var title = "Flame Strike";
+        var description = "On melee hit: {trigger_chance} chance to ignite the area around the target, dealing {damage} damage per second.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
@@ -370,8 +370,8 @@ public class ArsenalSpells {
     public static Entry flame_cloud_ranged = add(flame_cloud_ranged());
     private static Entry flame_cloud_ranged() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "flame_cloud_ranged");
-        var title = "Flame Cloud";
-        var description = "On arrow hit: {trigger_chance} chance to create a cloud of fire around the target, dealing {damage} damage per second.";
+        var title = "Flame Strike";
+        var description = "On arrow hit: {trigger_chance} chance to ignite the area around the target, dealing {damage} damage per second.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
 
@@ -405,13 +405,13 @@ public class ArsenalSpells {
         cloud.client_data.particles = new ParticleBatch[] {
                 new ParticleBatch(SpellEngineParticles.flame_ground.id().toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        2, 0, 0),
+                        3, 0, 0),
                 new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        3, 0.02F, 0.1F),
+                        2, 0.02F, 0.1F),
                 new ParticleBatch(SpellEngineParticles.flame_medium_b.id().toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        2, 0.02F, 0.1F),
+                        1, 0.02F, 0.1F),
                 new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
                         3, 0.03F, 0.2F),
@@ -595,12 +595,12 @@ public class ArsenalSpells {
         leech.particles = new ParticleBatch[]{
                 new ParticleBatch(RAGE_SPARK_FLOAT.toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
-                        25, 0.05F, 0.15F),
+                        25, 0.05F, 0.1F),
                 new ParticleBatch(RAGE_SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.1F, 0.15F)
+                        25, 0.08F, 0.12F)
                         .invert()
-                        .preSpawnTravel(6)
+                        .preSpawnTravel(5)
         };
         leech.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
         spell.impacts = List.of(leech);

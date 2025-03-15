@@ -164,7 +164,8 @@ public class ArsenalWeapons {
 
     public static final Weapon.Entry unique_spear_1 = spear("unique_spear_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 8F)
-            .translatedName("Sonic Spear");
+            .translatedName("Sonic Spear")
+            .spell(ArsenalSpells.slowing_melee.id());
     public static final Weapon.Entry unique_spear_2 = spear("unique_spear_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 8F)
             .translatedName("Spear of the Damned");
@@ -219,7 +220,8 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.flame_cloud_melee.id());
     public static final Weapon.Entry unique_glaive_2 = glaive("unique_glaive_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 9.3F)
-            .translatedName("Crystalforge Glaive");
+            .translatedName("Crystalforge Glaive")
+            .spell(ArsenalSpells.stunning_melee.id());
     public static final Weapon.Entry unique_glaive_sw = glaive("unique_glaive_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 9.3F)
             .translatedName("Shivering Felspine");
@@ -237,7 +239,8 @@ public class ArsenalWeapons {
             .translatedName("Bonecracker");
     public static final Weapon.Entry unique_mace_sw = mace("unique_mace_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 11F)
-            .translatedName("Archon's Scepter");
+            .translatedName("Archon's Scepter")
+            .spell(ArsenalSpells.radiance_melee.id());
 
     static {
         entries.forEach(entry -> entry.rarity = Rarity.RARE);
