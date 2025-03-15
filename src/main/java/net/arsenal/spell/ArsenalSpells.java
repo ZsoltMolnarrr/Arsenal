@@ -486,11 +486,11 @@ public class ArsenalSpells {
                 new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
                         1, 0.01F, 0.02F)
-                        .color(0x009900FF),
+                        .color(0x99FF66AAL),
                 new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
                         1, 0.01F, 0.02F)
-                        .color(0x33DD33AA),
+                        .color(0x33DD33EE),
         };
         spell.deliver.clouds = List.of(cloud);
 
