@@ -1,4 +1,6 @@
 {
+  "effect.arsenal.slowing": "Slowing",
+  "effect.arsenal.slowing.description": "Slower movement and attack speed.",
   "effect.arsenal.stun": "Stunned",
   "effect.arsenal.stun.description": "Cannot move or act.",
   "item.arsenal.unique_claymore_1": "Cataclysm's Edge",
@@ -58,6 +60,8 @@
   "spell.arsenal.radiance_ranged.name": "Radiance",
   "spell.arsenal.radiance_spell.description": "On spell cast: {trigger_chance} chance to heal yourself and nearby allies by {heal}.",
   "spell.arsenal.radiance_spell.name": "Radiance",
+  "spell.arsenal.slowing_melee.description": "On melee hit: {trigger_chance} chance to slow movement and attack speed of the the target by {bonus}, for {effect_duration} seconds.",
+  "spell.arsenal.slowing_melee.name": "Frostbite",
   "spell.arsenal.stunning_melee.description": "On melee hit: {trigger_chance} chance to stun the targets for {effect_duration} seconds.",
   "spell.arsenal.stunning_melee.name": "Stunning",
   "spell.arsenal.wither_melee.description": "On melee hit: {trigger_chance} chance to inflict the target with strong Wither effect for {effect_duration} seconds.",

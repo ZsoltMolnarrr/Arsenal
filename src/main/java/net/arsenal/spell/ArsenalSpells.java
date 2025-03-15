@@ -382,6 +382,7 @@ public class ArsenalSpells {
 
     private static void flameCloud(Spell spell, float coefficient) {
         spell.deliver.type = Spell.Delivery.Type.CLOUD;
+        spell.deliver.delay = 10;
         var cloud = new Spell.Delivery.Cloud();
         cloud.volume.radius = 2;
         cloud.volume.area.vertical_range_multiplier = 0.3F;
@@ -411,6 +412,7 @@ public class ArsenalSpells {
         damage.action = new Spell.Impact.Action();
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
         damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.knockback = 0.5F;
         damage.action.damage.spell_power_coefficient = coefficient;
         damage.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
         damage.particles = new ParticleBatch[]{
@@ -473,6 +475,7 @@ public class ArsenalSpells {
 
     private static void poisonCloud(Spell spell, float coefficient) {
         spell.deliver.type = Spell.Delivery.Type.CLOUD;
+        spell.deliver.delay = 8;
         var cloud = new Spell.Delivery.Cloud();
         cloud.volume.radius = 2;
         cloud.volume.area.vertical_range_multiplier = 0.3F;
@@ -510,5 +513,44 @@ public class ArsenalSpells {
                         .color(0x33DD33AA),
         };
         spell.impacts = List.of(impact);
+    }
+
+    public static Entry slowing_melee = add(slowing_melee());
+    private static Entry slowing_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "slowing_melee");
+        var title = "Frostbite";
+        var description = "On melee hit: {trigger_chance} chance to slow movement and attack speed of the the target by {bonus}, for {effect_duration} seconds.";
+        var effect = ArsenalEffects.SLOWING;
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.chance_batching = true;
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var slow = createEffectImpact(ArsenalEffects.SLOWING.id.toString(), 4);
+        slow.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.1F, 0.15F)
+        };
+        slow.sound = new Sound(SpellEngineSounds.STUN_GENERIC.id().toString());
+        spell.impacts = List.of(slow);
+
+        configureCooldown(spell, 3);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, mutator);
     }
 }

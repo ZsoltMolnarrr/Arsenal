@@ -17,6 +17,7 @@
   },
   "deliver": {
     "type": "CLOUD",
+    "delay": 8,
     "clouds": [
       {
         "volume": {

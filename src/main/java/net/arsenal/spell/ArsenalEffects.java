@@ -9,6 +9,8 @@ import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.api.config.EffectConfig;
 import net.spell_engine.api.effect.*;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,27 @@ public class ArsenalEffects {
                     )
             ))
     ));
+
+    public static Effects.Entry SLOWING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "slowing"),
+            "Slowing",
+            "Slower movement and attack speed.",
+            new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0x99ccff),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
+                                    -0.25F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
+                                    -0.25F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
 
     public static void register(ConfigFile.Effects config) {
         ActionImpairing.configure(STUN.effect, EntityActionsAllowed.STUN);

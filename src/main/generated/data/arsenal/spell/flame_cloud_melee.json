@@ -17,6 +17,7 @@
   },
   "deliver": {
     "type": "CLOUD",
+    "delay": 10,
     "clouds": [
       {
         "volume": {
@@ -79,7 +80,8 @@
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 0.4
+          "spell_power_coefficient": 0.4,
+          "knockback": 0.5
         }
       },
       "particles": [

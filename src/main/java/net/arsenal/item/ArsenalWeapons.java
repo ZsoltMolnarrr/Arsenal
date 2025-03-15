@@ -175,7 +175,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_dagger_1 = dagger("unique_dagger_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.PRISMARINE)), 5.5F)
             .translatedName("Frost Fang")
-            .spell(ArsenalSpells.radiance_melee.id());
+            .spell(ArsenalSpells.slowing_melee.id());
     public static final Weapon.Entry unique_dagger_2 = dagger("unique_dagger_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 5.5F)
             .translatedName("Demonic Shiv");

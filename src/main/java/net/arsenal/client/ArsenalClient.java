@@ -27,6 +27,11 @@ public class ArsenalClient implements ClientModInitializer {
                 new StunParticleSpawner()
         );
 
+        CustomParticleStatusEffect.register(
+                ArsenalEffects.SLOWING.effect,
+                new StunParticleSpawner(SpellEngineParticles.snowflake.id())
+        );
+
 //        final var witherPartciles = new ParticleBatch("infested",
 //                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
 //                0.5F, 0.1F, 0.15F);
