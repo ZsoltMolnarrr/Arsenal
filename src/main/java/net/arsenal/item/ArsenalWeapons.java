@@ -178,7 +178,8 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.slowing_melee.id());
     public static final Weapon.Entry unique_dagger_2 = dagger("unique_dagger_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 5.5F)
-            .translatedName("Demonic Shiv");
+            .translatedName("Demonic Shiv")
+            .spell(ArsenalSpells.leeching_melee.id());
     public static final Weapon.Entry unique_dagger_sw = dagger("unique_dagger_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 5.5F)
             .translatedName("Crux of the Apocalypse");
@@ -189,7 +190,8 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.poison_cloud_melee.id());
     public static final Weapon.Entry unique_sickle_2 = sickle("unique_sickle_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 6.8F)
-            .translatedName("Infernal Harvester");
+            .translatedName("Infernal Harvester")
+            .spell(ArsenalSpells.exploding_melee.id());;
     public static final Weapon.Entry unique_sickle_sw = sickle("unique_sickle_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 6.8F)
             .translatedName("Thalassian Sickle");
@@ -202,7 +204,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_double_axe_1 = axe("unique_double_axe_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
             .translatedName("Dual-blade Butcher")
-            .spell(ArsenalSpells.exploding_melee.id());
+            .spell(ArsenalSpells.leeching_melee.id());
     public static final Weapon.Entry unique_double_axe_2 = axe("unique_double_axe_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 11F)
             .translatedName("Arcanite Reaper")

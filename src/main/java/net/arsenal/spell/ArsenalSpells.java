@@ -114,6 +114,16 @@ public class ArsenalSpells {
             SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
             SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE
     ).id();
+    private static final Identifier RAGE_SPARK_DECELERATE = SpellEngineParticles.getMagicParticleVariant(
+            SpellEngineParticles.RAGE,
+            SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+            SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE
+    ).id();
+    private static final Identifier RAGE_SPARK_FLOAT = SpellEngineParticles.getMagicParticleVariant(
+            SpellEngineParticles.RAGE,
+            SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+            SpellEngineParticles.MagicParticleFamily.Motion.FLOAT
+    ).id();
 
     public static Entry radiance_melee = add(radiance_melee());
     private static Entry radiance_melee() {
@@ -430,7 +440,7 @@ public class ArsenalSpells {
     private static Entry poison_cloud_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "poison_cloud_melee");
         var title = "Poison Cloud";
-        var description = "On melee hit: {trigger_chance} chance to create a toxic cloud of smoke around the target, lasting for {effect_duration} seconds.";
+        var description = "On melee hit: {trigger_chance} chance to create a toxic cloud around the target, lasting for {effect_duration} seconds.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
@@ -454,7 +464,7 @@ public class ArsenalSpells {
     private static Entry poison_cloud_ranged() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "poison_cloud_ranged");
         var title = "Poison Cloud";
-        var description = "On arrow hit: {trigger_chance} chance to create a toxic cloud of smoke around the target, lasting for {effect_duration} seconds.";
+        var description = "On arrow hit: {trigger_chance} chance to create a toxic cloud around the target, lasting for {effect_duration} seconds.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
 
@@ -552,5 +562,49 @@ public class ArsenalSpells {
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry leeching_melee = add(leeching_melee());
+    private static Entry leeching_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "leeching_melee");
+        var title = "Leeching";
+        var description = "Defeating enemies heals you by a small portion of their max health.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        var deadCondition = new Spell.TargetCondition();
+        deadCondition.health_percent_below = 0F;
+        deadCondition.health_percent_above = 0F;
+        trigger.target_conditions = List.of(deadCondition);
+
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var leech = new Spell.Impact();
+        leech.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        leech.attribute_from_target = true;
+        leech.action = new Spell.Impact.Action();
+        leech.action.apply_to_caster = true;
+        leech.action.type = Spell.Impact.Action.Type.HEAL;
+        leech.action.heal = new Spell.Impact.Action.Heal();
+        leech.action.heal.spell_power_coefficient = 0.05F;
+        leech.particles = new ParticleBatch[]{
+                new ParticleBatch(RAGE_SPARK_FLOAT.toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
+                        25, 0.05F, 0.15F),
+                new ParticleBatch(RAGE_SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.1F, 0.15F)
+                        .invert()
+                        .preSpawnTravel(6)
+        };
+        leech.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
+        spell.impacts = List.of(leech);
+
+        return new Entry(id, spell, title, description, null);
     }
 }
