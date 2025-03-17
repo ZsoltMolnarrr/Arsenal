@@ -183,7 +183,8 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.leeching_melee.id());
     public static final Weapon.Entry unique_dagger_sw = dagger("unique_dagger_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 5.5F)
-            .translatedName("Crux of the Apocalypse");
+            .translatedName("Crux of the Apocalypse")
+            .spell(ArsenalSpells.swirling_melee.id());;
 
     public static final Weapon.Entry unique_sickle_1 = sickle("unique_sickle_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 6.8F)
@@ -224,7 +225,8 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.stunning_melee.id());
     public static final Weapon.Entry unique_glaive_sw = glaive("unique_glaive_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 9.3F)
-            .translatedName("Shivering Felspine");
+            .translatedName("Shivering Felspine")
+            .spell(ArsenalSpells.swirling_melee.id());
 
     public static final Weapon.Entry unique_hammer_1 = hammer("unique_hammer_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 16F)

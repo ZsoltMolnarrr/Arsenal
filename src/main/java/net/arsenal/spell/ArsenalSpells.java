@@ -607,4 +607,45 @@ public class ArsenalSpells {
 
         return new Entry(id, spell, title, description, null);
     }
+
+    public static Entry swirling_melee = add(swirling_melee());
+    private static Entry swirling_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "swirling_melee");
+        var title = "Swirling";
+        var description = "On melee hit: {trigger_chance} chance to deal {damage} damage to all nearby enemies.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+        spell.range = -0.5F;
+        spell.range_mechanic = Spell.RangeMechanic.MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.chance = 0.5F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.distance_dropoff = Spell.Target.Area.DropoffCurve.NONE;
+        spell.target.area.vertical_range_multiplier = 0.5F;
+
+        spell.release.particles_scaled_with_ranged = new ParticleBatch[]{
+                new ParticleBatch(Identifier.of("spell_engine", "swirl").toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        1, 0.0F, 0.F)
+                        .scale(0.8F)
+                        .followEntity(true)
+        };
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.5F;
+        damage.action.damage.knockback = 0.5F;
+        // damage.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
+        spell.impacts = List.of(damage);
+
+        return new Entry(id, spell, title, description, null);
+    }
 }

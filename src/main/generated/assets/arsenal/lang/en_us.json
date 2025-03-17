@@ -66,6 +66,8 @@
   "spell.arsenal.slowing_melee.name": "Frostbite",
   "spell.arsenal.stunning_melee.description": "On melee hit: {trigger_chance} chance to stun the targets for {effect_duration} seconds.",
   "spell.arsenal.stunning_melee.name": "Stunning",
+  "spell.arsenal.swirling_melee.description": "On melee hit: {trigger_chance} chance to deal {damage} damage to all nearby enemies.",
+  "spell.arsenal.swirling_melee.name": "Swirling",
   "spell.arsenal.wither_melee.description": "On melee hit: {trigger_chance} chance to inflict the target with strong Wither effect for {effect_duration} seconds.",
   "spell.arsenal.wither_melee.name": "Withering",
   "spell.arsenal.wither_ranged.description": "On arrow hit: {trigger_chance} chance to inflict the target with strong Wither effect for {effect_duration} seconds.",

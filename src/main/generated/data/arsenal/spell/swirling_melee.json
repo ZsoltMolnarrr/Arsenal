@@ -1,0 +1,46 @@
+{
+  "school": "spell_power:physical_melee",
+  "range": -0.5,
+  "range_mechanic": "MELEE",
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "MELEE_IMPACT",
+        "chance": 0.5,
+        "equipment_condition": "MAINHAND"
+      }
+    ]
+  },
+  "release": {
+    "particles_scaled_with_ranged": [
+      {
+        "particle_id": "spell_engine:swirl",
+        "origin": "CENTER",
+        "shape": "SPHERE",
+        "count": 1.0,
+        "max_speed": 0.0,
+        "scale": 0.8,
+        "follow_entity": true
+      }
+    ]
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "vertical_range_multiplier": 0.5
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.5,
+          "knockback": 0.5
+        }
+      }
+    }
+  ]
+}
