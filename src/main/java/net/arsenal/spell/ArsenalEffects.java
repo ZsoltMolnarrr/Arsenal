@@ -9,8 +9,7 @@ import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.api.config.EffectConfig;
 import net.spell_engine.api.effect.*;
-import net.spell_power.api.SpellPower;
-import net.spell_power.api.SpellSchools;
+import net.spell_engine.api.entity.SpellEngineAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +48,21 @@ public class ArsenalEffects {
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
                                     -0.25F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+    public static Effects.Entry GUARDING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "guardian"),
+            "Guardian",
+            "Increased defense.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00ff00),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.DAMAGE_TAKEN.id.toString(),
+                                    -0.3F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )

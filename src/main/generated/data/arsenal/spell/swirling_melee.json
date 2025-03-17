@@ -16,7 +16,7 @@
   "release": {
     "particles_scaled_with_ranged": [
       {
-        "particle_id": "spell_engine:swirl",
+        "particle_id": "spell_engine:area_swirl",
         "origin": "CENTER",
         "shape": "SPHERE",
         "count": 1.0,

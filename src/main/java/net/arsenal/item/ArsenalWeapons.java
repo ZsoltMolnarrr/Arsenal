@@ -242,7 +242,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_mace_sw = mace("unique_mace_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 11F)
             .translatedName("Archon's Scepter")
-            .spell(ArsenalSpells.radiance_melee.id());
+            .spell(ArsenalSpells.guarding_strike_melee.id());
 
     static {
         entries.forEach(entry -> entry.rarity = Rarity.RARE);

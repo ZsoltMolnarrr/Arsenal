@@ -1,4 +1,6 @@
 {
+  "effect.arsenal.guardian": "Guardian",
+  "effect.arsenal.guardian.description": "Increased defense.",
   "effect.arsenal.slowing": "Slowing",
   "effect.arsenal.slowing.description": "Slower movement and attack speed.",
   "effect.arsenal.stun": "Stunned",
@@ -50,6 +52,8 @@
   "spell.arsenal.flame_cloud_melee.name": "Flame Strike",
   "spell.arsenal.flame_cloud_ranged.description": "On arrow hit: {trigger_chance} chance to ignite the area around the target, dealing {damage} damage per second.",
   "spell.arsenal.flame_cloud_ranged.name": "Flame Strike",
+  "spell.arsenal.guarding_strike_melee.description": "Defeating enemies grants you and nearby allies a temporary effect reducing damage taken by {bonus}, lasting {effect_duration} seconds.",
+  "spell.arsenal.guarding_strike_melee.name": "Guarding Strike",
   "spell.arsenal.leeching_melee.description": "Defeating enemies heals you by a small portion of their max health.",
   "spell.arsenal.leeching_melee.name": "Leeching",
   "spell.arsenal.poison_cloud_melee.description": "On melee hit: {trigger_chance} chance to create a toxic cloud around the target, lasting for {effect_duration} seconds.",

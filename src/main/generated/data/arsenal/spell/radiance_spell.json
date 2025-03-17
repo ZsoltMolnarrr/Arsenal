@@ -1,17 +1,37 @@
 {
   "school": "spell_power:healing",
-  "range": 0.0,
+  "range": 2.0,
   "tier": 8,
   "type": "PASSIVE",
   "passive": {
     "triggers": [
       {
+        "target_override": "CASTER",
+        "aoe_source_override": "CASTER",
         "type": "SPELL_CAST",
         "chance": 0.25,
         "chance_batching": true,
         "equipment_condition": "MAINHAND"
       }
     ]
+  },
+  "release": {
+    "particles_scaled_with_ranged": [
+      {
+        "particle_id": "spell_engine:area_effect_658",
+        "origin": "GROUND",
+        "shape": "SPHERE",
+        "count": 1.0,
+        "max_speed": 0.0,
+        "color_rgba": 4294954239
+      }
+    ]
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "include_caster": true
+    }
   },
   "impacts": [
     {
@@ -31,6 +51,17 @@
           "max_speed": 0.1
         },
         {
+          "particle_id": "spell_engine:area_circle_1",
+          "origin": "FEET",
+          "shape": "LINE_VERTICAL",
+          "count": 1.0,
+          "min_speed": 0.2,
+          "max_speed": 0.2,
+          "color_rgba": 4294954239,
+          "scale": 0.8,
+          "follow_entity": true
+        },
+        {
           "particle_id": "spell_engine:magic_holy_impact_decelerate",
           "origin": "CENTER",
           "shape": "SPHERE",
@@ -44,9 +75,6 @@
       }
     }
   ],
-  "area_impact": {
-    "radius": 2.0
-  },
   "cost": {
     "cooldown": {
       "duration": 5.0,

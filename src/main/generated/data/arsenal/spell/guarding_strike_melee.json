@@ -1,0 +1,69 @@
+{
+  "school": "spell_power:physical_melee",
+  "range": 2.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "target_override": "CASTER",
+        "aoe_source_override": "CASTER",
+        "type": "MELEE_IMPACT",
+        "equipment_condition": "MAINHAND",
+        "target_conditions": [
+          {
+            "health_percent_below": 0.0
+          }
+        ]
+      }
+    ]
+  },
+  "release": {
+    "particles_scaled_with_ranged": [
+      {
+        "particle_id": "spell_engine:area_effect_714",
+        "origin": "GROUND",
+        "shape": "SPHERE",
+        "count": 1.0,
+        "max_speed": 0.0,
+        "color_rgba": 1724710911
+      }
+    ]
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "include_caster": true
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "arsenal:guardian",
+          "duration": 5.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:sign_shield",
+          "origin": "CENTER",
+          "shape": "LINE_VERTICAL",
+          "count": 1.0,
+          "min_speed": 0.65,
+          "max_speed": 0.65,
+          "color_rgba": 1724710847,
+          "scale": 0.8,
+          "follow_entity": true
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 10.0,
+      "hosting_item": false
+    }
+  }
+}

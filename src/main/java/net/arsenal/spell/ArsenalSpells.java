@@ -11,6 +11,7 @@ import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_power.api.SpellSchools;
@@ -125,6 +126,37 @@ public class ArsenalSpells {
             SpellEngineParticles.MagicParticleFamily.Motion.FLOAT
     ).id();
 
+    private static Spell.Trigger killedByMeleeTrigger() {
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        var deadCondition = new Spell.TargetCondition();
+        deadCondition.health_percent_below = 0F;
+        deadCondition.health_percent_above = 0F;
+        trigger.target_conditions = List.of(deadCondition);
+        return trigger;
+    }
+
+    private static void areaTarget(Spell spell, Identifier particleId, long particleColor) {
+        spell.release.particles_scaled_with_ranged = new ParticleBatch[]{
+                new ParticleBatch(particleId.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.GROUND,
+                        1, 0.0F, 0.F)
+                        .color(particleColor)
+        };
+
+        spell.target = new Spell.Target();
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+    }
+
+    private static void buffAreaTarget(Spell spell, Identifier particleId, long particleColor) {
+        areaTarget(spell, particleId, particleColor);
+        spell.target.area.include_caster = true;
+    }
+
+    private static long HOLY_COLOR = Color.HOLY.alpha(0.8F).toRGBA();
+
     public static Entry radiance_melee = add(radiance_melee());
     private static Entry radiance_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "radiance_melee");
@@ -132,16 +164,18 @@ public class ArsenalSpells {
         var description = "On melee hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
+        spell.range = 2F;
 
         var trigger = new Spell.Trigger();
         trigger.chance = 0.25F;
         trigger.chance_batching = true;
         trigger.equipment_condition = EquipmentSlot.MAINHAND;
         trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
-        radianceImpact(spell, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
-
+        radianceTargetAndImpact(spell, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
         configureCooldown(spell, 3F);
         spell.cost.cooldown.hosting_item = false;
 
@@ -155,14 +189,16 @@ public class ArsenalSpells {
         var description = "On arrow hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
+        spell.range = 2F;
 
         var trigger = new Spell.Trigger();
         trigger.chance = 0.25F;
         trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
-        radianceImpact(spell, EntityAttributes_RangedWeapon.DAMAGE.id.toString());
-
+        radianceTargetAndImpact(spell, EntityAttributes_RangedWeapon.DAMAGE.id.toString());
         configureCooldown(spell, 0.5F);
         spell.cost.cooldown.hosting_item = false;
 
@@ -176,23 +212,27 @@ public class ArsenalSpells {
         var description = "On spell cast: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
+        spell.range = 2F;
 
         var trigger = new Spell.Trigger();
         trigger.chance = 0.25F;
         trigger.chance_batching = true;
         trigger.equipment_condition = EquipmentSlot.MAINHAND;
         trigger.type = Spell.Trigger.Type.SPELL_CAST;
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
-        radianceImpact(spell, null);
-
+        radianceTargetAndImpact(spell, null);
         configureCooldown(spell, 5F);
         spell.cost.cooldown.hosting_item = false;
 
         return new Entry(id, spell, title, description, null);
     }
 
-    private static void radianceImpact(Spell spell, @Nullable String attribute) {
+    private static void radianceTargetAndImpact(Spell spell, @Nullable String attribute) {
+        buffAreaTarget(spell, SpellEngineParticles.area_effect_658.id(), Color.HOLY.toRGBA());
+
         var heal = new Spell.Impact();
         if (attribute != null) {
             heal.attribute = attribute;
@@ -209,14 +249,19 @@ public class ArsenalSpells {
                         ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
                         20, 0.1F, 0.1F),
                 new ParticleBatch(
+                        SpellEngineParticles.area_circle_1.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.FEET,
+                        1, 0.2F, 0.2F)
+                        .followEntity(true)
+                        .scale(0.8F)
+                        .color(Color.HOLY.toRGBA()),
+                new ParticleBatch(
                         HOLY_IMPACT_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
                         15, 0.2F, 0.25F)
         };
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
         spell.impacts = List.of(heal);
-        spell.area_impact = new Spell.AreaImpact();
-        spell.area_impact.radius = 2;
     }
 
     public static Entry stunning_melee = add(stunning_melee());
@@ -572,15 +617,7 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        var deadCondition = new Spell.TargetCondition();
-        deadCondition.health_percent_below = 0F;
-        deadCondition.health_percent_above = 0F;
-        trigger.target_conditions = List.of(deadCondition);
-
-        spell.passive.triggers = List.of(trigger);
+        spell.passive.triggers = List.of(killedByMeleeTrigger());
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
@@ -630,7 +667,7 @@ public class ArsenalSpells {
         spell.target.area.vertical_range_multiplier = 0.5F;
 
         spell.release.particles_scaled_with_ranged = new ParticleBatch[]{
-                new ParticleBatch(Identifier.of("spell_engine", "swirl").toString(),
+                new ParticleBatch(SpellEngineParticles.area_swirl.id().toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
                         1, 0.0F, 0.F)
                         .scale(0.8F)
@@ -647,5 +684,44 @@ public class ArsenalSpells {
         spell.impacts = List.of(damage);
 
         return new Entry(id, spell, title, description, null);
+    }
+
+    public static final Color GUARDING_COLOR = Color.from(0x66ccff);
+    public static Entry guarding_strike_melee = add(guarding_strike_melee());
+    private static Entry guarding_strike_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "guarding_strike_melee");
+        var title = "Guarding Strike";
+        var effect = ArsenalEffects.GUARDING;
+        var description = "Defeating enemies grants you and nearby allies a temporary effect reducing damage taken by {bonus}, lasting {effect_duration} seconds.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+        spell.range = 2F;
+
+        var trigger = killedByMeleeTrigger();
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        buffAreaTarget(spell, SpellEngineParticles.area_effect_714.id(), GUARDING_COLOR.toRGBA());
+
+        var buff = createEffectImpact(ArsenalEffects.GUARDING.id.toString(), 5);
+        buff.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.sign_shield.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
+                        1, 0.65F, 0.65F)
+                        .scale(0.8F)
+                        .color(GUARDING_COLOR.alpha(0.75F).toRGBA())
+                        .followEntity(true)
+        };
+        spell.impacts = List.of(buff);
+        configureCooldown(spell, 10);
+
+        return new Entry(id, spell, title, description, mutator);
     }
 }

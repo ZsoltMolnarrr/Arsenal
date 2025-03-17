@@ -32,6 +32,18 @@ public class ArsenalClient implements ClientModInitializer {
                 new StunParticleSpawner(SpellEngineParticles.snowflake.id())
         );
 
+        final var guardingParticles = new ParticleBatch(
+                SpellEngineParticles.MagicParticles.get(
+                        SpellEngineParticles.MagicParticles.Shape.SPARK,
+                        SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
+                ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                1F, 0.1F, 0.15F)
+                .color(ArsenalSpells.GUARDING_COLOR.toRGBA());
+        CustomParticleStatusEffect.register(
+                ArsenalEffects.GUARDING.effect,
+                new BuffParticleSpawner(new ParticleBatch[]{ guardingParticles })
+        );
+
 //        final var witherPartciles = new ParticleBatch("infested",
 //                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
 //                0.5F, 0.1F, 0.15F);
