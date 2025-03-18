@@ -49,9 +49,9 @@
           "particle_id": "spell_engine:magic_spark_decelerate",
           "origin": "CENTER",
           "shape": "SPHERE",
-          "count": 25.0,
-          "min_speed": 0.5,
-          "max_speed": 0.55,
+          "count": 10.0,
+          "min_speed": 0.3,
+          "max_speed": 0.35,
           "color_rgba": 4282850047
         }
       ]

@@ -110,10 +110,9 @@ public class ArsenalSpells {
         spell.cost.cooldown.hosting_item = false;
     }
 
-    private static final Identifier HOLY_IMPACT_DECELERATE = SpellEngineParticles.getMagicParticleVariant(
-            SpellEngineParticles.HOLY,
-            SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
-            SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE
+    private static final Identifier HOLY_DECELERATE = SpellEngineParticles.MagicParticles.get(
+            SpellEngineParticles.MagicParticles.Shape.HOLY,
+            SpellEngineParticles.MagicParticles.Motion.DECELERATE
     ).id();
     private static final Identifier SPARK_DECELERATE = SpellEngineParticles.MagicParticles.get(
             SpellEngineParticles.MagicParticles.Shape.SPARK,
@@ -126,11 +125,6 @@ public class ArsenalSpells {
     private static final Identifier STRIPE_FLOAT = SpellEngineParticles.MagicParticles.get(
             SpellEngineParticles.MagicParticles.Shape.STRIPE,
             SpellEngineParticles.MagicParticles.Motion.FLOAT
-    ).id();
-    private static final Identifier RAGE_SPARK_FLOAT = SpellEngineParticles.getMagicParticleVariant(
-            SpellEngineParticles.RAGE,
-            SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
-            SpellEngineParticles.MagicParticleFamily.Motion.FLOAT
     ).id();
 
     private static Spell.Trigger killedByMeleeTrigger() {
@@ -162,8 +156,7 @@ public class ArsenalSpells {
         spell.target.area.include_caster = true;
     }
 
-    private static long HOLY_COLOR = Color.HOLY.alpha(0.8F).toRGBA();
-
+    private static long HOLY_COLOR = Color.HOLY.toRGBA();
     public static Entry radiance_melee = add(radiance_melee());
     private static Entry radiance_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "radiance_melee");
@@ -249,12 +242,10 @@ public class ArsenalSpells {
         heal.action.heal = new Spell.Impact.Action.Heal();
         heal.action.heal.spell_power_coefficient = 0.25F;
         heal.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
-                        SpellEngineParticles.HOLY,
-                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
-                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                new ParticleBatch(SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
-                        20, 0.1F, 0.1F),
+                        20, 0.1F, 0.1F)
+                        .color(HOLY_COLOR),
                 new ParticleBatch(
                         SpellEngineParticles.area_circle_1.id().toString(),
                         ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.FEET,
@@ -263,9 +254,10 @@ public class ArsenalSpells {
                         .scale(0.8F)
                         .color(Color.HOLY.toRGBA()),
                 new ParticleBatch(
-                        HOLY_IMPACT_DECELERATE.toString(),
+                        HOLY_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
                         15, 0.2F, 0.25F)
+                        .color(HOLY_COLOR)
         };
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
         spell.impacts = List.of(heal);
@@ -667,7 +659,7 @@ public class ArsenalSpells {
     private static Entry swirling_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "swirling_melee");
         var title = "Swirling";
-        var description = "The last attack in a combo performs a swirling attack, damaging nearby enemies.";
+        var description = "The last attack in a combo performs a swirling attack, dealing {damage} damage to nearby enemies.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
         spell.range = -0.5F;
@@ -820,7 +812,7 @@ public class ArsenalSpells {
         buff.particles = new ParticleBatch[]{
                 new ParticleBatch(SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.5F, 0.55F)
+                        10, 0.3F, 0.35F)
                         .color(RAMPAGING_COLOR.toRGBA())
         };
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;

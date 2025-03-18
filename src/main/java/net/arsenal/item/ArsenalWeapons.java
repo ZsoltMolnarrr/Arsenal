@@ -108,7 +108,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_claymore_sw = claymore("unique_claymore_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 13F)
             .translatedName("Apolyon, the Soul-Render")
-            .spell(ArsenalSpells.sundering_melee.id());;
+            .spell(ArsenalSpells.rampaging_melee.id());
 
     public static final Weapon.Entry unique_staff_damage_1 = staff("unique_staff_damage_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
@@ -169,10 +169,12 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.slowing_melee.id());
     public static final Weapon.Entry unique_spear_2 = spear("unique_spear_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 8F)
-            .translatedName("Spear of the Damned");
+            .translatedName("Spear of the Damned")
+            .spell(ArsenalSpells.guarding_strike_melee.id());
     public static final Weapon.Entry unique_spear_sw = spear("unique_spear_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 8F)
-            .translatedName("Mounting Vengeance");
+            .translatedName("Mounting Vengeance")
+            .spell(ArsenalSpells.leeching_melee.id());
 
     public static final Weapon.Entry unique_dagger_1 = dagger("unique_dagger_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.PRISMARINE)), 5.5F)
@@ -185,7 +187,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_dagger_sw = dagger("unique_dagger_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 5.5F)
             .translatedName("Crux of the Apocalypse")
-            .spell(ArsenalSpells.swirling_melee.id());;
+            .spell(ArsenalSpells.sundering_melee.id());;
 
     public static final Weapon.Entry unique_sickle_1 = sickle("unique_sickle_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 6.8F)
@@ -197,7 +199,8 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.exploding_melee.id());;
     public static final Weapon.Entry unique_sickle_sw = sickle("unique_sickle_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 6.8F)
-            .translatedName("Thalassian Sickle");
+            .translatedName("Thalassian Sickle")
+            .spell(ArsenalSpells.swirling_melee.id());
 
 //    public static final Weapon.Entry unique_longsword_sw = sickle("unique_longsword_sw",
 //            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 6.8F)
@@ -236,11 +239,13 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.stunning_melee.id());
     public static final Weapon.Entry unique_hammer_sw = hammer("unique_hammer_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 16F)
-            .translatedName("Hammer of Sanctification");
+            .translatedName("Hammer of Sanctification")
+            .spell(ArsenalSpells.radiance_melee.id());
 
     public static final Weapon.Entry unique_mace_1 = mace("unique_mace_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
-            .translatedName("Bonecracker");
+            .translatedName("Bonecracker")
+            .spell(ArsenalSpells.sundering_melee.id());
     public static final Weapon.Entry unique_mace_sw = mace("unique_mace_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 11F)
             .translatedName("Archon's Scepter")

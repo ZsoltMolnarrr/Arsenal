@@ -61,7 +61,7 @@ public class ArsenalClient implements ClientModInitializer {
                         SpellEngineParticles.MagicParticles.Shape.STRIPE,
                         SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
                 ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                0.5F, 0.1F, 0.15F)
+                0.4F, 0.1F, 0.15F)
                 .color(ArsenalSpells.RAMPAGING_COLOR.toRGBA());
         CustomParticleStatusEffect.register(
                 ArsenalEffects.RAMPAGING.effect,
