@@ -44,12 +44,32 @@ public class ArsenalClient implements ClientModInitializer {
                 new BuffParticleSpawner(new ParticleBatch[]{ guardingParticles })
         );
 
-//        final var witherPartciles = new ParticleBatch("infested",
-//                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-//                0.5F, 0.1F, 0.15F);
-//        CustomParticleStatusEffect.register(
-//                StatusEffects.WITHER.value(),
-//                new BuffParticleSpawner(new ParticleBatch[]{ witherPartciles })
-//        );
+        final var sunderingParticles = new ParticleBatch(
+                SpellEngineParticles.MagicParticles.get(
+                        SpellEngineParticles.MagicParticles.Shape.SPARK,
+                        SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
+                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                2F, 0.6F, 0.7F)
+                .color(ArsenalSpells.SUNDERING_COLOR.toRGBA());
+        CustomParticleStatusEffect.register(
+                ArsenalEffects.SUNDERING.effect,
+                new BuffParticleSpawner(new ParticleBatch[]{ sunderingParticles })
+        );
+
+        final var rampagingParticles = new ParticleBatch(
+                SpellEngineParticles.MagicParticles.get(
+                        SpellEngineParticles.MagicParticles.Shape.STRIPE,
+                        SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
+                ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                0.5F, 0.1F, 0.15F)
+                .color(ArsenalSpells.RAMPAGING_COLOR.toRGBA());
+        CustomParticleStatusEffect.register(
+                ArsenalEffects.RAMPAGING.effect,
+                new BuffParticleSpawner(new ParticleBatch[]{ rampagingParticles })
+                        .withGroundEffect(
+                                SpellEngineParticles.area_effect_741.id().toString(),
+                                ArsenalSpells.RAMPAGING_COLOR,
+                                SpellEngineParticles.area_effect_741.texture().frames())
+        );
     }
 }

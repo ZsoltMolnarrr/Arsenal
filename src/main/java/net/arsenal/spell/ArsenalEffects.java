@@ -69,6 +69,35 @@ public class ArsenalEffects {
             )
     ));
 
+    public static Effects.Entry SUNDERING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "sundering"),
+            "Sundering",
+            "Reduced defense.",
+            new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0xff0000),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ARMOR.getIdAsString(),
+                                    -0.3F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+    public static Effects.Entry RAMPAGING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "rampaging"),
+            "Rampaging",
+            "Increased attack damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0xff9900),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    0.05F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
 
     public static void register(ConfigFile.Effects config) {
         ActionImpairing.configure(STUN.effect, EntityActionsAllowed.STUN);

@@ -115,10 +115,17 @@ public class ArsenalSpells {
             SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
             SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE
     ).id();
-    private static final Identifier RAGE_SPARK_DECELERATE = SpellEngineParticles.getMagicParticleVariant(
-            SpellEngineParticles.RAGE,
-            SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
-            SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE
+    private static final Identifier SPARK_DECELERATE = SpellEngineParticles.MagicParticles.get(
+            SpellEngineParticles.MagicParticles.Shape.SPARK,
+            SpellEngineParticles.MagicParticles.Motion.DECELERATE
+    ).id();
+    private static final Identifier SPARK_FLOAT = SpellEngineParticles.MagicParticles.get(
+            SpellEngineParticles.MagicParticles.Shape.SPARK,
+            SpellEngineParticles.MagicParticles.Motion.FLOAT
+    ).id();
+    private static final Identifier STRIPE_FLOAT = SpellEngineParticles.MagicParticles.get(
+            SpellEngineParticles.MagicParticles.Shape.STRIPE,
+            SpellEngineParticles.MagicParticles.Motion.FLOAT
     ).id();
     private static final Identifier RAGE_SPARK_FLOAT = SpellEngineParticles.getMagicParticleVariant(
             SpellEngineParticles.RAGE,
@@ -609,6 +616,7 @@ public class ArsenalSpells {
         return new Entry(id, spell, title, description, mutator);
     }
 
+    public static Color LEECHING_COLOR = Color.from(0xff3333);
     public static Entry leeching_melee = add(leeching_melee());
     private static Entry leeching_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "leeching_melee");
@@ -630,14 +638,24 @@ public class ArsenalSpells {
         leech.action.heal = new Spell.Impact.Action.Heal();
         leech.action.heal.spell_power_coefficient = 0.05F;
         leech.particles = new ParticleBatch[]{
-                new ParticleBatch(RAGE_SPARK_FLOAT.toString(),
+                new ParticleBatch(SPARK_FLOAT.toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
-                        25, 0.05F, 0.1F),
-                new ParticleBatch(RAGE_SPARK_DECELERATE.toString(),
+                        25, 0.05F, 0.1F)
+                        .color(LEECHING_COLOR.toRGBA()),
+                new ParticleBatch(SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
                         25, 0.08F, 0.12F)
                         .invert()
                         .preSpawnTravel(5)
+                        .followEntity(true)
+                        .color(LEECHING_COLOR.toRGBA()),
+                new ParticleBatch(
+                        SpellEngineParticles.ground_glow.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.GROUND,
+                        1, 0.0F, 0.F)
+                        .followEntity(true)
+                        .scale(0.8F)
+                        .color(LEECHING_COLOR.alpha(0.2F).toRGBA())
         };
         leech.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
         spell.impacts = List.of(leech);
@@ -649,7 +667,7 @@ public class ArsenalSpells {
     private static Entry swirling_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "swirling_melee");
         var title = "Swirling";
-        var description = "On melee hit: {trigger_chance} chance to deal {damage} damage to all nearby enemies.";
+        var description = "The last attack in a combo performs a swirling attack, damaging nearby enemies.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
         spell.range = -0.5F;
@@ -658,7 +676,9 @@ public class ArsenalSpells {
         var trigger = new Spell.Trigger();
         trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
         trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        trigger.chance = 0.5F;
+        trigger.melee = new Spell.Trigger.MeleeCondition();
+        trigger.melee.is_combo = true;
+        trigger.melee.is_offhand = false;
         spell.passive.triggers = List.of(trigger);
 
         spell.target.type = Spell.Target.Type.AREA;
@@ -721,6 +741,95 @@ public class ArsenalSpells {
         };
         spell.impacts = List.of(buff);
         configureCooldown(spell, 10);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Color SUNDERING_COLOR = Color.from(0x595959);
+    public static Entry sundering_melee = add(sundering_melee());
+    private static Entry sundering_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "sundering_melee");
+        var title = "Sundering";
+        var description = "On melee hit: {trigger_chance} chance to reduce the target's armor by {bonus} for {effect_duration} seconds.";
+        var effect = ArsenalEffects.SUNDERING;
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.chance_batching = true;
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var sunder = createEffectImpact(ArsenalEffects.SUNDERING.id.toString(), 5);
+        sunder.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.1F, 0.1F)
+                        .color(SUNDERING_COLOR.toRGBA())
+        };
+        spell.impacts = List.of(sunder);
+
+        configureCooldown(spell, 5);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Color RAMPAGING_COLOR = Color.from(0xff471a);
+    public static Entry rampaging_melee = add(rampaging_melee());
+    private static Entry rampaging_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_melee");
+        var title = "Rampaging";
+        var description = "Defeating a mob grants " + title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
+        var effect = ArsenalEffects.RAMPAGING;
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = killedByMeleeTrigger();
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
+        spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
+        spell.deliver.stash_effect.id = effect.id.toString();
+        spell.deliver.stash_effect.consume = 0;
+        var stashMeleeTrigger = new Spell.Trigger();
+        stashMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        stashMeleeTrigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.deliver.stash_effect.triggers = List.of(stashMeleeTrigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var buff = createEffectImpact(ArsenalEffects.RAMPAGING.id.toString(), 10);
+        buff.particles = new ParticleBatch[]{
+                new ParticleBatch(SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.5F, 0.55F)
+                        .color(RAMPAGING_COLOR.toRGBA())
+        };
+        buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
+        buff.action.status_effect.amplifier = 4;
+        buff.action.status_effect.refresh_duration = false;
+        spell.impacts = List.of(buff);
+
+        configureCooldown(spell, 20);
+        spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, mutator);
     }

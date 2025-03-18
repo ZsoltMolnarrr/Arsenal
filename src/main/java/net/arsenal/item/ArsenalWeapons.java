@@ -107,7 +107,8 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.radiance_melee.id());
     public static final Weapon.Entry unique_claymore_sw = claymore("unique_claymore_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 13F)
-            .translatedName("Apolyon, the Soul-Render");
+            .translatedName("Apolyon, the Soul-Render")
+            .spell(ArsenalSpells.sundering_melee.id());;
 
     public static final Weapon.Entry unique_staff_damage_1 = staff("unique_staff_damage_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
@@ -213,7 +214,8 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.wither_melee.id());
     public static final Weapon.Entry unique_double_axe_sw = axe("unique_double_axe_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 11F)
-            .translatedName("Sunreaver War Axe");
+            .translatedName("Sunreaver War Axe")
+            .spell(ArsenalSpells.rampaging_melee.id());
 
     public static final Weapon.Entry unique_glaive_1 = glaive("unique_glaive_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 9.3F)
