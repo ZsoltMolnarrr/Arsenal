@@ -99,6 +99,41 @@ public class ArsenalEffects {
             )
     ));
 
+    public static Effects.Entry UNYIELDING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "unyielding"),
+            "Unyielding",
+            "Increased knockback resistance and toughness.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00ff00),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE.getIdAsString(),
+                                    2F,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            ),
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ARMOR_TOUGHNESS.getIdAsString(),
+                                    0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+//    public static Effects.Entry FORTIFY = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "fortify"),
+//            "Fortify",
+//            "Increased defense.",
+//            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00ff00),
+//            new EffectConfig(
+//                    List.of(
+//                            new AttributeModifier(
+//                                    EntityAttributes.GENERIC_ARMOR.getIdAsString(),
+//                                    0.4F,
+//                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+//                            )
+//                    )
+//            )
+//    ));
+
     public static void register(ConfigFile.Effects config) {
         ActionImpairing.configure(STUN.effect, EntityActionsAllowed.STUN);
 

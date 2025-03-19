@@ -71,5 +71,21 @@ public class ArsenalClient implements ClientModInitializer {
                                 ArsenalSpells.RAMPAGING_COLOR,
                                 SpellEngineParticles.area_effect_741.texture().frames())
         );
+
+        final var unyieldingParticles = new ParticleBatch(
+                SpellEngineParticles.MagicParticles.get(
+                        SpellEngineParticles.MagicParticles.Shape.STRIPE,
+                        SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
+                ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                0.4F, 0.1F, 0.15F)
+                .color(ArsenalSpells.UNYIELDING_COLOR.toRGBA());
+        CustomParticleStatusEffect.register(
+                ArsenalEffects.UNYIELDING.effect,
+                new BuffParticleSpawner(new ParticleBatch[]{ unyieldingParticles })
+                        .withGroundEffect(
+                                SpellEngineParticles.area_effect_741.id().toString(),
+                                ArsenalSpells.UNYIELDING_COLOR,
+                                SpellEngineParticles.area_effect_741.texture().frames())
+        );
     }
 }

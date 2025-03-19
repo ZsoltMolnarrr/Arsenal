@@ -252,6 +252,7 @@ public class ArsenalSpells {
                         1, 0.2F, 0.2F)
                         .followEntity(true)
                         .scale(0.8F)
+                        .maxAge(0.8F)
                         .color(Color.HOLY.toRGBA()),
                 new ParticleBatch(
                         HOLY_DECELERATE.toString(),
@@ -801,10 +802,7 @@ public class ArsenalSpells {
         spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
         spell.deliver.stash_effect.id = effect.id.toString();
         spell.deliver.stash_effect.consume = 0;
-        var stashMeleeTrigger = new Spell.Trigger();
-        stashMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        stashMeleeTrigger.target_override = Spell.Trigger.TargetSelector.CASTER;
-        spell.deliver.stash_effect.triggers = List.of(stashMeleeTrigger);
+        spell.deliver.stash_effect.triggers = List.of(trigger);
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
@@ -824,5 +822,66 @@ public class ArsenalSpells {
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Color UNYIELDING_COLOR = Color.from(0x33ccff);
+    public static Entry unyielding_shield = add(unyielding_shield());
+    private static Entry unyielding_shield() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "unyielding_shield");
+        var title = "Unyielding";
+        var description = "Blocking grants you increased knockback resistance and armor toughness, lasting {effect_duration} seconds.";
+        var effect = ArsenalEffects.UNYIELDING;
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
+        spell.passive.triggers = List.of(trigger);
+
+        var duration = 5;
+
+        var buff = createEffectImpact(effect.id.toString(), duration);
+        buff.particles = new ParticleBatch[]{
+                new ParticleBatch(SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        10, 0.3F, 0.35F)
+                        .color(RAMPAGING_COLOR.toRGBA())
+        };
+        spell.impacts = List.of(buff);
+
+        configureCooldown(spell, duration * 2);
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry spiked_shield = add(spiked_shield());
+    private static Entry spiked_shield() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "spiked_shield");
+        var title = "Spiked";
+        var description = "On shield block: {trigger_chance} chance to deal {damage} damage to the attacker.";
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.5F;
+        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
+        trigger.target_override = Spell.Trigger.TargetSelector.TARGET;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.min_power = 10;
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.25F;
+        damage.action.damage.knockback = 0.25F;
+
+        spell.impacts = List.of(damage);
+
+        return new Entry(id, spell, title, description, null);
     }
 }

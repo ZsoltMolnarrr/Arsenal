@@ -27,7 +27,13 @@
       "triggers": [
         {
           "target_override": "CASTER",
-          "type": "MELEE_IMPACT"
+          "type": "MELEE_IMPACT",
+          "equipment_condition": "MAINHAND",
+          "target_conditions": [
+            {
+              "health_percent_below": 0.0
+            }
+          ]
         }
       ],
       "consume": 0

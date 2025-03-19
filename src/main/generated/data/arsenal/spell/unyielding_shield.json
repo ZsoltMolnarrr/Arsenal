@@ -1,0 +1,41 @@
+{
+  "school": "spell_power:physical_melee",
+  "range": 0.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "SHIELD_BLOCK"
+      }
+    ]
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "arsenal:unyielding",
+          "duration": 5.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_spark_decelerate",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 10.0,
+          "min_speed": 0.3,
+          "max_speed": 0.35,
+          "color_rgba": 4282850047
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 10.0,
+      "hosting_item": false
+    }
+  }
+}

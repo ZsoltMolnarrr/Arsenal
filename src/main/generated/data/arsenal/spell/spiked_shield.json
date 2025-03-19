@@ -1,0 +1,30 @@
+{
+  "school": "spell_power:physical_melee",
+  "range": 0.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "target_override": "TARGET",
+        "type": "SHIELD_BLOCK",
+        "chance": 0.5
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "min_power": 10.0,
+        "damage": {
+          "spell_power_coefficient": 0.25,
+          "knockback": 0.25
+        }
+      }
+    }
+  ]
+}

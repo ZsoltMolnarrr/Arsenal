@@ -2,6 +2,7 @@ package net.arsenal.item;
 
 import net.arsenal.ArsenalMod;
 import net.arsenal.spell.ArsenalSounds;
+import net.arsenal.spell.ArsenalSpells;
 import net.fabric_extras.shield_api.item.CustomShieldItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -20,6 +21,8 @@ import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ShieldConfig;
 import net.spell_engine.api.item.Tiers;
 import net.spell_engine.api.item.weapon.Weapon;
+import net.spell_engine.api.spell.SpellDataComponents;
+import net.spell_engine.api.spell.container.SpellContainerHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,7 @@ public class ArsenalShields {
         private final int durability;
         private String translatedName = "";
         public Rarity rarity = Rarity.COMMON;
+        public List<Identifier> spells = null;
 
         public Entry(Identifier id, Supplier<Ingredient> repair, List<AttributeModifier> attributes, int durability) {
             this.id = id;
@@ -69,6 +73,11 @@ public class ArsenalShields {
 
         public String translationKey() {
             return Util.createTranslationKey("item", id());
+        }
+
+        public Entry spell(Identifier spellId) {
+            spells = List.of(spellId);
+            return this;
         }
     }
 
@@ -110,13 +119,16 @@ public class ArsenalShields {
                     new AttributeModifier(GENERIC_MAX_HEALTH,  6.0f,  EntityAttributeModifier.Operation.ADD_VALUE)
             ),
             durability_t4)
-            .translatedName("Bulwark of Azzinoth");
+            .translatedName("Bulwark of Azzinoth")
+            .spell(ArsenalSpells.spiked_shield.id());
     public static Entry unique_shield_sw = shield("unique_shield_sw",
             () -> Ingredient.ofItems(Items.NETHERITE_INGOT), List.of(
                     new AttributeModifier(GENERIC_ARMOR_TOUGHNESS,  2,  EntityAttributeModifier.Operation.ADD_VALUE),
                     new AttributeModifier(GENERIC_MAX_HEALTH,  6.0f,  EntityAttributeModifier.Operation.ADD_VALUE)
             ),
-            durability_t4).translatedName("Sword Breaker's Bulwark");
+            durability_t4)
+            .translatedName("Sword Breaker's Bulwark")
+            .spell(ArsenalSpells.unyielding_shield.id());
 
     static {
         for (var entry: entries) {
@@ -146,6 +158,9 @@ public class ArsenalShields {
             }
             if (entry.rarity != Rarity.COMMON) {
                 settings.rarity(entry.rarity);
+            }
+            if (entry.spells != null) {
+                settings.component(SpellDataComponents.SPELL_CONTAINER, SpellContainerHelper.createForShield(entry.spells));
             }
             var shield = new CustomShieldItem(ArsenalSounds.shield_equip.entry(), entry.repair, shieldAttributes, settings);
             Registry.register(Registries.ITEM, entry.id, shield);
