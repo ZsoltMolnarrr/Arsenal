@@ -3,8 +3,6 @@ package net.arsenal.client;
 import net.arsenal.spell.ArsenalEffects;
 import net.fabricmc.api.ClientModInitializer;
 import net.arsenal.spell.ArsenalSpells;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.ParticleTypes;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.render.StunParticleSpawner;
@@ -16,7 +14,7 @@ public class ArsenalClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        for (var entry: ArsenalSpells.entries) {
+        for (var entry: ArsenalSpells.all) {
             if (entry.mutator() != null) {
                 SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());
             }

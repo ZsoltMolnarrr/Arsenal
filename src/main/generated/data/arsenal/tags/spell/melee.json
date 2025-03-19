@@ -1,0 +1,52 @@
+{
+  "values": [
+    {
+      "id": "arsenal:radiance_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:stunning_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:exploding_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:wither_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:flame_cloud_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:poison_cloud_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:slowing_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:leeching_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:swirling_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:guarding_strike_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:sundering_melee",
+      "required": false
+    },
+    {
+      "id": "arsenal:rampaging_melee",
+      "required": false
+    }
+  ]
+}

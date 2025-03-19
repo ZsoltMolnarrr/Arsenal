@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "arsenal:radiance_ranged",
+      "required": false
+    },
+    {
+      "id": "arsenal:wither_ranged",
+      "required": false
+    },
+    {
+      "id": "arsenal:flame_cloud_ranged",
+      "required": false
+    },
+    {
+      "id": "arsenal:poison_cloud_ranged",
+      "required": false
+    }
+  ]
+}

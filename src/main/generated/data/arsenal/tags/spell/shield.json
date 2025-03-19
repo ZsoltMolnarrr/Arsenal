@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "arsenal:unyielding_shield",
+      "required": false
+    },
+    {
+      "id": "arsenal:spiked_shield",
+      "required": false
+    }
+  ]
+}

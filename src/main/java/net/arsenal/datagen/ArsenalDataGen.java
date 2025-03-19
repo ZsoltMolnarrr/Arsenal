@@ -10,6 +10,8 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
@@ -18,10 +20,10 @@ import net.arsenal.ArsenalMod;
 import net.arsenal.spell.ArsenalEffects;
 import net.arsenal.spell.ArsenalSounds;
 import net.arsenal.spell.ArsenalSpells;
-import net.spell_engine.api.datagen.SimpleSoundGenerator;
 import net.spell_engine.api.datagen.SimpleSoundGeneratorV2;
 import net.spell_engine.api.datagen.SpellGenerator;
-import net.spell_engine.fx.SpellEngineSounds;
+import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.registry.SpellRegistry;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -30,6 +32,7 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(ItemTagGenerator::new);
+        pack.addProvider(SpellTagGenerator::new);
         pack.addProvider(LangGenerator::new);
         pack.addProvider(ModelProvider::new);
         pack.addProvider(SpellGen::new);
@@ -58,6 +61,8 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
 //                    tag.addOptional(entry.id());
 //                }
 //            }
+
+            // Map<String, Tag> rpgSeriesThemeTag
         }
 
         private static TagKey<Item> tierLootTag(int tier) {
@@ -66,6 +71,21 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
 
         private static TagKey<Item> themeLootTag(String theme) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of("rpg_series", "theme_loot_" + theme));
+        }
+    }
+
+    public static class SpellTagGenerator extends FabricTagProvider<Spell> {
+        public SpellTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            super(output, SpellRegistry.KEY, registriesFuture);
+        }
+
+        @Override
+        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+            ArsenalSpells.all.forEach(entry -> {
+                var tagKey = TagKey.of(SpellRegistry.KEY, Identifier.of(ArsenalMod.NAMESPACE, entry.category().toString().toLowerCase()));
+                var tag = getOrCreateTagBuilder(tagKey);
+                tag.addOptional(entry.id());
+            });
         }
     }
 
@@ -86,7 +106,7 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
             ArsenalShields.entries.forEach(entry ->
                 translationBuilder.add(entry.translationKey(), entry.translatedName())
             );
-            ArsenalSpells.entries.forEach(entry -> {
+            ArsenalSpells.all.forEach(entry -> {
                 var id = entry.id();
                 translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".name" , entry.title());
                 translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".description" , entry.description());
@@ -123,7 +143,7 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
 
         @Override
         public void generateSpells(Builder builder) {
-            for (var entry: ArsenalSpells.entries) {
+            for (var entry: ArsenalSpells.all) {
                 builder.add(entry.id(), entry.spell());
             }
         }

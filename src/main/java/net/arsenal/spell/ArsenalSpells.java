@@ -21,14 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArsenalSpells {
+    public enum Category {
+        MELEE, RANGED, SPELL, SHIELD
+    }
     public record Entry(Identifier id, Spell spell, String title, String description,
-                        @Nullable SpellTooltip.DescriptionMutator mutator) {
+                        @Nullable SpellTooltip.DescriptionMutator mutator, Category category) {
     }
 
-    public static final List<Entry> entries = new ArrayList<>();
-
+    public static final List<Entry> all = new ArrayList<>();
     private static Entry add(Entry entry) {
-        entries.add(entry);
+        all.add(entry);
         return entry;
     }
 
@@ -179,7 +181,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3F);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
     public static Entry radiance_ranged = add(radiance_ranged());
@@ -202,7 +204,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 0.5F);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.RANGED);
     }
 
     public static Entry radiance_spell = add(radiance_spell());
@@ -227,7 +229,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 5F);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.SPELL);
     }
 
     private static void radianceTargetAndImpact(Spell spell, @Nullable String attribute) {
@@ -288,7 +290,7 @@ public class ArsenalSpells {
         configureCooldown(spell, T3_PERK_CC_COOLDOWN);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
     public static Entry exploding_melee = add(exploding_melee());
@@ -325,7 +327,7 @@ public class ArsenalSpells {
         };
         spell.area_impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
     public static Entry wither_melee = add(wither_melee());
@@ -349,7 +351,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
     public static Entry wither_ranged = add(wither_ranged());
@@ -372,7 +374,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.RANGED);
     }
 
     private static void witherImpact(Spell spell, float amplifier_multiplier) {
@@ -409,7 +411,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
     public static Entry flame_cloud_ranged = add(flame_cloud_ranged());
@@ -432,7 +434,7 @@ public class ArsenalSpells {
         // configureCooldown(spell, 3);
         // spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.RANGED);
     }
 
     private static void flameCloud(Spell spell, float coefficient) {
@@ -502,7 +504,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 1);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
     public static Entry poison_cloud_ranged = add(poison_cloud_ranged());
@@ -525,7 +527,7 @@ public class ArsenalSpells {
         // configureCooldown(spell, 3);
         // spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.RANGED);
     }
 
     private static void poisonCloud(Spell spell, float coefficient) {
@@ -606,7 +608,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, Category.MELEE);
     }
 
     public static Color LEECHING_COLOR = Color.from(0xff3333);
@@ -653,7 +655,7 @@ public class ArsenalSpells {
         leech.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
         spell.impacts = List.of(leech);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
     public static Entry swirling_melee = add(swirling_melee());
@@ -696,7 +698,7 @@ public class ArsenalSpells {
         // damage.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
         spell.impacts = List.of(damage);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
     public static final Color GUARDING_COLOR = Color.from(0x66ccff);
@@ -735,7 +737,7 @@ public class ArsenalSpells {
         spell.impacts = List.of(buff);
         configureCooldown(spell, 10);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, Category.MELEE);
     }
 
     public static Color SUNDERING_COLOR = Color.from(0x595959);
@@ -775,7 +777,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 5);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, Category.MELEE);
     }
 
     public static Color RAMPAGING_COLOR = Color.from(0xff471a);
@@ -821,7 +823,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 20);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, Category.MELEE);
     }
 
     public static Color UNYIELDING_COLOR = Color.from(0x33ccff);
@@ -852,7 +854,7 @@ public class ArsenalSpells {
 
         configureCooldown(spell, duration * 2);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.SHIELD);
     }
 
     public static Entry spiked_shield = add(spiked_shield());
@@ -882,6 +884,6 @@ public class ArsenalSpells {
 
         spell.impacts = List.of(damage);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description, null, Category.SHIELD);
     }
 }
