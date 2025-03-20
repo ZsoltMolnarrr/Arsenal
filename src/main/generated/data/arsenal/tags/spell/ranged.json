@@ -15,6 +15,14 @@
     {
       "id": "arsenal:poison_cloud_ranged",
       "required": false
+    },
+    {
+      "id": "arsenal:bonus_shot_ranged",
+      "required": false
+    },
+    {
+      "id": "arsenal:rampaging_ranged",
+      "required": false
     }
   ]
 }

@@ -1,0 +1,46 @@
+{
+  "school": "spell_power:physical_ranged",
+  "range": 0.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "ARROW_SHOT",
+        "chance": 0.2
+      }
+    ]
+  },
+  "release": {
+    "particles": [
+      {
+        "particle_id": "spell_engine:magic_spark_decelerate",
+        "origin": "LAUNCH_POINT",
+        "shape": "PIPE",
+        "rotation": "LOOK",
+        "count": 25.0,
+        "min_speed": 0.2,
+        "max_speed": 0.7
+      }
+    ]
+  },
+  "target": {
+    "type": "AIM",
+    "aim": {}
+  },
+  "deliver": {
+    "type": "SHOOT_ARROW",
+    "delay": 3,
+    "shoot_arrow": {}
+  },
+  "arrow_perks": {
+    "bypass_iframes": true,
+    "knockback": 0.5
+  },
+  "cost": {
+    "cooldown": {
+      "duration": 1.0,
+      "hosting_item": false
+    }
+  }
+}

@@ -1,6 +1,7 @@
 package net.arsenal.spell;
 
 import net.arsenal.ArsenalMod;
+import net.fabric_extras.ranged_weapon.api.EntityAttributes_RangedWeapon;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectCategory;
@@ -93,6 +94,21 @@ public class ArsenalEffects {
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
                                     0.05F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+    public static Effects.Entry FOCUSING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "focusing"),
+            "Focusing",
+            "Increased ranged attack damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0xff9900),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes_RangedWeapon.DAMAGE.id.toString(),
+                                    0.1F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )

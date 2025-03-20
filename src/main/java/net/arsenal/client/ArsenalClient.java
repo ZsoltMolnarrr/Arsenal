@@ -70,6 +70,17 @@ public class ArsenalClient implements ClientModInitializer {
                                 SpellEngineParticles.area_effect_741.texture().frames())
         );
 
+        final var focusingParticles = rampagingParticles.copy()
+                .color(ArsenalSpells.FOCUSING_COLOR.toRGBA());
+        CustomParticleStatusEffect.register(
+                ArsenalEffects.FOCUSING.effect,
+                new BuffParticleSpawner(new ParticleBatch[]{ focusingParticles })
+                        .withGroundEffect(
+                                SpellEngineParticles.area_effect_741.id().toString(),
+                                ArsenalSpells.FOCUSING_COLOR,
+                                SpellEngineParticles.area_effect_741.texture().frames())
+        );
+
         final var unyieldingParticles = new ParticleBatch(
                 SpellEngineParticles.MagicParticles.get(
                         SpellEngineParticles.MagicParticles.Shape.STRIPE,

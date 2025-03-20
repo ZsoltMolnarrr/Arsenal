@@ -140,6 +140,25 @@ public class ArsenalSpells {
         return trigger;
     }
 
+    private static Spell.Trigger killedByRangedTrigger() {
+        var deadCondition = new Spell.TargetCondition();
+        deadCondition.health_percent_below = 0F;
+        deadCondition.health_percent_above = 0F;
+
+        var arrowTrigger = new Spell.Trigger();
+        arrowTrigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        arrowTrigger.equipment_condition = EquipmentSlot.MAINHAND;
+        arrowTrigger.target_conditions = List.of(deadCondition);
+
+        var skillTrigger = new Spell.Trigger();
+        skillTrigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        skillTrigger.spell = new Spell.Trigger.SpellCondition();
+        skillTrigger.spell.school = ExternalSpellSchools.PHYSICAL_RANGED.id.toString();
+        skillTrigger.target_conditions = List.of(deadCondition);
+
+        return arrowTrigger;
+    }
+
     private static void areaTarget(Spell spell, Identifier particleId, long particleColor) {
         spell.release.particles_scaled_with_ranged = new ParticleBatch[]{
                 new ParticleBatch(particleId.toString(),
@@ -808,7 +827,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var buff = createEffectImpact(ArsenalEffects.RAMPAGING.id.toString(), 10);
+        var buff = createEffectImpact(effect.id.toString(), 10);
         buff.particles = new ParticleBatch[]{
                 new ParticleBatch(SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
@@ -885,5 +904,89 @@ public class ArsenalSpells {
         spell.impacts = List.of(damage);
 
         return new Entry(id, spell, title, description, null, Category.SHIELD);
+    }
+
+    public static Entry bonus_shot_ranged = add(bonus_shot_ranged());
+    private static Entry bonus_shot_ranged() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "bonus_shot_ranged");
+        var title = "Bonus Shot";
+        var description = "On arrow hit: {trigger_chance} chance to shoot an additional arrow.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.ARROW_SHOT;
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch(SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        25, 0.2F, 0.7F)
+                        .rotate(ParticleBatch.Rotation.LOOK)
+        };
+
+        spell.target.type = Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+
+        spell.deliver.type = Spell.Delivery.Type.SHOOT_ARROW;
+        spell.deliver.shoot_arrow = new Spell.Delivery.ShootArrow();
+        spell.deliver.shoot_arrow.launch_properties.velocity = 3.15F;
+        spell.deliver.delay = 3;
+
+        spell.arrow_perks = new Spell.ArrowPerks();
+        spell.arrow_perks.damage_multiplier = 1F;
+        spell.arrow_perks.bypass_iframes = true;
+        spell.arrow_perks.knockback = 0.5F;
+
+        configureCooldown(spell ,1);
+
+        return new Entry(id, spell, title, description, null, Category.RANGED);
+    }
+
+    public static Color FOCUSING_COLOR = Color.from(0x99ff66);
+    public static Entry rampaging_ranged = add(rampaging_ranged());
+    private static Entry rampaging_ranged() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_ranged");
+        var effect = ArsenalEffects.FOCUSING;
+        var title = "Focusing";
+        var description = "Defeating a mob grants " + effect.title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+
+        var trigger = killedByRangedTrigger();
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
+        spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
+        spell.deliver.stash_effect.id = effect.id.toString();
+        spell.deliver.stash_effect.consume = 0;
+        spell.deliver.stash_effect.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var buff = createEffectImpact(effect.id.toString(), 10);
+        buff.particles = new ParticleBatch[]{
+                new ParticleBatch(SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        10, 0.3F, 0.35F)
+                        .color(FOCUSING_COLOR.toRGBA())
+        };
+        buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
+        buff.action.status_effect.amplifier = 2;
+        buff.action.status_effect.refresh_duration = false;
+        spell.impacts = List.of(buff);
+
+        configureCooldown(spell, 20);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, mutator, Category.RANGED);
     }
 }

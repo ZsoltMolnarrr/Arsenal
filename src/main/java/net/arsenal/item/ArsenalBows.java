@@ -155,7 +155,8 @@ public class ArsenalBows {
     public static RangedEntry unique_longbow_sw = bow("unique_longbow_sw", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
-            .translatedName("Golden Bow of Quel'Thalas");
+            .translatedName("Golden Bow of Quel'Thalas")
+            .spell(ArsenalSpells.rampaging_ranged.id());
 
     public static RangedEntry unique_heavy_crossbow_1 = crossbow("unique_heavy_crossbow_1", durabilityTier4,
             () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
@@ -170,7 +171,8 @@ public class ArsenalBows {
     public static RangedEntry unique_heavy_crossbow_sw = crossbow("unique_heavy_crossbow_sw", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
-            .translatedName("Crossbow of Relentless Strikes");
+            .translatedName("Crossbow of Relentless Strikes")
+            .spell(ArsenalSpells.bonus_shot_ranged.id());
 
     static {
         for (var entry: entries) {

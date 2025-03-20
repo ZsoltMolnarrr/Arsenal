@@ -1,0 +1,73 @@
+{
+  "school": "spell_power:physical_ranged",
+  "range": 0.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "target_override": "CASTER",
+        "type": "ARROW_IMPACT",
+        "equipment_condition": "MAINHAND",
+        "target_conditions": [
+          {
+            "health_percent_below": 0.0
+          }
+        ]
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "deliver": {
+    "type": "STASH_EFFECT",
+    "stash_effect": {
+      "id": "arsenal:focusing",
+      "triggers": [
+        {
+          "target_override": "CASTER",
+          "type": "ARROW_IMPACT",
+          "equipment_condition": "MAINHAND",
+          "target_conditions": [
+            {
+              "health_percent_below": 0.0
+            }
+          ]
+        }
+      ],
+      "consume": 0
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "arsenal:focusing",
+          "amplifier": 2,
+          "refresh_duration": false,
+          "apply_mode": "ADD"
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_spark_decelerate",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 10.0,
+          "min_speed": 0.3,
+          "max_speed": 0.35,
+          "color_rgba": 2583652095
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "batching": true,
+    "cooldown": {
+      "duration": 20.0,
+      "hosting_item": false
+    }
+  }
+}
