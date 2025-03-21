@@ -1064,8 +1064,8 @@ public class ArsenalSpells {
     public static Entry frost_cloud_spell = add(frost_cloud_spell());
     private static Entry frost_cloud_spell() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "frost_cloud_spell");
-        var title = "Frost Cloud";
-        var description = "On spell hit: {trigger_chance} chance to create a frost cloud around the target, lasting for {effect_duration} seconds.";
+        var title = "Frostbite Snare";
+        var description = "On spell hit: {trigger_chance} chance to create a freezing zone around the target, slowing its movement and attack speed, lasting for {effect_duration} seconds.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
 
@@ -1097,14 +1097,14 @@ public class ArsenalSpells {
         cloud.volume.area.vertical_range_multiplier = 0.3F;
         cloud.volume.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_2.id().toString());
         cloud.impact_tick_interval = 8;
-        cloud.time_to_live_seconds = 4;
+        cloud.time_to_live_seconds = 5;
         cloud.spawn.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IGNITE.id().toString());
         cloud.client_data = new Spell.Delivery.Cloud.ClientData();
         cloud.client_data.light_level = 6;
         cloud.client_data.particles = new ParticleBatch[] {
                 new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        3, 0.1F, 0.12F)
+                        2, 0.1F, 0.12F)
         };
         cloud.client_data.particle_spawn_interval = SpellEngineParticles.area_effect_480.texture().frames();
         cloud.client_data.interval_particles = new ParticleBatch[] {
@@ -1116,7 +1116,7 @@ public class ArsenalSpells {
         };
         spell.deliver.clouds = List.of(cloud);
 
-        var impact = createEffectImpact("slowness", 3);
+        var impact = createEffectImpact(ArsenalEffects.SLOWING.id.toString(), 2);
         impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
         impact.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
