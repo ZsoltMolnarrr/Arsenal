@@ -127,9 +127,10 @@ public class ArsenalWeapons {
             .translatedName("Draconic Battle Staff");
     public static final Weapon.Entry unique_staff_damage_4 = staff("unique_staff_damage_4",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)))
-            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
-            .translatedName("Gargoyle's Bite");
+            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .translatedName("Gargoyle's Bite")
+            .spell(ArsenalSpells.leeching_spell.id());
     public static final Weapon.Entry unique_staff_damage_5 = staff("unique_staff_damage_5",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
@@ -138,15 +139,17 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_staff_damage_6 = staff("unique_staff_damage_6",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
-            .translatedName("Endless Winter");
+            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .translatedName("Endless Winter")
+            .spell(ArsenalSpells.frost_cloud_spell.id());
 
     public static final Weapon.Entry unique_staff_damage_sw = staff("unique_staff_damage_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
-            .translatedName("Grand Magister's Staff of Torrents");
+            .translatedName("Grand Magister's Staff of Torrents")
+            .spell(ArsenalSpells.rampaging_spell.id());
 
     public static final Weapon.Entry unique_staff_heal_1 = staff("unique_staff_heal_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))

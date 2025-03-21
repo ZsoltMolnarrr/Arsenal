@@ -11,6 +11,7 @@ import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.api.config.EffectConfig;
 import net.spell_engine.api.effect.*;
 import net.spell_engine.api.entity.SpellEngineAttributes;
+import net.spell_power.api.SpellPowerMechanics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +129,22 @@ public class ArsenalEffects {
                             ),
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_ARMOR_TOUGHNESS.getIdAsString(),
-                                    0.2F,
+                                    0.5F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+    public static Effects.Entry SURGING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "surging"),
+            "Surging",
+            "Increased spell critical chance.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00ff00),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellPowerMechanics.CRITICAL_CHANCE.id.toString(),
+                                    0.1F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )

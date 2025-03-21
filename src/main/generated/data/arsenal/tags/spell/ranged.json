@@ -23,6 +23,10 @@
     {
       "id": "arsenal:rampaging_ranged",
       "required": false
+    },
+    {
+      "id": "arsenal:rampaging_spell",
+      "required": false
     }
   ]
 }

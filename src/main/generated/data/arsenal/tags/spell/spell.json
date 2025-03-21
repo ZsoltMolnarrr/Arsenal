@@ -3,6 +3,14 @@
     {
       "id": "arsenal:radiance_spell",
       "required": false
+    },
+    {
+      "id": "arsenal:leeching_spell",
+      "required": false
+    },
+    {
+      "id": "arsenal:frost_cloud_spell",
+      "required": false
     }
   ]
 }

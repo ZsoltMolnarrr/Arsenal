@@ -81,6 +81,17 @@ public class ArsenalClient implements ClientModInitializer {
                                 SpellEngineParticles.area_effect_741.texture().frames())
         );
 
+        final var surgingParticles = rampagingParticles.copy()
+                .color(ArsenalSpells.SURGING_COLOR.toRGBA());
+        CustomParticleStatusEffect.register(
+                ArsenalEffects.SURGING.effect,
+                new BuffParticleSpawner(new ParticleBatch[]{ surgingParticles })
+                        .withGroundEffect(
+                                SpellEngineParticles.area_effect_741.id().toString(),
+                                ArsenalSpells.SURGING_COLOR,
+                                SpellEngineParticles.area_effect_741.texture().frames())
+        );
+
         final var unyieldingParticles = new ParticleBatch(
                 SpellEngineParticles.MagicParticles.get(
                         SpellEngineParticles.MagicParticles.Shape.STRIPE,

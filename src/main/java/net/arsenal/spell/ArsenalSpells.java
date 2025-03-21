@@ -140,7 +140,19 @@ public class ArsenalSpells {
         return trigger;
     }
 
-    private static Spell.Trigger killedByRangedTrigger() {
+    private static Spell.Trigger killedBySpellTrigger() {
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        var deadCondition = new Spell.TargetCondition();
+        deadCondition.health_percent_below = 0F;
+        deadCondition.health_percent_above = 0F;
+        trigger.target_conditions = List.of(deadCondition);
+        return trigger;
+    }
+
+    private static List<Spell.Trigger> killedByRangedTrigger() {
         var deadCondition = new Spell.TargetCondition();
         deadCondition.health_percent_below = 0F;
         deadCondition.health_percent_above = 0F;
@@ -156,7 +168,7 @@ public class ArsenalSpells {
         skillTrigger.spell.school = ExternalSpellSchools.PHYSICAL_RANGED.id.toString();
         skillTrigger.target_conditions = List.of(deadCondition);
 
-        return arrowTrigger;
+        return List.of(arrowTrigger, skillTrigger);
     }
 
     private static void areaTarget(Spell spell, Identifier particleId, long particleColor) {
@@ -638,11 +650,30 @@ public class ArsenalSpells {
         var description = "Defeating enemies heals you by a small portion of their max health.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
-
         spell.passive.triggers = List.of(killedByMeleeTrigger());
-
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
+        leechingEffect(spell);
+
+        return new Entry(id, spell, title, description, null, Category.MELEE);
+    }
+
+    public static Entry leeching_spell = add(leeching_spell());
+    private static Entry leeching_spell() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "leeching_spell");
+        var title = "Leeching";
+        var description = "Defeating enemies heals you by a small portion of their max health.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+        spell.passive.triggers = List.of(killedBySpellTrigger());
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        leechingEffect(spell);
+
+        return new Entry(id, spell, title, description, null, Category.SPELL);
+    }
+
+    private static void leechingEffect(Spell spell) {
         var leech = new Spell.Impact();
         leech.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
         leech.attribute_from_target = true;
@@ -673,8 +704,6 @@ public class ArsenalSpells {
         };
         leech.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
         spell.impacts = List.of(leech);
-
-        return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
     public static Entry swirling_melee = add(swirling_melee());
@@ -804,7 +833,7 @@ public class ArsenalSpells {
     private static Entry rampaging_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_melee");
         var title = "Rampaging";
-        var description = "Defeating a mob grants " + title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
+        var description = "Defeating enemies grants " + title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
         var effect = ArsenalEffects.RAMPAGING;
         SpellTooltip.DescriptionMutator mutator = (args) -> {
             var modifier = effect.config().firstModifier();
@@ -950,7 +979,7 @@ public class ArsenalSpells {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_ranged");
         var effect = ArsenalEffects.FOCUSING;
         var title = "Focusing";
-        var description = "Defeating a mob grants " + effect.title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
+        var description = "Defeating enemies grants " + effect.title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
         SpellTooltip.DescriptionMutator mutator = (args) -> {
             var modifier = effect.config().firstModifier();
             var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
@@ -960,15 +989,15 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
 
-        var trigger = killedByRangedTrigger();
-        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
-        spell.passive.triggers = List.of(trigger);
+        var triggers = killedByRangedTrigger();
+        triggers.forEach(trigger -> trigger.target_override = Spell.Trigger.TargetSelector.CASTER);
+        spell.passive.triggers = triggers;
 
         spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
         spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
         spell.deliver.stash_effect.id = effect.id.toString();
         spell.deliver.stash_effect.consume = 0;
-        spell.deliver.stash_effect.triggers = List.of(trigger);
+        spell.deliver.stash_effect.triggers = triggers;
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
@@ -988,5 +1017,112 @@ public class ArsenalSpells {
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, mutator, Category.RANGED);
+    }
+
+    public static final Color SURGING_COLOR = Color.from(0x99ffff);
+    public static Entry rampaging_spell = add(rampaging_spell());
+    private static Entry rampaging_spell() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_spell");
+        var effect = ArsenalEffects.SURGING;
+        var title = "Surging";
+        var description = "Defeating enemies grants " + effect.title + " effect, increasing your spell critical chance by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+
+        var trigger = killedBySpellTrigger();
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var duration = 10;
+        var buff = createEffectImpact(effect.id.toString(), duration);
+        buff.particles = new ParticleBatch[]{
+                new ParticleBatch(SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        10, 0.3F, 0.35F)
+                        .color(SURGING_COLOR.toRGBA())
+        };
+        buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
+        buff.action.status_effect.amplifier = 4;
+        buff.action.status_effect.refresh_duration = false;
+        spell.impacts = List.of(buff);
+
+        configureCooldown(spell, duration * 2);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, mutator, Category.RANGED);
+    }
+
+    public static final Color FROST_CLOUD_COLOR = Color.from(0xccffff);
+    public static Entry frost_cloud_spell = add(frost_cloud_spell());
+    private static Entry frost_cloud_spell() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "frost_cloud_spell");
+        var title = "Frost Cloud";
+        var description = "On spell hit: {trigger_chance} chance to create a frost cloud around the target, lasting for {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        frostCloud(spell);
+
+        configureCooldown(spell, 2);
+
+        return new Entry(id, spell, title, description, null, Category.SPELL);
+    }
+
+    private static void frostCloud(Spell spell) {
+        spell.deliver.type = Spell.Delivery.Type.CLOUD;
+        spell.deliver.delay = 10;
+
+        var areaParticle = SpellEngineParticles.area_effect_480;
+        var radius = 2;
+
+        var cloud = new Spell.Delivery.Cloud();
+        cloud.volume.radius = radius;
+        cloud.volume.area.vertical_range_multiplier = 0.3F;
+        cloud.volume.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_2.id().toString());
+        cloud.impact_tick_interval = 8;
+        cloud.time_to_live_seconds = 4;
+        cloud.spawn.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IGNITE.id().toString());
+        cloud.client_data = new Spell.Delivery.Cloud.ClientData();
+        cloud.client_data.light_level = 6;
+        cloud.client_data.particles = new ParticleBatch[] {
+                new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        3, 0.1F, 0.12F)
+        };
+        cloud.client_data.particle_spawn_interval = SpellEngineParticles.area_effect_480.texture().frames();
+        cloud.client_data.interval_particles = new ParticleBatch[] {
+                new ParticleBatch(areaParticle.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.GROUND,
+                        1, 0.0F, 0.F)
+                        .scale(radius)
+                        .color(FROST_CLOUD_COLOR.alpha(0.75F).toRGBA()),
+        };
+        spell.deliver.clouds = List.of(cloud);
+
+        var impact = createEffectImpact("slowness", 3);
+        impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
+        impact.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        20, 0.05F, 0.15F)
+        };
+        spell.impacts = List.of(impact);
     }
 }
