@@ -1,0 +1,62 @@
+{
+  "school": "spell_power:arcane",
+  "range": 0.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "target_override": "CASTER",
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "chance": 0.2,
+        "impact": {
+          "impact_type": "DAMAGE",
+          "critical": true
+        }
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "COOLDOWN",
+        "cooldown": {
+          "actives": {
+            "duration_multiplier": 0.0
+          }
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:sign_hourglass",
+          "origin": "CENTER",
+          "shape": "LINE_VERTICAL",
+          "count": 1.0,
+          "min_speed": 0.65,
+          "max_speed": 0.65,
+          "color_rgba": 4291624895,
+          "scale": 0.8,
+          "follow_entity": true
+        },
+        {
+          "particle_id": "spell_engine:magic_spark_decelerate",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 40.0,
+          "min_speed": 0.3,
+          "max_speed": 0.3,
+          "color_rgba": 4291624959
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 30.0,
+      "hosting_item": false
+    }
+  }
+}

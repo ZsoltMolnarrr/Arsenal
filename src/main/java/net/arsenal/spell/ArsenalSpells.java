@@ -468,6 +468,31 @@ public class ArsenalSpells {
         return new Entry(id, spell, title, description, null, Category.RANGED);
     }
 
+    public static Entry flame_cloud_spell = add(flame_cloud_spell());
+    private static Entry flame_cloud_spell() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "flame_cloud_spell");
+        var title = "Flame Strike";
+        var description = "On spell hit: {trigger_chance} chance to ignite the area around the target, dealing {damage} damage per second.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.FIRE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        trigger.chance = 0.3F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        flameCloud(spell, 0.2F);
+
+        configureCooldown(spell, 2);
+        // spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, null, Category.SPELL);
+    }
+
     private static void flameCloud(Spell spell, float coefficient) {
         spell.deliver.type = Spell.Delivery.Type.CLOUD;
         spell.deliver.delay = 10;
@@ -1064,10 +1089,10 @@ public class ArsenalSpells {
     public static Entry frost_cloud_spell = add(frost_cloud_spell());
     private static Entry frost_cloud_spell() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "frost_cloud_spell");
-        var title = "Frostbite Snare";
+        var title = "Frostbite Puddle";
         var description = "On spell hit: {trigger_chance} chance to create a freezing zone around the target, slowing its movement and attack speed, lasting for {effect_duration} seconds.";
         var spell = passiveSpellBase();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = SpellSchools.FROST;
 
         var trigger = new Spell.Trigger();
         trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
@@ -1124,5 +1149,51 @@ public class ArsenalSpells {
                         20, 0.05F, 0.15F)
         };
         spell.impacts = List.of(impact);
+    }
+
+    public static Color COOLDOWN_SHOT_COLOR = Color.from(0xffccff);
+    public static Entry cooldown_shot_spell = add(cooldown_shot_spell());
+    private static Entry cooldown_shot_spell() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "cooldown_shot_spell");
+        var title = "Cooldown Shot";
+        var description = "On spell critical hit: {trigger_chance} chance to reset your spell cooldowns.";
+
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        trigger.impact.critical = true;
+        trigger.chance = 0.2F;
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var impact = new Spell.Impact();
+        impact.action = new Spell.Impact.Action();
+        impact.action.type = Spell.Impact.Action.Type.COOLDOWN;
+        impact.action.cooldown = new Spell.Impact.Action.Cooldown();
+        impact.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
+        impact.action.cooldown.actives.duration_multiplier = 0;
+        impact.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.sign_hourglass.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
+                        1, 0.65F, 0.65F)
+                        .scale(0.8F)
+                        .color(COOLDOWN_SHOT_COLOR.alpha(0.75F).toRGBA())
+                        .followEntity(true),
+                new ParticleBatch(SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        40, 0.3F, 0.3F)
+                        .color(COOLDOWN_SHOT_COLOR.toRGBA())
+        };
+        spell.impacts = List.of(impact);
+
+        configureCooldown(spell, 30);
+
+        return new Entry(id, spell, title, description, null, Category.SPELL);
     }
 }

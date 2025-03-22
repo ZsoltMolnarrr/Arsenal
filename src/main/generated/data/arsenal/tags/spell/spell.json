@@ -5,11 +5,19 @@
       "required": false
     },
     {
+      "id": "arsenal:flame_cloud_spell",
+      "required": false
+    },
+    {
       "id": "arsenal:leeching_spell",
       "required": false
     },
     {
       "id": "arsenal:frost_cloud_spell",
+      "required": false
+    },
+    {
+      "id": "arsenal:cooldown_shot_spell",
       "required": false
     }
   ]
