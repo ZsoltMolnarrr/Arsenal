@@ -18,14 +18,19 @@ import net.spell_power.api.SpellSchools;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public class ArsenalSpells {
     public enum Category {
-        MELEE, RANGED, SPELL, SHIELD
+        MELEE, RANGED, SPELL, HEAL, SHIELD
     }
     public record Entry(Identifier id, Spell spell, String title, String description,
-                        @Nullable SpellTooltip.DescriptionMutator mutator, Category category) {
+                        @Nullable SpellTooltip.DescriptionMutator mutator, EnumSet<Category> categories) {
+        public Entry(Identifier id, Spell spell, String title, String description,
+                     @Nullable SpellTooltip.DescriptionMutator mutator, Category category) {
+            this(id, spell, title, description, mutator, EnumSet.of(category));
+        }
     }
 
     public static final List<Entry> all = new ArrayList<>();
@@ -33,29 +38,6 @@ public class ArsenalSpells {
         all.add(entry);
         return entry;
     }
-
-    private static final float T1_USE_EFFECT_DURATION = 10;
-    private static final float T1_PROC_EFFECT_DURATION = 6;
-    private static final float T1_USE_EFFECT_COOLDOWN = 60;
-    private static final float T1_PROC_EFFECT_COOLDOWN = 45;
-    private static final float T1_PROC_CHANCE = 0.05F;
-
-    private static final float T2_USE_EFFECT_DURATION = 10;
-    private static final float T2_PROC_EFFECT_DURATION = 8;
-    private static final float T2_USE_EFFECT_COOLDOWN = 60;
-    private static final float T2_PROC_EFFECT_COOLDOWN = 45;
-    private static final float T2_PROC_CHANCE = 0.06F;
-
-    private static final float T3_TRANCE_CHANCE = 0.1F;
-    private static final float T3_TRANCE_DURATION = 10F;
-    private static final float T3_TRANCE_COOLDOWN = 45F;
-    private static final float T3_PERK_CC_DURATION = 2;
-    private static final float T3_PERK_CC_COOLDOWN = 20;
-
-    private static final float T4_USE_EFFECT_DURATION = 15;
-    private static final float T4_USE_EFFECT_COOLDOWN = 90;
-    private static final float T4_AREA_RANGE = 15;
-    private static final float T4_ZONE_RANGE = 3;
 
     private static Spell activeSpellBase() {
         var spell = new Spell();
@@ -260,7 +242,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 5F);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null, Category.SPELL);
+        return new Entry(id, spell, title, description, null, EnumSet.of(Category.SPELL, Category.HEAL));
     }
 
     private static void radianceTargetAndImpact(Spell spell, @Nullable String attribute) {
@@ -314,11 +296,11 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var stun = createEffectImpact(ArsenalEffects.STUN.id.toString(), T3_PERK_CC_DURATION);
+        var stun = createEffectImpact(ArsenalEffects.STUN.id.toString(), 2);
         stun.sound = new Sound(SpellEngineSounds.STUN_GENERIC.id().toString());
         spell.impacts = List.of(stun);
 
-        configureCooldown(spell, T3_PERK_CC_COOLDOWN);
+        configureCooldown(spell, 20);
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, null, Category.MELEE);
@@ -1082,7 +1064,7 @@ public class ArsenalSpells {
         configureCooldown(spell, duration * 2);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator, Category.RANGED);
+        return new Entry(id, spell, title, description, mutator, Category.SPELL);
     }
 
     public static final Color FROST_CLOUD_COLOR = Color.from(0xccffff);
@@ -1265,7 +1247,7 @@ public class ArsenalSpells {
         spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
         spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
         spell.deliver.projectile.inherit_shooter_pitch = false;
-        spell.deliver.projectile.launch_properties.velocity = 0.8F;
+        spell.deliver.projectile.launch_properties.velocity = 0.75F;
 
         var projectile = new Spell.ProjectileData();
         projectile.homing_angle = 0F;
@@ -1321,7 +1303,7 @@ public class ArsenalSpells {
         spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
         spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
         spell.deliver.projectile.direct_towards_target = true;
-        spell.deliver.projectile.launch_properties.velocity = 0.8F;
+        spell.deliver.projectile.launch_properties.velocity = 0.6F;
         spell.deliver.projectile.launch_properties.extra_launch_count = 3;
         spell.deliver.projectile.launch_properties.extra_launch_delay = 0;
         spell.deliver.projectile.direction_offsets = new Spell.Delivery.ShootProjectile.DirectionOffset[] {

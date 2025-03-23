@@ -33,7 +33,7 @@
       ],
       "direct_towards_target": true,
       "launch_properties": {
-        "velocity": 0.8,
+        "velocity": 0.6,
         "extra_launch_count": 3,
         "extra_launch_delay": 0
       },

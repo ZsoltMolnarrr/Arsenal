@@ -22,7 +22,7 @@
     "projectile": {
       "inherit_shooter_pitch": false,
       "launch_properties": {
-        "velocity": 0.8
+        "velocity": 0.75
       },
       "projectile": {
         "homing_angle": 0.0,

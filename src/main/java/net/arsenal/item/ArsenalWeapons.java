@@ -176,7 +176,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_spear_2 = spear("unique_spear_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 8F)
             .translatedName("Spear of the Damned")
-            .spell(ArsenalSpells.guarding_strike_melee.id());
+            .spell(ArsenalSpells.stunning_melee.id());
     public static final Weapon.Entry unique_spear_sw = spear("unique_spear_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 8F)
             .translatedName("Mounting Vengeance")

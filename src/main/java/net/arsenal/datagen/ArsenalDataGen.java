@@ -10,8 +10,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.item.Item;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
@@ -82,9 +80,11 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             ArsenalSpells.all.forEach(entry -> {
-                var tagKey = TagKey.of(SpellRegistry.KEY, Identifier.of(ArsenalMod.NAMESPACE, entry.category().toString().toLowerCase()));
-                var tag = getOrCreateTagBuilder(tagKey);
-                tag.addOptional(entry.id());
+                for (var category: entry.categories()) {
+                    var tagKey = TagKey.of(SpellRegistry.KEY, Identifier.of(ArsenalMod.NAMESPACE, category.toString().toLowerCase()));
+                    var tag = getOrCreateTagBuilder(tagKey);
+                    tag.addOptional(entry.id());
+                }
             });
         }
     }

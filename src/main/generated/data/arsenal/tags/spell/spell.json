@@ -13,6 +13,10 @@
       "required": false
     },
     {
+      "id": "arsenal:rampaging_spell",
+      "required": false
+    },
+    {
       "id": "arsenal:frost_cloud_spell",
       "required": false
     },
