@@ -233,7 +233,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_glaive_2 = glaive("unique_glaive_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 9.3F)
             .translatedName("Crystalforge Glaive")
-            .spell(ArsenalSpells.stunning_melee.id());
+            .spell(ArsenalSpells.shockwave_melee.id());
     public static final Weapon.Entry unique_glaive_sw = glaive("unique_glaive_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 9.3F)
             .translatedName("Shivering Felspine")

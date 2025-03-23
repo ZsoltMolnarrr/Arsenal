@@ -1,6 +1,6 @@
 {
   "school": "spell_power:arcane",
-  "range": 20.0,
+  "range": 10.0,
   "tier": 8,
   "type": "PASSIVE",
   "passive": {
@@ -33,25 +33,20 @@
       ],
       "direct_towards_target": true,
       "launch_properties": {
-        "velocity": 0.25,
+        "velocity": 0.8,
         "extra_launch_count": 3,
         "extra_launch_delay": 0
       },
       "projectile": {
         "homing_angle": 0.0,
+        "perks": {
+          "pierce": 999
+        },
+        "hitbox": {
+          "width": 2.0,
+          "height": 0.4
+        },
         "client_data": {
-          "light_level": 10,
-          "travel_particles": [
-            {
-              "particle_id": "spell_engine:magic_arcane_spell_ascend",
-              "origin": "CENTER",
-              "shape": "CIRCLE",
-              "rotation": "LOOK",
-              "count": 1.0,
-              "min_speed": 0.05,
-              "max_speed": 0.1
-            }
-          ],
           "model": {
             "model_id": "arsenal:projectile/shockwave",
             "scale": 2.0,
@@ -66,19 +61,27 @@
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 0.5
+          "spell_power_coefficient": 0.25,
+          "knockback": 0.5
         }
       },
       "particles": [
         {
-          "particle_id": "spell_engine:magic_arcane_impact_burst",
+          "particle_id": "spell_engine:magic_arcane_burst",
           "origin": "CENTER",
           "shape": "SPHERE",
           "count": 20.0,
           "min_speed": 0.2,
-          "max_speed": 0.7
+          "max_speed": 0.7,
+          "color_rgba": 2816865791
         }
       ]
     }
-  ]
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 4.0,
+      "hosting_item": false
+    }
+  }
 }

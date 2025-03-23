@@ -21,10 +21,6 @@
       "required": false
     },
     {
-      "id": "arsenal:swirling_spell",
-      "required": false
-    },
-    {
       "id": "arsenal:shockwave_area_spell",
       "required": false
     },
