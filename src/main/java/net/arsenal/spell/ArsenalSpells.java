@@ -1304,7 +1304,7 @@ public class ArsenalSpells {
     private static Entry shockwave_area_spell() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "shockwave_area_spell");
         var title = "Shockwave Area";
-        var description = "On spell hit: {trigger_chance} chance to create a shockwave, dealing {damage} damage to nearby enemies.";
+        var description = "On spell hit: {trigger_chance} chance to send a shockwaves around you, dealing {damage} damage to enemies in their path.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
         spell.range = 10F;

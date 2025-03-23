@@ -94,7 +94,7 @@
   "spell.arsenal.rampaging_ranged.name": "Focusing",
   "spell.arsenal.rampaging_spell.description": "Defeating enemies grants Surging effect, increasing your spell critical chance by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.",
   "spell.arsenal.rampaging_spell.name": "Surging",
-  "spell.arsenal.shockwave_area_spell.description": "On spell hit: {trigger_chance} chance to create a shockwave, dealing {damage} damage to nearby enemies.",
+  "spell.arsenal.shockwave_area_spell.description": "On spell hit: {trigger_chance} chance to send a shockwaves around you, dealing {damage} damage to enemies in their path.",
   "spell.arsenal.shockwave_area_spell.name": "Shockwave Area",
   "spell.arsenal.shockwave_melee.description": "On hit: {trigger_chance} chance to send a shockwave forward, dealing {damage} damage to enemies in its path.",
   "spell.arsenal.shockwave_melee.name": "Shockwave",
