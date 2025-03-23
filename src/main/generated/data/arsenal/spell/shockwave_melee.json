@@ -1,0 +1,74 @@
+{
+  "school": "spell_power:physical_melee",
+  "range": 10.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "MELEE_IMPACT",
+        "equipment_condition": "MAINHAND",
+        "melee": {
+          "is_combo": true,
+          "is_offhand": false
+        }
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "deliver": {
+    "type": "PROJECTILE",
+    "projectile": {
+      "launch_properties": {
+        "velocity": 0.25
+      },
+      "projectile": {
+        "homing_angle": 0.0,
+        "perks": {
+          "pierce": 999
+        },
+        "client_data": {
+          "light_level": 10,
+          "travel_particles": [
+            {
+              "particle_id": "spell_engine:magic_arcane_spell_ascend",
+              "origin": "CENTER",
+              "shape": "CIRCLE",
+              "rotation": "LOOK",
+              "count": 1.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1
+            }
+          ],
+          "model": {
+            "model_id": "arsenal:projectile/shockwave_large",
+            "scale": 4.0,
+            "rotate_degrees_per_tick": 0.0
+          }
+        }
+      }
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.5
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_impact_burst",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7
+        }
+      ]
+    }
+  ]
+}

@@ -1196,4 +1196,258 @@ public class ArsenalSpells {
 
         return new Entry(id, spell, title, description, null, Category.SPELL);
     }
+
+    public static Entry swirling_spell = add(swirling_spell());
+    private static Entry swirling_spell() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "swirling_spell");
+        var title = "Swirling";
+        var description = "The last spell in a combo performs a swirling attack, dealing {damage} damage to nearby enemies.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+        spell.range = 4F;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        trigger.chance = 1F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.distance_dropoff = Spell.Target.Area.DropoffCurve.NONE;
+        spell.target.area.vertical_range_multiplier = 0.5F;
+
+        spell.release.particles_scaled_with_ranged = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.area_effect_184.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.GROUND,
+                        1, 0.0F, 0.F)
+                        .followEntity(true)
+        };
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.5F;
+        damage.action.damage.knockback = 0.5F;
+        // damage.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
+        spell.impacts = List.of(damage);
+
+        configureCooldown(spell, 2);
+
+        return new Entry(id, spell, title, description, null, Category.SPELL);
+    }
+
+    public static Entry shockwave_melee = add(shockwave_melee());
+    private static Entry shockwave_melee() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "shockwave_melee");
+        var title = "Shockwave";
+        var description = "On spell hit: {trigger_chance} chance to create a shockwave, dealing {damage} damage to nearby enemies.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+        spell.range = 10F;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        trigger.melee = new Spell.Trigger.MeleeCondition();
+        trigger.melee.is_combo = true;
+        trigger.melee.is_offhand = false;
+        spell.passive.triggers = List.of(trigger);
+
+//        spell.target.type = Spell.Target.Type.AIM;
+//        spell.target.aim = new Spell.Target.Aim();
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
+        spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
+        spell.deliver.projectile.launch_properties.velocity = 0.25F;
+
+        var projectile = new Spell.ProjectileData();
+        projectile.homing_angle = 0F;
+        projectile.client_data = new Spell.ProjectileData.Client();
+        projectile.client_data.light_level = 10;
+        projectile.client_data.travel_particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.ARCANE,
+                                SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                                SpellEngineParticles.MagicParticleFamily.Motion.ASCEND
+                        ).id().toString(),
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        ParticleBatch.Rotation.LOOK, 1, 0.05F, 0.1F, 0.0F, 0F)
+        };
+        projectile.client_data.model = new Spell.ProjectileModel();
+        projectile.client_data.model.model_id = ArsenalProjectiles.shockwave_large.id().toString();
+        projectile.client_data.model.scale = 4F;
+        projectile.client_data.model.rotate_degrees_per_tick = 0;
+        projectile.perks.pierce = 999;
+        spell.deliver.projectile.projectile = projectile;
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.5F;
+        damage.particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.ARCANE,
+                                SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
+                                SpellEngineParticles.MagicParticleFamily.Motion.BURST
+                        ).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 20, 0.2F, 0.7F, 0.0F, 0F)
+        };
+        spell.impacts = List.of(damage);
+
+        // configureCooldown(spell, 5);
+
+        return new Entry(id, spell, title, description, null, Category.MELEE);
+    }
+
+    public static Entry shockwave_area_spell = add(shockwave_area_spell());
+    private static Entry shockwave_area_spell() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "shockwave_area_spell");
+        var title = "Shockwave";
+        var description = "On spell hit: {trigger_chance} chance to create a shockwave, dealing {damage} damage to nearby enemies.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+        spell.range = 20F;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        trigger.chance = 1F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
+        spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
+        spell.deliver.projectile.direct_towards_target = true;
+        spell.deliver.projectile.launch_properties.velocity = 0.25F;
+        spell.deliver.projectile.launch_properties.extra_launch_count = 3;
+        spell.deliver.projectile.launch_properties.extra_launch_delay = 0;
+        spell.deliver.projectile.direction_offsets = new Spell.Delivery.ShootProjectile.DirectionOffset[] {
+                new Spell.Delivery.ShootProjectile.DirectionOffset(0, 0),
+                new Spell.Delivery.ShootProjectile.DirectionOffset(90, 0),
+                new Spell.Delivery.ShootProjectile.DirectionOffset(180, 0),
+                new Spell.Delivery.ShootProjectile.DirectionOffset(270, 0)
+        };
+        var projectile = new Spell.ProjectileData();
+        projectile.homing_angle = 0F;
+        projectile.client_data = new Spell.ProjectileData.Client();
+        projectile.client_data.light_level = 10;
+        projectile.client_data.travel_particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.ARCANE,
+                                SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                                SpellEngineParticles.MagicParticleFamily.Motion.ASCEND
+                        ).id().toString(),
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        ParticleBatch.Rotation.LOOK, 1, 0.05F, 0.1F, 0.0F, 0F)
+        };
+        projectile.client_data.model = new Spell.ProjectileModel();
+        projectile.client_data.model.model_id = ArsenalProjectiles.shockwave.id().toString();
+        projectile.client_data.model.scale = 2F;
+        projectile.client_data.model.rotate_degrees_per_tick = 0;
+        spell.deliver.projectile.projectile = projectile;
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.5F;
+        damage.particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.ARCANE,
+                                SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
+                                SpellEngineParticles.MagicParticleFamily.Motion.BURST
+                        ).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 20, 0.2F, 0.7F, 0.0F, 0F)
+        };
+        spell.impacts = List.of(damage);
+
+        // configureCooldown(spell, 5);
+
+        return new Entry(id, spell, title, description, null, Category.SPELL);
+    }
+
+
+    public static Entry chain_reaction_spell = add(chain_reaction_spell());
+    private static Entry chain_reaction_spell() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "chain_reaction_spell");
+        var title = "Chain Reaction";
+        var description = "On spell hit: {trigger_chance} chance to launch a spell projectile with chain reaction.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+        spell.range = 20F;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        trigger.chance = 1F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
+        spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
+        spell.deliver.projectile.direct_towards_target = true;
+        spell.deliver.projectile.launch_properties.velocity = 0.25F;
+        spell.deliver.projectile.launch_properties.extra_launch_count = 3;
+        spell.deliver.projectile.direction_offsets = new Spell.Delivery.ShootProjectile.DirectionOffset[] {
+                new Spell.Delivery.ShootProjectile.DirectionOffset(0, 0),
+                new Spell.Delivery.ShootProjectile.DirectionOffset(90, 0),
+                new Spell.Delivery.ShootProjectile.DirectionOffset(180, 0),
+                new Spell.Delivery.ShootProjectile.DirectionOffset(270, 0)
+        };
+        var projectile = new Spell.ProjectileData();
+        projectile.homing_angle = 0F;
+        projectile.client_data = new Spell.ProjectileData.Client();
+        projectile.client_data.light_level = 10;
+        projectile.client_data.travel_particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.ARCANE,
+                                SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                                SpellEngineParticles.MagicParticleFamily.Motion.ASCEND
+                        ).id().toString(),
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        ParticleBatch.Rotation.LOOK, 1, 0.05F, 0.1F, 0.0F, 0F)
+        };
+        projectile.client_data.model = new Spell.ProjectileModel();
+        projectile.client_data.model.model_id = "wizards:projectile/arcane_bolt";
+        projectile.client_data.model.scale = 0.5F;
+        spell.deliver.projectile.projectile = projectile;
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.5F;
+        damage.particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.ARCANE,
+                                SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
+                                SpellEngineParticles.MagicParticleFamily.Motion.BURST
+                        ).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 20, 0.2F, 0.7F, 0.0F, 0F)
+        };
+        spell.impacts = List.of(damage);
+
+        // configureCooldown(spell, 5);
+
+        return new Entry(id, spell, title, description, null, Category.SPELL);
+    }
+
 }

@@ -1,0 +1,82 @@
+{
+  "school": "spell_power:arcane",
+  "range": 20.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "impact": {
+          "impact_type": "DAMAGE"
+        }
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "deliver": {
+    "type": "PROJECTILE",
+    "projectile": {
+      "direction_offsets": [
+        {},
+        {
+          "yaw": 90.0
+        },
+        {
+          "yaw": 180.0
+        },
+        {
+          "yaw": 270.0
+        }
+      ],
+      "direct_towards_target": true,
+      "launch_properties": {
+        "velocity": 0.25,
+        "extra_launch_count": 3
+      },
+      "projectile": {
+        "homing_angle": 0.0,
+        "client_data": {
+          "light_level": 10,
+          "travel_particles": [
+            {
+              "particle_id": "spell_engine:magic_arcane_spell_ascend",
+              "origin": "CENTER",
+              "shape": "CIRCLE",
+              "rotation": "LOOK",
+              "count": 1.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1
+            }
+          ],
+          "model": {
+            "model_id": "wizards:projectile/arcane_bolt",
+            "scale": 0.5
+          }
+        }
+      }
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.5
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_impact_burst",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7
+        }
+      ]
+    }
+  ]
+}

@@ -1,14 +1,19 @@
 package net.arsenal.client;
 
 import net.arsenal.spell.ArsenalEffects;
+import net.arsenal.spell.ArsenalProjectiles;
 import net.fabricmc.api.ClientModInitializer;
 import net.arsenal.spell.ArsenalSpells;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.api.render.BuffParticleSpawner;
+import net.spell_engine.api.render.CustomModels;
 import net.spell_engine.api.render.StunParticleSpawner;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.client.render.CustomModelRegistry;
 import net.spell_engine.fx.SpellEngineParticles;
+
+import java.util.List;
 
 public class ArsenalClient implements ClientModInitializer {
 
@@ -19,6 +24,9 @@ public class ArsenalClient implements ClientModInitializer {
                 SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());
             }
         }
+
+        var projectileIds = ArsenalProjectiles.all.stream().map(ArsenalProjectiles.Entry::id).toList();
+        CustomModels.registerModelIds(projectileIds);
 
         CustomParticleStatusEffect.register(
                 ArsenalEffects.STUN.effect,

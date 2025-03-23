@@ -47,6 +47,10 @@
     {
       "id": "arsenal:rampaging_melee",
       "required": false
+    },
+    {
+      "id": "arsenal:shockwave_melee",
+      "required": false
     }
   ]
 }

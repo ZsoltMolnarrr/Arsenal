@@ -120,7 +120,8 @@ public class ArsenalWeapons {
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
-            .translatedName("Antonidas's Staff of Rapt Concentration");
+            .translatedName("Antonidas's Staff of Rapt Concentration")
+            .spell(ArsenalSpells.shockwave_area_spell.id());
     public static final Weapon.Entry unique_staff_damage_3 = staff("unique_staff_damage_3",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
@@ -241,7 +242,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_hammer_1 = hammer("unique_hammer_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 16F)
             .translatedName("Hammer of Destiny")
-            .spell(ArsenalSpells.stunning_melee.id());
+            .spell(ArsenalSpells.shockwave_melee.id());
     public static final Weapon.Entry unique_hammer_sw = hammer("unique_hammer_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 16F)
             .translatedName("Hammer of Sanctification")
