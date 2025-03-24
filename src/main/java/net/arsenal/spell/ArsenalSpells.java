@@ -1426,7 +1426,10 @@ public class ArsenalSpells {
                         .scale(0.8F)
                         .maxAge(0.4F)
                         .color(Color.HOLY.toRGBA()),
-
+                new ParticleBatch(SpellEngineParticles.area_effect_714.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.GROUND,
+                        1, 0.0F, 0.F)
+                        .color(Color.HOLY.toRGBA())
         };
         spell.impacts = List.of(effect);
 
