@@ -151,6 +151,20 @@ public class ArsenalEffects {
             )
     ));
 
+    public static final Effects.Entry ABSORPTION = add(new Effects.Entry(
+            Identifier.of(ArsenalMod.NAMESPACE, "priest_absorption"),
+            "Absorption",
+            "Increases maximum absorption",
+            new AbsorptionStatusEffect(StatusEffectCategory.BENEFICIAL, 0xffffcc),
+            new EffectConfig(List.of(
+                    new AttributeModifier(
+                            EntityAttributes.GENERIC_MAX_ABSORPTION.getIdAsString(),
+                            2,
+                            EntityAttributeModifier.Operation.ADD_VALUE
+                    )
+            ))
+    ));
+
 //    public static Effects.Entry FORTIFY = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "fortify"),
 //            "Fortify",
 //            "Increased defense.",

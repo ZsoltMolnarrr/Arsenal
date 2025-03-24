@@ -164,11 +164,13 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_staff_heal_2 = staff("unique_staff_heal_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
-            .translatedName("Staff of Immaculate Recovery");
+            .translatedName("Staff of Immaculate Recovery")
+            .spell(ArsenalSpells.guardian_heal.id());
     public static final Weapon.Entry unique_staff_heal_sw = staff("unique_staff_heal_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
-            .translatedName("Golden Staff of the Sin'dorei");
+            .translatedName("Golden Staff of the Sin'dorei")
+            .spell(ArsenalSpells.cooldown_heal.id());
 
     public static final Weapon.Entry unique_spear_1 = spear("unique_spear_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 8F)

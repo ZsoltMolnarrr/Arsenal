@@ -51,8 +51,8 @@
           "origin": "CENTER",
           "shape": "LINE_VERTICAL",
           "count": 1.0,
-          "min_speed": 0.65,
-          "max_speed": 0.65,
+          "min_speed": 0.75,
+          "max_speed": 0.75,
           "color_rgba": 1724710847,
           "scale": 0.8,
           "follow_entity": true

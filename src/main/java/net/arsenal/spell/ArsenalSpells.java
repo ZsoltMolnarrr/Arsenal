@@ -15,6 +15,7 @@ import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_power.api.SpellSchools;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -119,11 +120,23 @@ public class ArsenalSpells {
         var trigger = new Spell.Trigger();
         trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
         trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        var deadCondition = deadCondition();
+        trigger.target_conditions = List.of(deadCondition);
+        return trigger;
+    }
+
+    private static Spell.TargetCondition deadCondition() {
         var deadCondition = new Spell.TargetCondition();
         deadCondition.health_percent_below = 0F;
         deadCondition.health_percent_above = 0F;
-        trigger.target_conditions = List.of(deadCondition);
-        return trigger;
+        return deadCondition;
+    }
+
+    private static Spell.TargetCondition weakCondition() {
+        var deadCondition = new Spell.TargetCondition();
+        deadCondition.health_percent_below = 0.5F;
+        deadCondition.health_percent_above = 0.01F;
+        return deadCondition;
     }
 
     private static Spell.Trigger killedBySpellTrigger() {
@@ -131,17 +144,13 @@ public class ArsenalSpells {
         trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
         trigger.impact = new Spell.Trigger.ImpactCondition();
         trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
-        var deadCondition = new Spell.TargetCondition();
-        deadCondition.health_percent_below = 0F;
-        deadCondition.health_percent_above = 0F;
+        var deadCondition = deadCondition();
         trigger.target_conditions = List.of(deadCondition);
         return trigger;
     }
 
     private static List<Spell.Trigger> killedByRangedTrigger() {
-        var deadCondition = new Spell.TargetCondition();
-        deadCondition.health_percent_below = 0F;
-        deadCondition.health_percent_above = 0F;
+        var deadCondition = deadCondition();
 
         var arrowTrigger = new Spell.Trigger();
         arrowTrigger.type = Spell.Trigger.Type.ARROW_IMPACT;
@@ -788,7 +797,7 @@ public class ArsenalSpells {
         buff.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.sign_shield.id().toString(),
                         ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
-                        1, 0.65F, 0.65F)
+                        1, 0.75F, 0.75F)
                         .scale(0.8F)
                         .color(GUARDING_COLOR.alpha(0.75F).toRGBA())
                         .followEntity(true)
@@ -1167,7 +1176,7 @@ public class ArsenalSpells {
         impact.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.sign_hourglass.id().toString(),
                         ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
-                        1, 0.65F, 0.65F)
+                        1, 0.75F, 0.75F)
                         .scale(0.8F)
                         .color(COOLDOWN_SHOT_COLOR.alpha(0.75F).toRGBA())
                         .followEntity(true),
@@ -1180,50 +1189,8 @@ public class ArsenalSpells {
 
         configureCooldown(spell, 30);
 
-        return new Entry(id, spell, title, description, null, Category.SPELL);
+        return new Entry(id, spell, title, description, null, EnumSet.of(Category.SPELL, Category.HEAL));
     }
-
-//    public static Entry swirling_spell = add(swirling_spell());
-//    private static Entry swirling_spell() {
-//        var id = Identifier.of(ArsenalMod.NAMESPACE, "swirling_spell");
-//        var title = "Swirling";
-//        var description = "The last spell in a combo performs a swirling attack, dealing {damage} damage to nearby enemies.";
-//        var spell = passiveSpellBase();
-//        spell.school = SpellSchools.ARCANE;
-//        spell.range = 4F;
-//
-//        var trigger = new Spell.Trigger();
-//        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
-//        trigger.impact = new Spell.Trigger.ImpactCondition();
-//        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
-//        trigger.chance = 1F;
-//        spell.passive.triggers = List.of(trigger);
-//
-//        spell.target.type = Spell.Target.Type.AREA;
-//        spell.target.area = new Spell.Target.Area();
-//        spell.target.area.distance_dropoff = Spell.Target.Area.DropoffCurve.NONE;
-//        spell.target.area.vertical_range_multiplier = 0.5F;
-//
-//        spell.release.particles_scaled_with_ranged = new ParticleBatch[]{
-//                new ParticleBatch(SpellEngineParticles.area_effect_184.id().toString(),
-//                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.GROUND,
-//                        1, 0.0F, 0.F)
-//                        .followEntity(true)
-//        };
-//
-//        var damage = new Spell.Impact();
-//        damage.action = new Spell.Impact.Action();
-//        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-//        damage.action.damage = new Spell.Impact.Action.Damage();
-//        damage.action.damage.spell_power_coefficient = 0.5F;
-//        damage.action.damage.knockback = 0.5F;
-//        // damage.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
-//        spell.impacts = List.of(damage);
-//
-//        configureCooldown(spell, 2);
-//
-//        return new Entry(id, spell, title, description, null, Category.SPELL);
-//    }
 
     public static final Color SHOCKWAVE_COLOR = Color.from(0xa7e5f5);
     public static Entry shockwave_melee = add(shockwave_melee());
@@ -1334,6 +1301,7 @@ public class ArsenalSpells {
 
         var damage = new Spell.Impact();
         damage.action = new Spell.Impact.Action();
+        damage.action.min_power = 7;
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.25F;
@@ -1351,7 +1319,7 @@ public class ArsenalSpells {
 
         configureCooldown(spell, 4);
 
-        return new Entry(id, spell, title, description, null, Category.SPELL);
+        return new Entry(id, spell, title, description, null, EnumSet.of(Category.SPELL, Category.HEAL));
     }
 
     public static final Color CHAIN_REACTION_COLOR = Color.from(0xe4dfff);
@@ -1405,6 +1373,7 @@ public class ArsenalSpells {
 
         var damage = new Spell.Impact();
         damage.action = new Spell.Impact.Action();
+        damage.action.min_power = 7;
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.5F;
@@ -1421,7 +1390,99 @@ public class ArsenalSpells {
 
         configureCooldown(spell,  1);
 
-        return new Entry(id, spell, title, description, null, Category.SPELL);
+        return new Entry(id, spell, title, description, null, EnumSet.of(Category.SPELL, Category.HEAL));
     }
 
+    public static Entry guardian_heal = add(guardian_heal());
+    private static Entry guardian_heal() {
+        var threshold = 0.5F;
+        var duration = 6;
+
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "guardian_heal");
+        var title = "Guardian Remedy";
+        var description = "Healing targets under " + SpellTooltip.percent(threshold) +  "% health grants them a temporary absorption shield, lasting {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        var trigger = new Spell.Trigger();
+        trigger.stage = Spell.Trigger.Stage.PRE;
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.HEAL.toString();
+        trigger.target_conditions = List.of(weakCondition());
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var effect = createEffectImpact(ArsenalEffects.ABSORPTION.id.toString(), duration);
+        effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
+        effect.action.status_effect.amplifier_power_multiplier = 0.2F;
+        effect.particles = new ParticleBatch[]{
+                new ParticleBatch(
+                        SpellEngineParticles.area_circle_1.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.FEET,
+                        1, 0.2F, 0.2F)
+                        .followEntity(true)
+                        .scale(0.8F)
+                        .maxAge(0.4F)
+                        .color(Color.HOLY.toRGBA()),
+
+        };
+        spell.impacts = List.of(effect);
+
+        configureCooldown(spell, duration);
+        spell.cost.batching = true;
+
+        return new Entry(id, spell, title, description, null, Category.HEAL);
+    }
+
+    public static final Color COOLDOWN_HEAL_COLOR = Color.from(0xffcc99);
+    public static Entry cooldown_heal = add(cooldown_heal());
+    private static Entry cooldown_heal() {
+        var threshold = 0.5F;
+
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "cooldown_heal");
+        var title = "Cooldown Touch";
+        var description = "Healing targets under " + SpellTooltip.percent(threshold) +  "% health, has {trigger_chance} chance to reset your spell cooldowns.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        var trigger = new Spell.Trigger();
+        trigger.stage = Spell.Trigger.Stage.PRE;
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.HEAL.toString();
+        trigger.target_conditions = List.of(weakCondition());
+        trigger.chance = 0.5F;
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        spell.deliver.delay = 1;
+
+        var impact = new Spell.Impact();
+        impact.action = new Spell.Impact.Action();
+        impact.action.type = Spell.Impact.Action.Type.COOLDOWN;
+        impact.action.cooldown = new Spell.Impact.Action.Cooldown();
+        impact.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
+        impact.action.cooldown.actives.duration_multiplier = 0;
+        impact.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.sign_hourglass.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
+                        1, 0.75F, 0.75F)
+                        .scale(0.8F)
+                        .color(COOLDOWN_HEAL_COLOR.alpha(0.75F).toRGBA())
+                        .followEntity(true),
+                new ParticleBatch(SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        40, 0.3F, 0.3F)
+                        .color(COOLDOWN_HEAL_COLOR.toRGBA())
+        };
+        spell.impacts = List.of(impact);
+
+        configureCooldown(spell, 30);
+
+        return new Entry(id, spell, title, description, null, Category.HEAL);
+    }
 }

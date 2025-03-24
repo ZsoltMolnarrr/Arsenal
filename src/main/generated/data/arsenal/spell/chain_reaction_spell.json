@@ -69,6 +69,7 @@
     {
       "action": {
         "type": "DAMAGE",
+        "min_power": 7.0,
         "damage": {
           "spell_power_coefficient": 0.5
         }

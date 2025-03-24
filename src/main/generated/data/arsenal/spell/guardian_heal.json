@@ -1,0 +1,59 @@
+{
+  "school": "spell_power:healing",
+  "range": 0.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "stage": "PRE",
+        "target_conditions": [
+          {
+            "health_percent_above": 0.01,
+            "health_percent_below": 0.5
+          }
+        ],
+        "impact": {
+          "impact_type": "HEAL"
+        }
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "arsenal:priest_absorption",
+          "duration": 6.0,
+          "amplifier_power_multiplier": 0.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:area_circle_1",
+          "origin": "FEET",
+          "shape": "LINE_VERTICAL",
+          "count": 1.0,
+          "min_speed": 0.2,
+          "max_speed": 0.2,
+          "color_rgba": 4294954239,
+          "scale": 0.8,
+          "follow_entity": true,
+          "max_age": 0.4
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "batching": true,
+    "cooldown": {
+      "duration": 6.0,
+      "hosting_item": false
+    }
+  }
+}

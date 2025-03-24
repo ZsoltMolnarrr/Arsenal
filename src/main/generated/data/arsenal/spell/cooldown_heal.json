@@ -1,5 +1,5 @@
 {
-  "school": "spell_power:arcane",
+  "school": "spell_power:healing",
   "range": 0.0,
   "tier": 8,
   "type": "PASSIVE",
@@ -8,16 +8,25 @@
       {
         "target_override": "CASTER",
         "type": "SPELL_IMPACT_SPECIFIC",
+        "stage": "PRE",
         "chance": 0.5,
+        "target_conditions": [
+          {
+            "health_percent_above": 0.01,
+            "health_percent_below": 0.5
+          }
+        ],
         "impact": {
-          "impact_type": "DAMAGE",
-          "critical": true
+          "impact_type": "HEAL"
         }
       }
     ]
   },
   "target": {
     "type": "FROM_TRIGGER"
+  },
+  "deliver": {
+    "delay": 1
   },
   "impacts": [
     {
@@ -37,7 +46,7 @@
           "count": 1.0,
           "min_speed": 0.75,
           "max_speed": 0.75,
-          "color_rgba": 4291624895,
+          "color_rgba": 4291598783,
           "scale": 0.8,
           "follow_entity": true
         },
@@ -48,7 +57,7 @@
           "count": 40.0,
           "min_speed": 0.3,
           "max_speed": 0.3,
-          "color_rgba": 4291624959
+          "color_rgba": 4291598847
         }
       ]
     }

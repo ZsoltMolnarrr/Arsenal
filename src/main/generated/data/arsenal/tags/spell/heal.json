@@ -3,6 +3,26 @@
     {
       "id": "arsenal:radiance_spell",
       "required": false
+    },
+    {
+      "id": "arsenal:cooldown_shot_spell",
+      "required": false
+    },
+    {
+      "id": "arsenal:shockwave_area_spell",
+      "required": false
+    },
+    {
+      "id": "arsenal:chain_reaction_spell",
+      "required": false
+    },
+    {
+      "id": "arsenal:guardian_heal",
+      "required": false
+    },
+    {
+      "id": "arsenal:cooldown_heal",
+      "required": false
     }
   ]
 }

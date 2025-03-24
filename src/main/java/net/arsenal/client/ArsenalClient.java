@@ -1,5 +1,6 @@
 package net.arsenal.client;
 
+import net.arsenal.client.particle.AbsorbParticleSpawner;
 import net.arsenal.spell.ArsenalEffects;
 import net.arsenal.spell.ArsenalProjectiles;
 import net.fabricmc.api.ClientModInitializer;
@@ -114,6 +115,11 @@ public class ArsenalClient implements ClientModInitializer {
                                 SpellEngineParticles.area_effect_741.id().toString(),
                                 ArsenalSpells.UNYIELDING_COLOR,
                                 SpellEngineParticles.area_effect_741.texture().frames())
+        );
+
+        CustomParticleStatusEffect.register(
+                ArsenalEffects.ABSORPTION.effect,
+                new AbsorbParticleSpawner()
         );
     }
 }
