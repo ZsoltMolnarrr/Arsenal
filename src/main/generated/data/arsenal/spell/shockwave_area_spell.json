@@ -7,6 +7,9 @@
     "triggers": [
       {
         "type": "SPELL_IMPACT_SPECIFIC",
+        "spell": {
+          "cooldown_min": 5.0
+        },
         "impact": {
           "impact_type": "DAMAGE"
         }

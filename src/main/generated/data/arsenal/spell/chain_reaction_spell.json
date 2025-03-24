@@ -7,8 +7,12 @@
     "triggers": [
       {
         "type": "SPELL_IMPACT_SPECIFIC",
+        "spell": {
+          "type": "ACTIVE"
+        },
         "impact": {
-          "impact_type": "DAMAGE"
+          "impact_type": "DAMAGE",
+          "critical": true
         }
       }
     ]
@@ -20,39 +24,41 @@
     "type": "PROJECTILE",
     "projectile": {
       "direction_offsets": [
-        {},
         {
-          "yaw": 90.0
-        },
-        {
-          "yaw": 180.0
-        },
-        {
-          "yaw": 270.0
+          "pitch": -80.0
         }
       ],
       "direct_towards_target": true,
       "launch_properties": {
-        "velocity": 0.25,
-        "extra_launch_count": 3
+        "velocity": 0.75
       },
       "projectile": {
-        "homing_angle": 0.0,
+        "homing_angle": 3.0,
+        "homing_angles": [
+          10.0,
+          20.0,
+          30.0,
+          20.0
+        ],
+        "perks": {
+          "chain_reaction_size": 3
+        },
         "client_data": {
           "light_level": 10,
           "travel_particles": [
             {
-              "particle_id": "spell_engine:magic_arcane_spell_ascend",
+              "particle_id": "spell_engine:magic_spell_ascend",
               "origin": "CENTER",
               "shape": "CIRCLE",
               "rotation": "LOOK",
               "count": 1.0,
               "min_speed": 0.05,
-              "max_speed": 0.1
+              "max_speed": 0.1,
+              "color_rgba": 3839885311
             }
           ],
           "model": {
-            "model_id": "wizards:projectile/arcane_bolt",
+            "model_id": "arsenal:projectile/missile",
             "scale": 0.5
           }
         }
@@ -69,14 +75,21 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:magic_arcane_impact_burst",
+          "particle_id": "spell_engine:magic_arcane_burst",
           "origin": "CENTER",
           "shape": "SPHERE",
           "count": 20.0,
           "min_speed": 0.2,
-          "max_speed": 0.7
+          "max_speed": 0.7,
+          "color_rgba": 3839885311
         }
       ]
     }
-  ]
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 1.0,
+      "hosting_item": false
+    }
+  }
 }

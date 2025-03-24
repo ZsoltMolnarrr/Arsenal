@@ -110,6 +110,10 @@ public class ArsenalSpells {
             SpellEngineParticles.MagicParticles.Shape.STRIPE,
             SpellEngineParticles.MagicParticles.Motion.FLOAT
     ).id();
+    private static final Identifier SPELL_ASCEND = SpellEngineParticles.MagicParticles.get(
+            SpellEngineParticles.MagicParticles.Shape.SPELL,
+            SpellEngineParticles.MagicParticles.Motion.ASCEND
+    ).id();
 
     private static Spell.Trigger killedByMeleeTrigger() {
         var trigger = new Spell.Trigger();
@@ -1148,7 +1152,7 @@ public class ArsenalSpells {
         trigger.impact = new Spell.Trigger.ImpactCondition();
         trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
         trigger.impact.critical = true;
-        trigger.chance = 0.2F;
+        trigger.chance = 0.5F;
         trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
@@ -1284,18 +1288,21 @@ public class ArsenalSpells {
 
     public static Entry shockwave_area_spell = add(shockwave_area_spell());
     private static Entry shockwave_area_spell() {
+        var cooldown_threshold = 5;
         var id = Identifier.of(ArsenalMod.NAMESPACE, "shockwave_area_spell");
         var title = "Shockwave Area";
-        var description = "On spell hit: {trigger_chance} chance to send a shockwaves around you, dealing {damage} damage to enemies in their path.";
+        var description = "Damaging spells with longer than " + cooldown_threshold + " seconds cooldown, send shockwaves around you, dealing {damage} damage to enemies in their path.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
         spell.range = 10F;
 
         var trigger = new Spell.Trigger();
         trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        // trigger.chance = 1F;
         trigger.impact = new Spell.Trigger.ImpactCondition();
         trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
-        trigger.chance = 1F;
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.cooldown_min = cooldown_threshold;
         spell.passive.triggers = List.of(trigger);
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
@@ -1347,21 +1354,24 @@ public class ArsenalSpells {
         return new Entry(id, spell, title, description, null, Category.SPELL);
     }
 
-
+    public static final Color CHAIN_REACTION_COLOR = Color.from(0xe4dfff);
     public static Entry chain_reaction_spell = add(chain_reaction_spell());
     private static Entry chain_reaction_spell() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "chain_reaction_spell");
         var title = "Chain Reaction";
-        var description = "On spell hit: {trigger_chance} chance to launch a spell projectile with chain reaction.";
+        var description = "On spell critical hit: launches a spell projectile with chain reaction.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
         spell.range = 20F;
 
         var trigger = new Spell.Trigger();
+        // trigger.chance = 0.5F;
         trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
         trigger.impact = new Spell.Trigger.ImpactCondition();
         trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
-        trigger.chance = 1F;
+        trigger.impact.critical = true;
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.type = Spell.Type.ACTIVE;
         spell.passive.triggers = List.of(trigger);
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
@@ -1369,30 +1379,27 @@ public class ArsenalSpells {
         spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
         spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
         spell.deliver.projectile.direct_towards_target = true;
-        spell.deliver.projectile.launch_properties.velocity = 0.25F;
-        spell.deliver.projectile.launch_properties.extra_launch_count = 3;
+        spell.deliver.projectile.launch_properties.velocity = 0.75F;
+//        spell.deliver.projectile.launch_properties.extra_launch_count = 3;
         spell.deliver.projectile.direction_offsets = new Spell.Delivery.ShootProjectile.DirectionOffset[] {
-                new Spell.Delivery.ShootProjectile.DirectionOffset(0, 0),
-                new Spell.Delivery.ShootProjectile.DirectionOffset(90, 0),
-                new Spell.Delivery.ShootProjectile.DirectionOffset(180, 0),
-                new Spell.Delivery.ShootProjectile.DirectionOffset(270, 0)
+                new Spell.Delivery.ShootProjectile.DirectionOffset(0, -80)
         };
         var projectile = new Spell.ProjectileData();
-        projectile.homing_angle = 0F;
+        projectile.homing_angles = new float[] { 10, 20, 30, 20F };
+        projectile.homing_angle = 3F;
+        projectile.perks.chain_reaction_size = 3;
+        projectile.perks.chain_reaction_triggers = 1;
         projectile.client_data = new Spell.ProjectileData.Client();
         projectile.client_data.light_level = 10;
         projectile.client_data.travel_particles = new ParticleBatch[] {
                 new ParticleBatch(
-                        SpellEngineParticles.getMagicParticleVariant(
-                                SpellEngineParticles.ARCANE,
-                                SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
-                                SpellEngineParticles.MagicParticleFamily.Motion.ASCEND
-                        ).id().toString(),
+                        SPELL_ASCEND.toString(),
                         ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
                         ParticleBatch.Rotation.LOOK, 1, 0.05F, 0.1F, 0.0F, 0F)
+                        .color(CHAIN_REACTION_COLOR.toRGBA())
         };
         projectile.client_data.model = new Spell.ProjectileModel();
-        projectile.client_data.model.model_id = "wizards:projectile/arcane_bolt";
+        projectile.client_data.model.model_id = ArsenalProjectiles.missile.id().toString();
         projectile.client_data.model.scale = 0.5F;
         spell.deliver.projectile.projectile = projectile;
 
@@ -1403,17 +1410,16 @@ public class ArsenalSpells {
         damage.action.damage.spell_power_coefficient = 0.5F;
         damage.particles = new ParticleBatch[] {
                 new ParticleBatch(
-                        SpellEngineParticles.getMagicParticleVariant(
-                                SpellEngineParticles.ARCANE,
-                                SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
-                                SpellEngineParticles.MagicParticleFamily.Motion.BURST
-                        ).id().toString(),
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.ARCANE,
+                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
                         null, 20, 0.2F, 0.7F, 0.0F, 0F)
+                        .color(CHAIN_REACTION_COLOR.toRGBA())
         };
         spell.impacts = List.of(damage);
 
-        // configureCooldown(spell, 5);
+        configureCooldown(spell,  1);
 
         return new Entry(id, spell, title, description, null, Category.SPELL);
     }

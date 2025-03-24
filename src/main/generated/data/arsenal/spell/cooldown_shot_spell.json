@@ -8,7 +8,7 @@
       {
         "target_override": "CASTER",
         "type": "SPELL_IMPACT_SPECIFIC",
-        "chance": 0.2,
+        "chance": 0.5,
         "impact": {
           "impact_type": "DAMAGE",
           "critical": true

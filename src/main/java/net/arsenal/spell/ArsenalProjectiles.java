@@ -16,4 +16,5 @@ public class ArsenalProjectiles {
 
     public static final Entry shockwave = entry("shockwave");
     public static final Entry shockwave_large = entry("shockwave_large");
+    public static final Entry missile = entry("missile");
 }
