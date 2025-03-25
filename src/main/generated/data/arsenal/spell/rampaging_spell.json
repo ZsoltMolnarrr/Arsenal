@@ -19,6 +19,11 @@
       }
     ]
   },
+  "release": {
+    "sound": {
+      "id": "arsenal:surging_activate"
+    }
+  },
   "target": {
     "type": "FROM_TRIGGER"
   },
@@ -43,10 +48,7 @@
           "max_speed": 0.35,
           "color_rgba": 2583691263
         }
-      ],
-      "sound": {
-        "id": "arsenal:surging_activate"
-      }
+      ]
     }
   ],
   "cost": {

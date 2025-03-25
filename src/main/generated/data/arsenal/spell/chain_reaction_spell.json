@@ -74,7 +74,8 @@
         "type": "DAMAGE",
         "min_power": 7.0,
         "damage": {
-          "spell_power_coefficient": 0.5
+          "spell_power_coefficient": 0.5,
+          "knockback": 0.25
         }
       },
       "particles": [

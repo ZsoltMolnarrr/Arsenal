@@ -183,6 +183,16 @@ public class ArsenalSpells {
         spell.target.area.include_caster = true;
     }
 
+    private static Spell.Impact damageImpact(float coefficient, float knockback) {
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = coefficient;
+        damage.action.damage.knockback = knockback;
+        return damage;
+    }
+
     private static long HOLY_COLOR = Color.HOLY.toRGBA();
     public static Entry radiance_melee = add(radiance_melee());
     private static Entry radiance_melee() {
@@ -395,7 +405,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        witherImpact(spell, 0.2F);
+        witherImpact(spell, 0.25F);
 
         configureCooldown(spell, 3);
         spell.cost.batching = true;
@@ -436,7 +446,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        flameCloud(spell, 0.4F);
+        flameCloud(spell, 0.4F, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
 
         configureCooldown(spell, 3);
         spell.cost.batching = true;
@@ -450,7 +460,7 @@ public class ArsenalSpells {
         var title = "Flame Strike";
         var description = "On arrow hit: {trigger_chance} chance to ignite the area around the target, dealing {damage} damage per second.";
         var spell = passiveSpellBase();
-        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+        spell.school = SpellSchools.FIRE;
 
         var trigger = new Spell.Trigger();
         trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
@@ -459,7 +469,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        flameCloud(spell, 0.3F);
+        flameCloud(spell, 0.3F, EntityAttributes_RangedWeapon.DAMAGE.id.toString());
 
         // configureCooldown(spell, 3);
         // spell.cost.batching = true;
@@ -484,7 +494,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        flameCloud(spell, 0.2F);
+        flameCloud(spell, 0.2F, null);
 
         configureCooldown(spell, 2);
         // spell.cost.batching = true;
@@ -492,7 +502,7 @@ public class ArsenalSpells {
         return new Entry(id, spell, title, description, null, Category.SPELL);
     }
 
-    private static void flameCloud(Spell spell, float coefficient) {
+    private static void flameCloud(Spell spell, float coefficient, @Nullable String attribute) {
         spell.deliver.type = Spell.Delivery.Type.CLOUD;
         spell.deliver.delay = 10;
         var cloud = new Spell.Delivery.Cloud();
@@ -521,6 +531,9 @@ public class ArsenalSpells {
         spell.deliver.clouds = List.of(cloud);
 
         var damage = new Spell.Impact();
+        if (attribute != null) {
+            damage.attribute = attribute;
+        }
         damage.action = new Spell.Impact.Action();
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
         damage.action.damage = new Spell.Impact.Action.Damage();
@@ -770,13 +783,7 @@ public class ArsenalSpells {
                         .followEntity(true)
         };
 
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 0.5F;
-        damage.action.damage.knockback = 0.5F;
-        // damage.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
+        var damage = damageImpact(0.5F, 0.5F);
         spell.impacts = List.of(damage);
 
         return new Entry(id, spell, title, description, null, Category.MELEE);
@@ -929,14 +936,8 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
+        var damage = damageImpact(0.25F, 0.25F);
         damage.action.min_power = 10;
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 0.25F;
-        damage.action.damage.knockback = 0.25F;
-
         damage.particles = new ParticleBatch[]{
                 new ParticleBatch(SPARK_FLOAT.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
@@ -1008,6 +1009,8 @@ public class ArsenalSpells {
         trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
+        spell.release.sound = new Sound(ArsenalSounds.rampaging_activate.id().toString());
+
         spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
         spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
         spell.deliver.stash_effect.id = effect.id.toString();
@@ -1026,7 +1029,7 @@ public class ArsenalSpells {
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 4;
         buff.action.status_effect.refresh_duration = false;
-        buff.sound = new Sound(ArsenalSounds.rampaging_activate.id().toString());
+
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, 20);
@@ -1055,6 +1058,8 @@ public class ArsenalSpells {
         triggers.forEach(trigger -> trigger.target_override = Spell.Trigger.TargetSelector.CASTER);
         spell.passive.triggers = triggers;
 
+        spell.release.sound = new Sound(ArsenalSounds.focusing_activate.id().toString());
+
         spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
         spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
         spell.deliver.stash_effect.id = effect.id.toString();
@@ -1073,7 +1078,7 @@ public class ArsenalSpells {
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 2;
         buff.action.status_effect.refresh_duration = false;
-        buff.sound = new Sound(ArsenalSounds.focusing_activate.id().toString());
+
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, 20);
@@ -1102,6 +1107,8 @@ public class ArsenalSpells {
         trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
+        spell.release.sound = new Sound(ArsenalSounds.surging_activate.id().toString());
+
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         var duration = 10;
@@ -1115,7 +1122,7 @@ public class ArsenalSpells {
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 4;
         buff.action.status_effect.refresh_duration = false;
-        buff.sound = new Sound(ArsenalSounds.surging_activate.id().toString());
+
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, duration * 2);
@@ -1242,19 +1249,24 @@ public class ArsenalSpells {
     private static Entry shockwave_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "shockwave_melee");
         var title = "Shockwave";
-        var description = "On hit: {trigger_chance} chance to send a shockwave forward, dealing {damage} damage to enemies in its path.";
+        var description = "The last attack in a combo sends a shockwave forward, dealing {damage} damage to enemies in its path.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
         spell.range = 10F;
 
+//        var trigger = new Spell.Trigger();
+//        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+//        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+//        trigger.chance = 0.3F;
+//        trigger.chance_batching = true;
+
         var trigger = new Spell.Trigger();
         trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
         trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        trigger.chance = 0.3F;
-        trigger.chance_batching = true;
-//        trigger.melee = new Spell.Trigger.MeleeCondition();
-//        trigger.melee.is_combo = true;
-//        trigger.melee.is_offhand = false;
+        trigger.melee = new Spell.Trigger.MeleeCondition();
+        trigger.melee.is_combo = true;
+        trigger.melee.is_offhand = false;
+
         spell.passive.triggers = List.of(trigger);
 
         spell.target.type = Spell.Target.Type.AIM;
@@ -1277,12 +1289,7 @@ public class ArsenalSpells {
         projectile.hitbox = new Spell.ProjectileData.HitBox(3.5F, 0.5F);
         spell.deliver.projectile.projectile = projectile;
 
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 0.25F;
-        damage.action.damage.knockback = 0.5F;
+        var damage = damageImpact(0.25F, 0.5F);
         damage.particles = new ParticleBatch[] {
                 new ParticleBatch(
                         SpellEngineParticles.MagicParticles.get(
@@ -1345,13 +1352,8 @@ public class ArsenalSpells {
 
         spell.deliver.projectile.projectile = projectile;
 
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
+        var damage = damageImpact(0.25F, 0.5F);
         damage.action.min_power = 7;
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 0.25F;
-        damage.action.damage.knockback = 0.5F;
         damage.particles = new ParticleBatch[] {
                 new ParticleBatch(
                         SpellEngineParticles.MagicParticles.get(
@@ -1418,12 +1420,8 @@ public class ArsenalSpells {
         projectile.client_data.model.scale = 0.5F;
         spell.deliver.projectile.projectile = projectile;
 
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
+        var damage = damageImpact(0.5F, 0.25F);
         damage.action.min_power = 7;
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 0.5F;
         damage.particles = new ParticleBatch[] {
                 new ParticleBatch(
                         SpellEngineParticles.MagicParticles.get(

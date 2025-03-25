@@ -21,7 +21,7 @@
         "status_effect": {
           "effect_id": "wither",
           "duration": 5.0,
-          "amplifier_power_multiplier": 0.2,
+          "amplifier_power_multiplier": 0.25,
           "show_particles": true
         }
       },

@@ -29,6 +29,11 @@
       }
     ]
   },
+  "release": {
+    "sound": {
+      "id": "arsenal:focusing_activate"
+    }
+  },
   "target": {
     "type": "FROM_TRIGGER"
   },
@@ -84,10 +89,7 @@
           "max_speed": 0.35,
           "color_rgba": 2583652095
         }
-      ],
-      "sound": {
-        "id": "arsenal:focusing_activate"
-      }
+      ]
     }
   ],
   "cost": {

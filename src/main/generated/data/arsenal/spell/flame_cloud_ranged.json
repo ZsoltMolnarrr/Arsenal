@@ -1,5 +1,5 @@
 {
-  "school": "spell_power:physical_ranged",
+  "school": "spell_power:fire",
   "range": 0.0,
   "tier": 8,
   "type": "PASSIVE",
@@ -76,6 +76,7 @@
   },
   "impacts": [
     {
+      "attribute": "ranged_weapon:damage",
       "action": {
         "type": "DAMAGE",
         "damage": {
