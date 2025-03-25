@@ -21,7 +21,7 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "effect_id": "arsenal:slowing",
+          "effect_id": "arsenal:frostbite",
           "duration": 4.0
         }
       },

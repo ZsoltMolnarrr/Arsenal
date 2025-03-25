@@ -15,7 +15,6 @@ import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_power.api.SpellSchools;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -628,7 +627,7 @@ public class ArsenalSpells {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "slowing_melee");
         var title = "Frostbite";
         var description = "On melee hit: {trigger_chance} chance to slow movement and attack speed of the the target by {bonus}, for {effect_duration} seconds.";
-        var effect = ArsenalEffects.SLOWING;
+        var effect = ArsenalEffects.FROSTBITE;
         SpellTooltip.DescriptionMutator mutator = (args) -> {
             var modifier = effect.config().firstModifier();
             var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
@@ -647,7 +646,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var slow = createEffectImpact(ArsenalEffects.SLOWING.id.toString(), 4);
+        var slow = createEffectImpact(ArsenalEffects.FROSTBITE.id.toString(), 4);
         slow.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
@@ -774,7 +773,7 @@ public class ArsenalSpells {
     private static Entry guarding_strike_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "guarding_strike_melee");
         var title = "Guarding Strike";
-        var effect = ArsenalEffects.GUARDING;
+        var effect = ArsenalEffects.GUARDIAN;
         var description = "Defeating enemies grants you and nearby allies a temporary effect reducing damage taken by {bonus}, lasting {effect_duration} seconds.";
         SpellTooltip.DescriptionMutator mutator = (args) -> {
             var modifier = effect.config().firstModifier();
@@ -793,7 +792,7 @@ public class ArsenalSpells {
 
         buffAreaTarget(spell, SpellEngineParticles.area_effect_714.id(), GUARDING_COLOR.toRGBA());
 
-        var buff = createEffectImpact(ArsenalEffects.GUARDING.id.toString(), 5);
+        var buff = createEffectImpact(ArsenalEffects.GUARDIAN.id.toString(), 5);
         buff.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.sign_shield.id().toString(),
                         ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
@@ -1136,7 +1135,7 @@ public class ArsenalSpells {
         };
         spell.deliver.clouds = List.of(cloud);
 
-        var impact = createEffectImpact(ArsenalEffects.SLOWING.id.toString(), 2);
+        var impact = createEffectImpact(ArsenalEffects.FROSTBITE.id.toString(), 2);
         impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
         impact.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
@@ -1178,7 +1177,7 @@ public class ArsenalSpells {
                         ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
                         1, 0.75F, 0.75F)
                         .scale(0.8F)
-                        .color(COOLDOWN_SHOT_COLOR.alpha(0.75F).toRGBA())
+                        .color(COOLDOWN_SHOT_COLOR.toRGBA())
                         .followEntity(true),
                 new ParticleBatch(SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
@@ -1475,7 +1474,7 @@ public class ArsenalSpells {
                         ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
                         1, 0.75F, 0.75F)
                         .scale(0.8F)
-                        .color(COOLDOWN_HEAL_COLOR.alpha(0.75F).toRGBA())
+                        .color(COOLDOWN_HEAL_COLOR.toRGBA())
                         .followEntity(true),
                 new ParticleBatch(SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,

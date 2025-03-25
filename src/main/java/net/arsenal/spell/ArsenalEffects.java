@@ -36,8 +36,8 @@ public class ArsenalEffects {
             ))
     ));
 
-    public static Effects.Entry SLOWING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "slowing"),
-            "Slowing",
+    public static Effects.Entry FROSTBITE = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "frostbite"),
+            "Frostbite",
             "Slower movement and attack speed.",
             new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0x99ccff),
             new EffectConfig(
@@ -56,7 +56,7 @@ public class ArsenalEffects {
             )
     ));
 
-    public static Effects.Entry GUARDING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "guardian"),
+    public static Effects.Entry GUARDIAN = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "guardian"),
             "Guardian",
             "Increased defense.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00ff00),
@@ -152,7 +152,7 @@ public class ArsenalEffects {
     ));
 
     public static final Effects.Entry ABSORPTION = add(new Effects.Entry(
-            Identifier.of(ArsenalMod.NAMESPACE, "priest_absorption"),
+            Identifier.of(ArsenalMod.NAMESPACE, "absorption"),
             "Absorption",
             "Increases maximum absorption",
             new AbsorptionStatusEffect(StatusEffectCategory.BENEFICIAL, 0xffffcc),

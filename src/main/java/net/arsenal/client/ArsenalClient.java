@@ -11,10 +11,7 @@ import net.spell_engine.api.render.CustomModels;
 import net.spell_engine.api.render.StunParticleSpawner;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.client.gui.SpellTooltip;
-import net.spell_engine.client.render.CustomModelRegistry;
 import net.spell_engine.fx.SpellEngineParticles;
-
-import java.util.List;
 
 public class ArsenalClient implements ClientModInitializer {
 
@@ -35,7 +32,7 @@ public class ArsenalClient implements ClientModInitializer {
         );
 
         CustomParticleStatusEffect.register(
-                ArsenalEffects.SLOWING.effect,
+                ArsenalEffects.FROSTBITE.effect,
                 new StunParticleSpawner(SpellEngineParticles.snowflake.id())
         );
 
@@ -47,7 +44,7 @@ public class ArsenalClient implements ClientModInitializer {
                 1F, 0.1F, 0.15F)
                 .color(ArsenalSpells.GUARDING_COLOR.toRGBA());
         CustomParticleStatusEffect.register(
-                ArsenalEffects.GUARDING.effect,
+                ArsenalEffects.GUARDIAN.effect,
                 new BuffParticleSpawner(new ParticleBatch[]{ guardingParticles })
         );
 

@@ -28,7 +28,7 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "effect_id": "arsenal:priest_absorption",
+          "effect_id": "arsenal:absorption",
           "duration": 6.0,
           "amplifier_power_multiplier": 0.2
         }
