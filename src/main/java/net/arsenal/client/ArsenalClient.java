@@ -44,7 +44,7 @@ public class ArsenalClient implements ClientModInitializer {
                 1F, 0.1F, 0.15F)
                 .color(ArsenalSpells.GUARDING_COLOR.toRGBA());
         CustomParticleStatusEffect.register(
-                ArsenalEffects.GUARDIAN.effect,
+                ArsenalEffects.GUARDING.effect,
                 new BuffParticleSpawner(new ParticleBatch[]{ guardingParticles })
         );
 

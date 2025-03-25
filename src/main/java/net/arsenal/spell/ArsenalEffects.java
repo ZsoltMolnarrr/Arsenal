@@ -56,8 +56,8 @@ public class ArsenalEffects {
             )
     ));
 
-    public static Effects.Entry GUARDIAN = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "guardian"),
-            "Guardian",
+    public static Effects.Entry GUARDING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "guarding"),
+            "Guarding",
             "Increased defense.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00ff00),
             new EffectConfig(

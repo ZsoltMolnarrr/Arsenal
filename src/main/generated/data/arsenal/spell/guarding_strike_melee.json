@@ -28,7 +28,10 @@
         "max_speed": 0.0,
         "color_rgba": 1724710911
       }
-    ]
+    ],
+    "sound": {
+      "id": "arsenal:guardian_strike_release"
+    }
   },
   "target": {
     "type": "AREA",
@@ -41,11 +44,23 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "effect_id": "arsenal:guardian",
+          "effect_id": "arsenal:guarding",
           "duration": 5.0
         }
       },
       "particles": [
+        {
+          "particle_id": "spell_engine:area_circle_1",
+          "origin": "FEET",
+          "shape": "LINE_VERTICAL",
+          "count": 1.0,
+          "min_speed": 0.2,
+          "max_speed": 0.2,
+          "color_rgba": 1724710911,
+          "scale": 0.8,
+          "follow_entity": true,
+          "max_age": 0.4
+        },
         {
           "particle_id": "spell_engine:sign_shield",
           "origin": "CENTER",
@@ -57,7 +72,10 @@
           "scale": 0.8,
           "follow_entity": true
         }
-      ]
+      ],
+      "sound": {
+        "id": "arsenal:guardian_strike_impact"
+      }
     }
   ],
   "cost": {

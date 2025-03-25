@@ -1,4 +1,19 @@
 {
+  "guardian_heal_impact": {
+    "sounds": [
+      "arsenal:guardian_heal_impact"
+    ]
+  },
+  "guardian_strike_impact": {
+    "sounds": [
+      "arsenal:guardian_strike_impact"
+    ]
+  },
+  "guardian_strike_release": {
+    "sounds": [
+      "arsenal:guardian_strike_release"
+    ]
+  },
   "leeching_impact": {
     "sounds": [
       "arsenal:leeching_impact"
@@ -19,6 +34,26 @@
       "arsenal:shield_equip_1",
       "arsenal:shield_equip_2",
       "arsenal:shield_equip_3"
+    ]
+  },
+  "spell_cooldown_impact": {
+    "sounds": [
+      "arsenal:spell_cooldown_impact"
+    ]
+  },
+  "spike_impact": {
+    "sounds": [
+      "arsenal:spike_impact"
+    ]
+  },
+  "sunder_impact": {
+    "sounds": [
+      "arsenal:sunder_impact"
+    ]
+  },
+  "unyielding_impact": {
+    "sounds": [
+      "arsenal:unyielding_impact"
     ]
   },
   "wither_impact": {

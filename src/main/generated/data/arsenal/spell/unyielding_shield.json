@@ -21,15 +21,29 @@
       },
       "particles": [
         {
+          "particle_id": "spell_engine:sign_shield",
+          "origin": "CENTER",
+          "shape": "LINE_VERTICAL",
+          "count": 1.0,
+          "min_speed": 0.75,
+          "max_speed": 0.75,
+          "color_rgba": 4283061183,
+          "scale": 0.8,
+          "follow_entity": true
+        },
+        {
           "particle_id": "spell_engine:magic_spark_decelerate",
           "origin": "CENTER",
           "shape": "SPHERE",
           "count": 10.0,
           "min_speed": 0.3,
           "max_speed": 0.35,
-          "color_rgba": 4282850047
+          "color_rgba": 4283061247
         }
-      ]
+      ],
+      "sound": {
+        "id": "arsenal:unyielding_impact"
+      }
     }
   ],
   "cost": {

@@ -50,7 +50,10 @@
           "max_speed": 0.3,
           "color_rgba": 4291624959
         }
-      ]
+      ],
+      "sound": {
+        "id": "arsenal:spell_cooldown_impact"
+      }
     }
   ],
   "cost": {

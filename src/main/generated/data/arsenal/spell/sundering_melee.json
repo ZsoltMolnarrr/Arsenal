@@ -35,7 +35,10 @@
           "max_speed": 0.1,
           "color_rgba": 1499027967
         }
-      ]
+      ],
+      "sound": {
+        "id": "arsenal:sunder_impact"
+      }
     }
   ],
   "cost": {

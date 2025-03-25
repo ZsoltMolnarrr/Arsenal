@@ -785,7 +785,7 @@ public class ArsenalSpells {
     private static Entry guarding_strike_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "guarding_strike_melee");
         var title = "Guarding Strike";
-        var effect = ArsenalEffects.GUARDIAN;
+        var effect = ArsenalEffects.GUARDING;
         var description = "Defeating enemies grants you and nearby allies a temporary effect reducing damage taken by {bonus}, lasting {effect_duration} seconds.";
         SpellTooltip.DescriptionMutator mutator = (args) -> {
             var modifier = effect.config().firstModifier();
@@ -802,10 +802,20 @@ public class ArsenalSpells {
         trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
+        spell.release.sound = new Sound(ArsenalSounds.guardian_strike_release.id().toString());
+
         buffAreaTarget(spell, SpellEngineParticles.area_effect_714.id(), GUARDING_COLOR.toRGBA());
 
-        var buff = createEffectImpact(ArsenalEffects.GUARDIAN.id.toString(), 5);
+        var buff = createEffectImpact(ArsenalEffects.GUARDING.id.toString(), 5);
         buff.particles = new ParticleBatch[]{
+                new ParticleBatch(
+                        SpellEngineParticles.area_circle_1.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.FEET,
+                        1, 0.2F, 0.2F)
+                        .followEntity(true)
+                        .scale(0.8F)
+                        .maxAge(0.4F)
+                        .color(GUARDING_COLOR.toRGBA()),
                 new ParticleBatch(SpellEngineParticles.sign_shield.id().toString(),
                         ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
                         1, 0.75F, 0.75F)
@@ -813,6 +823,7 @@ public class ArsenalSpells {
                         .color(GUARDING_COLOR.alpha(0.75F).toRGBA())
                         .followEntity(true)
         };
+        buff.sound = new Sound(ArsenalSounds.guardian_strike_impact.id().toString());
         spell.impacts = List.of(buff);
         configureCooldown(spell, 10);
 
@@ -851,12 +862,128 @@ public class ArsenalSpells {
                         25, 0.1F, 0.1F)
                         .color(SUNDERING_COLOR.toRGBA())
         };
+        sunder.sound = new Sound(ArsenalSounds.sunder_impact.id().toString());
         spell.impacts = List.of(sunder);
 
         configureCooldown(spell, 5);
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, mutator, Category.MELEE);
+    }
+
+    public static Color UNYIELDING_COLOR = Color.from(0xff4a53);
+    public static Entry unyielding_shield = add(unyielding_shield());
+    private static Entry unyielding_shield() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "unyielding_shield");
+        var title = "Unyielding";
+        var description = "Blocking grants you increased knockback resistance and armor toughness, lasting {effect_duration} seconds.";
+        var effect = ArsenalEffects.UNYIELDING;
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
+        spell.passive.triggers = List.of(trigger);
+
+        var duration = 5;
+
+        var buff = createEffectImpact(effect.id.toString(), duration);
+        buff.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.sign_shield.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
+                        1, 0.75F, 0.75F)
+                        .scale(0.8F)
+                        .color(UNYIELDING_COLOR.alpha(0.75F).toRGBA())
+                        .followEntity(true),
+                new ParticleBatch(SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        10, 0.3F, 0.35F)
+                        .color(UNYIELDING_COLOR.toRGBA())
+        };
+        buff.sound = new Sound(ArsenalSounds.unyielding_impact.id().toString());
+        spell.impacts = List.of(buff);
+
+        configureCooldown(spell, duration * 2);
+
+        return new Entry(id, spell, title, description, null, Category.SHIELD);
+    }
+
+    public static final Color SPIKED_COLOR = Color.from(0xbfbfbf);
+    public static Entry spiked_shield = add(spiked_shield());
+    private static Entry spiked_shield() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "spiked_shield");
+        var title = "Spiked";
+        var description = "On shield block: {trigger_chance} chance to deal {damage} damage to the attacker.";
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.5F;
+        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
+        trigger.target_override = Spell.Trigger.TargetSelector.TARGET;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.min_power = 10;
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.25F;
+        damage.action.damage.knockback = 0.25F;
+
+        damage.particles = new ParticleBatch[]{
+                new ParticleBatch(SPARK_FLOAT.toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        10, 0.3F, 0.35F)
+                        .color(SPIKED_COLOR.toRGBA())
+        };
+        damage.sound = new Sound(ArsenalSounds.spike_impact.id().toString());
+
+        spell.impacts = List.of(damage);
+
+        return new Entry(id, spell, title, description, null, Category.SHIELD);
+    }
+
+    public static Entry bonus_shot_ranged = add(bonus_shot_ranged());
+    private static Entry bonus_shot_ranged() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "bonus_shot_ranged");
+        var title = "Bonus Shot";
+        var description = "On arrow hit: {trigger_chance} chance to shoot an additional arrow.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.ARROW_SHOT;
+        trigger.chance = 0.2F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch(SPARK_DECELERATE.toString(),
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        25, 0.2F, 0.7F)
+                        .rotate(ParticleBatch.Rotation.LOOK)
+        };
+
+        spell.target.type = Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+
+        spell.deliver.type = Spell.Delivery.Type.SHOOT_ARROW;
+        spell.deliver.shoot_arrow = new Spell.Delivery.ShootArrow();
+        spell.deliver.shoot_arrow.launch_properties.velocity = 3.15F;
+        spell.deliver.delay = 3;
+
+        spell.arrow_perks = new Spell.ArrowPerks();
+        spell.arrow_perks.damage_multiplier = 1F;
+        spell.arrow_perks.bypass_iframes = true;
+        spell.arrow_perks.knockback = 0.5F;
+
+        configureCooldown(spell ,1);
+
+        return new Entry(id, spell, title, description, null, Category.RANGED);
     }
 
     public static Color RAMPAGING_COLOR = Color.from(0xff471a);
@@ -903,105 +1030,6 @@ public class ArsenalSpells {
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, mutator, Category.MELEE);
-    }
-
-    public static Color UNYIELDING_COLOR = Color.from(0x33ccff);
-    public static Entry unyielding_shield = add(unyielding_shield());
-    private static Entry unyielding_shield() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "unyielding_shield");
-        var title = "Unyielding";
-        var description = "Blocking grants you increased knockback resistance and armor toughness, lasting {effect_duration} seconds.";
-        var effect = ArsenalEffects.UNYIELDING;
-
-        var spell = passiveSpellBase();
-        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
-
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
-        spell.passive.triggers = List.of(trigger);
-
-        var duration = 5;
-
-        var buff = createEffectImpact(effect.id.toString(), duration);
-        buff.particles = new ParticleBatch[]{
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.3F, 0.35F)
-                        .color(RAMPAGING_COLOR.toRGBA())
-        };
-        spell.impacts = List.of(buff);
-
-        configureCooldown(spell, duration * 2);
-
-        return new Entry(id, spell, title, description, null, Category.SHIELD);
-    }
-
-    public static Entry spiked_shield = add(spiked_shield());
-    private static Entry spiked_shield() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "spiked_shield");
-        var title = "Spiked";
-        var description = "On shield block: {trigger_chance} chance to deal {damage} damage to the attacker.";
-
-        var spell = passiveSpellBase();
-        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
-
-        var trigger = new Spell.Trigger();
-        trigger.chance = 0.5F;
-        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
-        trigger.target_override = Spell.Trigger.TargetSelector.TARGET;
-        spell.passive.triggers = List.of(trigger);
-
-        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
-
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
-        damage.action.min_power = 10;
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 0.25F;
-        damage.action.damage.knockback = 0.25F;
-
-        spell.impacts = List.of(damage);
-
-        return new Entry(id, spell, title, description, null, Category.SHIELD);
-    }
-
-    public static Entry bonus_shot_ranged = add(bonus_shot_ranged());
-    private static Entry bonus_shot_ranged() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "bonus_shot_ranged");
-        var title = "Bonus Shot";
-        var description = "On arrow hit: {trigger_chance} chance to shoot an additional arrow.";
-        var spell = passiveSpellBase();
-        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
-
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.ARROW_SHOT;
-        trigger.chance = 0.2F;
-        spell.passive.triggers = List.of(trigger);
-
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        25, 0.2F, 0.7F)
-                        .rotate(ParticleBatch.Rotation.LOOK)
-        };
-
-        spell.target.type = Spell.Target.Type.AIM;
-        spell.target.aim = new Spell.Target.Aim();
-
-        spell.deliver.type = Spell.Delivery.Type.SHOOT_ARROW;
-        spell.deliver.shoot_arrow = new Spell.Delivery.ShootArrow();
-        spell.deliver.shoot_arrow.launch_properties.velocity = 3.15F;
-        spell.deliver.delay = 3;
-
-        spell.arrow_perks = new Spell.ArrowPerks();
-        spell.arrow_perks.damage_multiplier = 1F;
-        spell.arrow_perks.bypass_iframes = true;
-        spell.arrow_perks.knockback = 0.5F;
-
-        configureCooldown(spell ,1);
-
-        return new Entry(id, spell, title, description, null, Category.RANGED);
     }
 
     public static Color FOCUSING_COLOR = Color.from(0x99ff66);
@@ -1196,6 +1224,7 @@ public class ArsenalSpells {
                         40, 0.3F, 0.3F)
                         .color(COOLDOWN_SHOT_COLOR.toRGBA())
         };
+        impact.sound = new Sound(ArsenalSounds.spell_cooldown_impact.id().toString());
         spell.impacts = List.of(impact);
 
         configureCooldown(spell, 30);
@@ -1442,6 +1471,7 @@ public class ArsenalSpells {
                         1, 0.0F, 0.F)
                         .color(Color.HOLY.toRGBA())
         };
+        effect.sound = new Sound(ArsenalSounds.guardian_heal_impact.id().toString());
         spell.impacts = List.of(effect);
 
         configureCooldown(spell, duration);
@@ -1493,6 +1523,7 @@ public class ArsenalSpells {
                         40, 0.3F, 0.3F)
                         .color(COOLDOWN_HEAL_COLOR.toRGBA())
         };
+        impact.sound = new Sound(ArsenalSounds.spell_cooldown_impact.id().toString());
         spell.impacts = List.of(impact);
 
         configureCooldown(spell, 30);
