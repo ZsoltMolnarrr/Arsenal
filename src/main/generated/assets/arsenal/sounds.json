@@ -1,4 +1,9 @@
 {
+  "focusing_activate": {
+    "sounds": [
+      "arsenal:focusing_activate"
+    ]
+  },
   "guardian_heal_impact": {
     "sounds": [
       "arsenal:guardian_heal_impact"
@@ -39,6 +44,16 @@
       "arsenal:poison_cloud_tick"
     ]
   },
+  "radiance_impact": {
+    "sounds": [
+      "arsenal:radiance_impact"
+    ]
+  },
+  "rampaging_activate": {
+    "sounds": [
+      "arsenal:rampaging_activate"
+    ]
+  },
   "shield_equip": {
     "sounds": [
       "arsenal:shield_equip_1",
@@ -69,6 +84,11 @@
   "sunder_impact": {
     "sounds": [
       "arsenal:sunder_impact"
+    ]
+  },
+  "surging_activate": {
+    "sounds": [
+      "arsenal:surging_activate"
     ]
   },
   "swirling": {

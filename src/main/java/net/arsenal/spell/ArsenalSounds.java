@@ -34,6 +34,10 @@ public class ArsenalSounds {
     public static final SpellEngineSounds.Entry spike_impact = add(entry("spike_impact"));
     public static final SpellEngineSounds.Entry spell_cooldown_impact = add(entry("spell_cooldown_impact"));
     public static final SpellEngineSounds.Entry swirling = add(entry("swirling"));
+    public static final SpellEngineSounds.Entry radiance_impact = add(entry("radiance_impact"));
+    public static final SpellEngineSounds.Entry rampaging_activate = add(entry("rampaging_activate"));
+    public static final SpellEngineSounds.Entry focusing_activate = add(entry("focusing_activate"));
+    public static final SpellEngineSounds.Entry surging_activate = add(entry("surging_activate"));
 
     public static void register() {
         for (var entry: entries) {

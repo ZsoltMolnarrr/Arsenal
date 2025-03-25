@@ -287,7 +287,7 @@ public class ArsenalSpells {
                         15, 0.2F, 0.25F)
                         .color(HOLY_COLOR)
         };
-        heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
+        heal.sound = new Sound(ArsenalSounds.radiance_impact.id().toString());
         spell.impacts = List.of(heal);
     }
 
@@ -1026,6 +1026,7 @@ public class ArsenalSpells {
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 4;
         buff.action.status_effect.refresh_duration = false;
+        buff.sound = new Sound(ArsenalSounds.rampaging_activate.id().toString());
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, 20);
@@ -1072,6 +1073,7 @@ public class ArsenalSpells {
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 2;
         buff.action.status_effect.refresh_duration = false;
+        buff.sound = new Sound(ArsenalSounds.focusing_activate.id().toString());
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, 20);
@@ -1113,6 +1115,7 @@ public class ArsenalSpells {
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 4;
         buff.action.status_effect.refresh_duration = false;
+        buff.sound = new Sound(ArsenalSounds.surging_activate.id().toString());
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, duration * 2);

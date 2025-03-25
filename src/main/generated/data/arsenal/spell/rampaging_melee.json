@@ -60,7 +60,10 @@
           "max_speed": 0.35,
           "color_rgba": 4282850047
         }
-      ]
+      ],
+      "sound": {
+        "id": "arsenal:rampaging_activate"
+      }
     }
   ],
   "cost": {
