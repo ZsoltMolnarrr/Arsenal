@@ -18,6 +18,10 @@ public class ArsenalSounds {
     }
 
     public static final SpellEngineSounds.Entry shield_equip = add(entry("shield_equip").variants(3));
+    public static final SpellEngineSounds.Entry wither_impact = add(entry("wither_impact"));
+    public static final SpellEngineSounds.Entry poison_cloud_spawn = add(entry("poison_cloud_spawn"));
+    public static final SpellEngineSounds.Entry poison_cloud_tick = add(entry("poison_cloud_tick"));
+    public static final SpellEngineSounds.Entry leeching_impact = add(entry("leeching_impact"));
 
     public static void register() {
         for (var entry: entries) {

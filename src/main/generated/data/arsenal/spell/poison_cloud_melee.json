@@ -26,7 +26,7 @@
             "vertical_range_multiplier": 0.3
           },
           "sound": {
-            "id": "spell_engine:generic_fire_impact_1"
+            "id": "arsenal:poison_cloud_tick"
           }
         },
         "time_to_live_seconds": 3.0,
@@ -55,7 +55,7 @@
         },
         "spawn": {
           "sound": {
-            "id": "spell_engine:generic_fire_ignite"
+            "id": "arsenal:poison_cloud_spawn"
           }
         }
       }
@@ -81,11 +81,17 @@
           "min_speed": 0.01,
           "max_speed": 0.02,
           "color_rgba": 870134698
+        },
+        {
+          "particle_id": "spell_engine:magic_skull_decelerate",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 3.0,
+          "min_speed": 0.1,
+          "max_speed": 0.2,
+          "color_rgba": 870134698
         }
-      ],
-      "sound": {
-        "id": "spell_engine:generic_fire_impact_2"
-      }
+      ]
     }
   ],
   "cost": {

@@ -355,6 +355,7 @@ public class ArsenalSpells {
         return new Entry(id, spell, title, description, null, Category.MELEE);
     }
 
+    public static final Color WITHER_COLOR = Color.from(0x333333);
     public static Entry wither_melee = add(wither_melee());
     private static Entry wither_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "wither_melee");
@@ -406,12 +407,16 @@ public class ArsenalSpells {
         var wither = createEffectImpact("wither", 5);
         wither.action.status_effect.amplifier_power_multiplier = amplifier_multiplier;
         wither.action.status_effect.show_particles = true;
-        final var witherParticles = new ParticleBatch("infested",
-                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                50, 0.1F, 0.2F);
         wither.particles = new ParticleBatch[]{
-                witherParticles
+                new ParticleBatch(
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.SKULL,
+                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.2F, 0.25F)
+                        .color(WITHER_COLOR.toRGBA())
         };
+        wither.sound = new Sound(ArsenalSounds.wither_impact.id().toString());
         spell.impacts = List.of(wither);
     }
 
@@ -586,10 +591,10 @@ public class ArsenalSpells {
         var cloud = new Spell.Delivery.Cloud();
         cloud.volume.radius = 2;
         cloud.volume.area.vertical_range_multiplier = 0.3F;
-        cloud.volume.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
+        cloud.volume.sound = new Sound(ArsenalSounds.poison_cloud_tick.id().toString());
         cloud.impact_tick_interval = 8;
         cloud.time_to_live_seconds = 3;
-        cloud.spawn.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IGNITE.id().toString());
+        cloud.spawn.sound = new Sound(ArsenalSounds.poison_cloud_spawn.id().toString());
         cloud.client_data = new Spell.Delivery.Cloud.ClientData();
         cloud.client_data.light_level = 0;
         cloud.client_data.particles = new ParticleBatch[] {
@@ -612,12 +617,19 @@ public class ArsenalSpells {
         impact.action.status_effect.show_particles = true;
         impact.action.status_effect.duration = 5;
         impact.action.status_effect.amplifier_power_multiplier = coefficient;
-        impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_2.id().toString());
+        // impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_2.id().toString());
         impact.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
                         0.5F, 0.01F, 0.02F)
                         .color(0x33DD33AA),
+                new ParticleBatch(
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.SKULL,
+                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        3, 0.1F, 0.2F)
+                        .color(0x33DD33AA)
         };
         spell.impacts = List.of(impact);
     }
@@ -703,8 +715,8 @@ public class ArsenalSpells {
         leech.action.heal.spell_power_coefficient = 0.05F;
         leech.particles = new ParticleBatch[]{
                 new ParticleBatch(SPARK_FLOAT.toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
-                        25, 0.05F, 0.1F)
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.CENTER,
+                        15, 0.02F, 0.1F)
                         .color(LEECHING_COLOR.toRGBA()),
                 new ParticleBatch(SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
@@ -721,7 +733,7 @@ public class ArsenalSpells {
                         .scale(0.8F)
                         .color(LEECHING_COLOR.alpha(0.2F).toRGBA())
         };
-        leech.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id().toString());
+        leech.sound = Sound.withVolume(ArsenalSounds.leeching_impact.id(), 0.6F);
         spell.impacts = List.of(leech);
     }
 
