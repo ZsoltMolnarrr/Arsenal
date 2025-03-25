@@ -86,7 +86,7 @@
         }
       ],
       "sound": {
-        "id": "spell_engine:generic_fire_impact_1"
+        "id": "spell_engine:stun_generic"
       }
     }
   ],

@@ -30,7 +30,10 @@
       ],
       "direct_towards_target": true,
       "launch_properties": {
-        "velocity": 0.75
+        "velocity": 0.75,
+        "sound": {
+          "id": "arsenal:missile_release"
+        }
       },
       "projectile": {
         "homing_angle": 3.0,
@@ -84,7 +87,10 @@
           "max_speed": 0.7,
           "color_rgba": 3839885311
         }
-      ]
+      ],
+      "sound": {
+        "id": "arsenal:missile_impact"
+      }
     }
   ],
   "cost": {

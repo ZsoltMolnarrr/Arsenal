@@ -22,7 +22,10 @@
     "projectile": {
       "inherit_shooter_pitch": false,
       "launch_properties": {
-        "velocity": 0.75
+        "velocity": 0.75,
+        "sound": {
+          "id": "arsenal:shockwave_release"
+        }
       },
       "projectile": {
         "homing_angle": 0.0,
@@ -61,7 +64,10 @@
           "max_speed": 0.7,
           "color_rgba": 2816865791
         }
-      ]
+      ],
+      "sound": {
+        "id": "arsenal:shockwave_impact"
+      }
     }
   ]
 }

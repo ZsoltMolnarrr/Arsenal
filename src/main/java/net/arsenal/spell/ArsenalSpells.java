@@ -755,6 +755,8 @@ public class ArsenalSpells {
         trigger.melee.is_offhand = false;
         spell.passive.triggers = List.of(trigger);
 
+        spell.release.sound = new Sound(ArsenalSounds.swirling.id().toString());
+
         spell.target.type = Spell.Target.Type.AREA;
         spell.target.area = new Spell.Target.Area();
         spell.target.area.distance_dropoff = Spell.Target.Area.DropoffCurve.NONE;
@@ -1176,7 +1178,7 @@ public class ArsenalSpells {
         spell.deliver.clouds = List.of(cloud);
 
         var impact = createEffectImpact(ArsenalEffects.FROSTBITE.id.toString(), 2);
-        impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
+        impact.sound = new Sound(SpellEngineSounds.STUN_GENERIC.id().toString());
         impact.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
                         ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
@@ -1259,7 +1261,7 @@ public class ArsenalSpells {
         spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
         spell.deliver.projectile.inherit_shooter_pitch = false;
         spell.deliver.projectile.launch_properties.velocity = 0.75F;
-
+        spell.deliver.projectile.launch_properties.sound = new Sound(ArsenalSounds.shockwave_release.id().toString());
         var projectile = new Spell.ProjectileData();
         projectile.homing_angle = 0F;
         projectile.client_data = new Spell.ProjectileData.Client();
@@ -1270,7 +1272,6 @@ public class ArsenalSpells {
         projectile.client_data.model.rotate_degrees_per_tick = 0;
         projectile.perks.pierce = 999;
         projectile.hitbox = new Spell.ProjectileData.HitBox(3.5F, 0.5F);
-
         spell.deliver.projectile.projectile = projectile;
 
         var damage = new Spell.Impact();
@@ -1288,6 +1289,7 @@ public class ArsenalSpells {
                         null, 20, 0.2F, 0.7F, 0.0F, 0F)
                         .color(SHOCKWAVE_COLOR.toRGBA())
         };
+        damage.sound = new Sound(ArsenalSounds.shockwave_impact.id().toString());
         spell.impacts = List.of(damage);
 
         return new Entry(id, spell, title, description, null, Category.MELEE);
@@ -1320,6 +1322,7 @@ public class ArsenalSpells {
         spell.deliver.projectile.launch_properties.velocity = 0.6F;
         spell.deliver.projectile.launch_properties.extra_launch_count = 3;
         spell.deliver.projectile.launch_properties.extra_launch_delay = 0;
+        spell.deliver.projectile.launch_properties.sound = Sound.withVolume(ArsenalSounds.shockwave_release.id(), 0.6F);
         spell.deliver.projectile.direction_offsets = new Spell.Delivery.ShootProjectile.DirectionOffset[] {
                 new Spell.Delivery.ShootProjectile.DirectionOffset(0, 0),
                 new Spell.Delivery.ShootProjectile.DirectionOffset(90, 0),
@@ -1355,6 +1358,7 @@ public class ArsenalSpells {
                         null, 20, 0.2F, 0.7F, 0.0F, 0F)
                         .color(SHOCKWAVE_COLOR.toRGBA())
         };
+        damage.sound = new Sound(ArsenalSounds.shockwave_impact.id().toString());
         spell.impacts = List.of(damage);
 
         configureCooldown(spell, 4);
@@ -1367,7 +1371,7 @@ public class ArsenalSpells {
     private static Entry chain_reaction_spell() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "chain_reaction_spell");
         var title = "Chain Reaction";
-        var description = "On spell critical hit: launches a spell projectile with chain reaction.";
+        var description = "On spell critical hit: launches a spell projectile with chain reaction, dealing {damage} spell damage.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
         spell.range = 20F;
@@ -1388,7 +1392,7 @@ public class ArsenalSpells {
         spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
         spell.deliver.projectile.direct_towards_target = true;
         spell.deliver.projectile.launch_properties.velocity = 0.75F;
-//        spell.deliver.projectile.launch_properties.extra_launch_count = 3;
+        spell.deliver.projectile.launch_properties.sound = new Sound(ArsenalSounds.missile_release.id().toString());
         spell.deliver.projectile.direction_offsets = new Spell.Delivery.ShootProjectile.DirectionOffset[] {
                 new Spell.Delivery.ShootProjectile.DirectionOffset(0, -80)
         };
@@ -1426,6 +1430,7 @@ public class ArsenalSpells {
                         null, 20, 0.2F, 0.7F, 0.0F, 0F)
                         .color(CHAIN_REACTION_COLOR.toRGBA())
         };
+        damage.sound = new Sound(ArsenalSounds.missile_impact.id().toString());
         spell.impacts = List.of(damage);
 
         configureCooldown(spell,  1);

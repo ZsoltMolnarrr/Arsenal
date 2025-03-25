@@ -38,7 +38,11 @@
       "launch_properties": {
         "velocity": 0.6,
         "extra_launch_count": 3,
-        "extra_launch_delay": 0
+        "extra_launch_delay": 0,
+        "sound": {
+          "id": "arsenal:shockwave_release",
+          "volume": 0.6
+        }
       },
       "projectile": {
         "homing_angle": 0.0,
@@ -79,7 +83,10 @@
           "max_speed": 0.7,
           "color_rgba": 2816865791
         }
-      ]
+      ],
+      "sound": {
+        "id": "arsenal:shockwave_impact"
+      }
     }
   ],
   "cost": {

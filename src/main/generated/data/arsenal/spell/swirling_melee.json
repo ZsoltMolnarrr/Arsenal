@@ -27,7 +27,10 @@
         "scale": 0.8,
         "follow_entity": true
       }
-    ]
+    ],
+    "sound": {
+      "id": "arsenal:swirling"
+    }
   },
   "target": {
     "type": "AREA",

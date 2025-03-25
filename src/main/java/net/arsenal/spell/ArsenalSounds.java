@@ -25,10 +25,15 @@ public class ArsenalSounds {
     public static final SpellEngineSounds.Entry guardian_strike_release = add(entry("guardian_strike_release"));
     public static final SpellEngineSounds.Entry guardian_strike_impact = add(entry("guardian_strike_impact"));
     public static final SpellEngineSounds.Entry guardian_heal_impact = add(entry("guardian_heal_impact"));
+    public static final SpellEngineSounds.Entry missile_impact = add(entry("missile_impact"));
+    public static final SpellEngineSounds.Entry missile_release = add(entry("missile_release"));
     public static final SpellEngineSounds.Entry sunder_impact = add(entry("sunder_impact"));
     public static final SpellEngineSounds.Entry unyielding_impact = add(entry("unyielding_impact"));
+    public static final SpellEngineSounds.Entry shockwave_impact = add(entry("shockwave_impact"));
+    public static final SpellEngineSounds.Entry shockwave_release = add(entry("shockwave_release"));
     public static final SpellEngineSounds.Entry spike_impact = add(entry("spike_impact"));
     public static final SpellEngineSounds.Entry spell_cooldown_impact = add(entry("spell_cooldown_impact"));
+    public static final SpellEngineSounds.Entry swirling = add(entry("swirling"));
 
     public static void register() {
         for (var entry: entries) {
