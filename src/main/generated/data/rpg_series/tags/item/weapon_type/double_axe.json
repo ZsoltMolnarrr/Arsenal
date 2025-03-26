@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "arsenal:unique_double_axe_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_double_axe_2",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_double_axe_sw",
+      "required": false
+    }
+  ]
+}

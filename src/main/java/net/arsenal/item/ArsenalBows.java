@@ -15,6 +15,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.Util;
+import net.spell_engine.api.item.Equipment;
 import net.spell_engine.api.item.Tiers;
 import net.spell_engine.api.spell.SpellDataComponents;
 import net.spell_engine.api.spell.container.SpellContainerHelper;
@@ -36,12 +37,14 @@ public class ArsenalBows {
         private final RangedConfig defaults;
         private final Supplier<Ingredient> repairIngredientSupplier;
         private final int durability;
-        public int tier = 1;
         public String weaponAttributesPreset;
         private String translatedName = "";
         public Rarity rarity = Rarity.COMMON;
         public Item item;
         public List<Identifier> spells = null;
+
+        public Equipment.LootProperties lootProperties = Equipment.LootProperties.EMPTY;
+        public Equipment.WeaponType weaponType = Equipment.WeaponType.LONG_BOW;
 
         public RangedEntry(Identifier id, RangedFactory factory, RangedConfig defaults, Supplier<Ingredient> repairIngredientSupplier, int durability) {
             this.id = id;
@@ -82,10 +85,6 @@ public class ArsenalBows {
 
         public Item item() {
             return item;
-        }
-
-        public void tier(int tier) {
-            this.tier = tier;
         }
 
         public RangedEntry translatedName(String translatedName) {
@@ -131,14 +130,18 @@ public class ArsenalBows {
     private static RangedEntry bow(String name, int durability, Supplier<Ingredient> repairIngredientSupplier, RangedConfig defaults) {
         var entry = new RangedEntry(Identifier.of(ArsenalMod.NAMESPACE, name), CustomBow::new, defaults, repairIngredientSupplier, durability);
         entry.weaponAttributesPreset = "bow_two_handed_heavy";
+        entry.weaponType = Equipment.WeaponType.LONG_BOW;
+        entry.lootProperties = Equipment.LootProperties.of(5);
         entries.add(entry);
         return entry;
     }
 
     private static RangedEntry crossbow(String name, int durability, Supplier<Ingredient> repairIngredientSupplier, RangedConfig defaults) {
         var entry = new RangedEntry(Identifier.of(ArsenalMod.NAMESPACE, name), CustomCrossbow::new, defaults, repairIngredientSupplier, durability);
-        entries.add(entry);
         entry.weaponAttributesPreset = "crossbow_two_handed_heavy";
+        entry.weaponType = Equipment.WeaponType.HEAVY_CROSSBOW;
+        entry.lootProperties = Equipment.LootProperties.of(5);
+        entries.add(entry);
         return entry;
     }
 
@@ -176,7 +179,6 @@ public class ArsenalBows {
 
     static {
         for (var entry: entries) {
-            entry.tier(5);
             entry.rarity = Rarity.RARE;
         }
     }

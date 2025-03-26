@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "arsenal:unique_spear_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_spear_2",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_spear_sw",
+      "required": false
+    }
+  ]
+}

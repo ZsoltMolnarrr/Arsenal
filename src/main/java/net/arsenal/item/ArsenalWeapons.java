@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.WeaponConfig;
+import net.spell_engine.api.item.Equipment;
 import net.spell_engine.api.item.weapon.SpellSwordItem;
 import net.spell_engine.api.item.weapon.SpellWeaponItem;
 import net.spell_engine.api.item.weapon.StaffItem;
@@ -24,9 +25,10 @@ import java.util.function.Supplier;
 public class ArsenalWeapons {
     public static final ArrayList<Weapon.Entry> entries = new ArrayList<>();
 
-    private static Weapon.Entry entry(String name, Weapon.CustomMaterial material, Weapon.Factory factory, WeaponConfig defaults) {
-        var entry = new Weapon.Entry(ArsenalMod.NAMESPACE, name, material, factory, defaults, null);
+    private static Weapon.Entry entry(String name, Weapon.CustomMaterial material, Weapon.Factory factory, WeaponConfig defaults, Equipment.WeaponType weaponType) {
+        var entry = new Weapon.Entry(ArsenalMod.NAMESPACE, name, material, factory, defaults, weaponType);
         entry.castSpell();
+        entry.loot(Equipment.LootProperties.of(5));
         entries.add(entry);
         return entry;
     }
@@ -47,49 +49,54 @@ public class ArsenalWeapons {
     }
 
     private static Weapon.Entry claymore(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -3F));
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -3F), Equipment.WeaponType.CLAYMORE);
         entry.weaponAttributesPreset = "claymore";
         return entry;
     }
     private static Weapon.Entry hammer(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -3.2F));
+        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -3.2F), Equipment.WeaponType.HAMMER);
         entry.weaponAttributesPreset = "hammer";
         return entry;
     }
     private static final float staffAttackDamage = 4;
     private static final float staffAttackSpeed = -3F;
-    private static Weapon.Entry staff(String name, Weapon.CustomMaterial material) {
-        var entry = entry(name, material, StaffItem::new, new WeaponConfig(staffAttackDamage, staffAttackSpeed));
+    private static Weapon.Entry damage_staff(String name, Weapon.CustomMaterial material) {
+        var entry = entry(name, material, StaffItem::new, new WeaponConfig(staffAttackDamage, staffAttackSpeed), Equipment.WeaponType.DAMAGE_STAFF);
+        entry.weaponAttributesPreset = "staff";
+        return entry;
+    }
+    private static Weapon.Entry healing_staff(String name, Weapon.CustomMaterial material) {
+        var entry = entry(name, material, StaffItem::new, new WeaponConfig(staffAttackDamage, staffAttackSpeed), Equipment.WeaponType.HEALING_STAFF);
         entry.weaponAttributesPreset = "staff";
         return entry;
     }
     private static Weapon.Entry spear(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -2.6F));
+        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -2.6F), Equipment.WeaponType.SPEAR);
         entry.weaponAttributesPreset = "spear";
         return entry;
     }
     private static Weapon.Entry mace(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -2.8F));
+        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -2.8F), Equipment.WeaponType.MACE);
         entry.weaponAttributesPreset = "mace";
         return entry;
     }
     private static Weapon.Entry glaive(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.6F));
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.6F), Equipment.WeaponType.GLAIVE);
         entry.weaponAttributesPreset = "glaive";
         return entry;
     }
     private static Weapon.Entry axe(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.8F));
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.8F), Equipment.WeaponType.DOUBLE_AXE);
         entry.weaponAttributesPreset = "double_axe";
         return entry;
     }
     private static Weapon.Entry dagger(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -1.6F));
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -1.6F), Equipment.WeaponType.DAGGER);
         entry.weaponAttributesPreset = "dagger";
         return entry;
     }
     private static Weapon.Entry sickle(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2F));
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2F), Equipment.WeaponType.SICKLE);
         entry.weaponAttributesPreset = "sickle";
         return entry;
     }
@@ -110,44 +117,44 @@ public class ArsenalWeapons {
             .translatedName("Apolyon, the Soul-Render")
             .spell(ArsenalSpells.rampaging_melee.id());
 
-    public static final Weapon.Entry unique_staff_damage_1 = staff("unique_staff_damage_1",
+    public static final Weapon.Entry unique_staff_damage_1 = damage_staff("unique_staff_damage_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
             .translatedName("Nexus Key")
             .spell(ArsenalSpells.cooldown_shot_spell.id());
-    public static final Weapon.Entry unique_staff_damage_2 = staff("unique_staff_damage_2",
+    public static final Weapon.Entry unique_staff_damage_2 = damage_staff("unique_staff_damage_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
             .translatedName("Antonidas's Staff of Rapt Concentration")
             .spell(ArsenalSpells.chain_reaction_spell.id());
-    public static final Weapon.Entry unique_staff_damage_3 = staff("unique_staff_damage_3",
+    public static final Weapon.Entry unique_staff_damage_3 = damage_staff("unique_staff_damage_3",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .translatedName("Draconic Battle Staff")
             .spell(ArsenalSpells.flame_cloud_spell.id());
-    public static final Weapon.Entry unique_staff_damage_4 = staff("unique_staff_damage_4",
+    public static final Weapon.Entry unique_staff_damage_4 = damage_staff("unique_staff_damage_4",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
             .translatedName("Gargoyle's Bite")
             .spell(ArsenalSpells.leeching_spell.id());
-    public static final Weapon.Entry unique_staff_damage_5 = staff("unique_staff_damage_5",
+    public static final Weapon.Entry unique_staff_damage_5 = damage_staff("unique_staff_damage_5",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
             .translatedName("Mage Lord Cane")
             .spell(ArsenalSpells.shockwave_area_spell.id());
-    public static final Weapon.Entry unique_staff_damage_6 = staff("unique_staff_damage_6",
+    public static final Weapon.Entry unique_staff_damage_6 = damage_staff("unique_staff_damage_6",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
             .translatedName("Endless Winter")
             .spell(ArsenalSpells.frost_cloud_spell.id());
 
-    public static final Weapon.Entry unique_staff_damage_sw = staff("unique_staff_damage_sw",
+    public static final Weapon.Entry unique_staff_damage_sw = damage_staff("unique_staff_damage_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
@@ -155,18 +162,18 @@ public class ArsenalWeapons {
             .translatedName("Grand Magister's Staff of Torrents")
             .spell(ArsenalSpells.rampaging_spell.id());
 
-    public static final Weapon.Entry unique_staff_heal_1 = staff("unique_staff_heal_1",
+    public static final Weapon.Entry unique_staff_heal_1 = healing_staff("unique_staff_heal_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Crystalline Life-Staff")
             .spell(ArsenalSpells.radiance_spell.id());
-    public static final Weapon.Entry unique_staff_heal_2 = staff("unique_staff_heal_2",
+    public static final Weapon.Entry unique_staff_heal_2 = healing_staff("unique_staff_heal_2",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Staff of Immaculate Recovery")
             .spell(ArsenalSpells.guardian_heal.id());
-    public static final Weapon.Entry unique_staff_heal_sw = staff("unique_staff_heal_sw",
+    public static final Weapon.Entry unique_staff_heal_sw = healing_staff("unique_staff_heal_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Golden Staff of the Sin'dorei")

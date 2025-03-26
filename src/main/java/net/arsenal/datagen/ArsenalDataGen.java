@@ -22,6 +22,7 @@ import net.spell_engine.api.datagen.SimpleSoundGeneratorV2;
 import net.spell_engine.api.datagen.SpellGenerator;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -38,37 +39,26 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         pack.addProvider(WeaponGen::new);
     }
 
-    public static class ItemTagGenerator extends FabricTagProvider<Item> {
+    public static class ItemTagGenerator extends RPGSeriesDataGen.ItemTagGenerator {
         public ItemTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
-            super(output, RegistryKeys.ITEM, registriesFuture);
+            super(output, registriesFuture);
         }
 
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             var all = getOrCreateTagBuilder(ArsenalItemTags.ALL);
             ArsenalWeapons.entries.forEach(entry -> all.addOptional(entry.id()));
-//
-//            // Map<Integer, Tag> rpgSeriesTierTag
-//            for (var entry: RelicItems.entries) {
-//                var tier = entry.tier();
-//                if (entry.lootTheme == null || entry.lootTheme.isEmpty()) {
-//                    var tag = getOrCreateTagBuilder(tierLootTag(tier));
-//                    tag.addOptional(entry.id());
-//                } else {
-//                    var tag = getOrCreateTagBuilder(themeLootTag(entry.lootTheme));
-//                    tag.addOptional(entry.id());
-//                }
-//            }
+            generateWeaponTags(ArsenalWeapons.entries);
 
-            // Map<String, Tag> rpgSeriesThemeTag
-        }
+            var bowEntries = ArsenalBows.entries.stream().map(entry ->
+                    new RPGSeriesDataGen.BowEntry(entry.id(), entry.weaponType, entry.lootProperties)
+            ).toList();
+            generateBowTags(bowEntries);
 
-        private static TagKey<Item> tierLootTag(int tier) {
-            return TagKey.of(RegistryKeys.ITEM, Identifier.of("rpg_series", "tier_" + tier + "_relics"));
-        }
-
-        private static TagKey<Item> themeLootTag(String theme) {
-            return TagKey.of(RegistryKeys.ITEM, Identifier.of("rpg_series", "theme_loot_" + theme));
+            var shieldEntries = ArsenalShields.entries.stream().map(entry ->
+                    new RPGSeriesDataGen.ShieldEntry(entry.id(), entry.lootProperties)
+            ).toList();
+            generateShieldTags(shieldEntries);
         }
     }
 

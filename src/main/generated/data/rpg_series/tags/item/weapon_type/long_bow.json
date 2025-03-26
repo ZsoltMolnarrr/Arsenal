@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "arsenal:unique_longbow_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_longbow_2",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_longbow_sw",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "arsenal:unique_shield_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_shield_sw",
+      "required": false
+    }
+  ]
+}

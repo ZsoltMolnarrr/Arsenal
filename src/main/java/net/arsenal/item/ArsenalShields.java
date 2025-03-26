@@ -19,6 +19,7 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.Util;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ShieldConfig;
+import net.spell_engine.api.item.Equipment;
 import net.spell_engine.api.item.Tiers;
 import net.spell_engine.api.item.weapon.Weapon;
 import net.spell_engine.api.spell.SpellDataComponents;
@@ -38,6 +39,8 @@ public class ArsenalShields {
         private String translatedName = "";
         public Rarity rarity = Rarity.COMMON;
         public List<Identifier> spells = null;
+
+        public Equipment.LootProperties lootProperties = Equipment.LootProperties.EMPTY;
 
         public Entry(Identifier id, Supplier<Ingredient> repair, List<AttributeModifier> attributes, int durability) {
             this.id = id;
@@ -100,6 +103,7 @@ public class ArsenalShields {
 
     public static Entry shield(String name, Supplier<Ingredient> repair, List<AttributeModifier> attributes, int durability) {
         var entry = new Entry(Identifier.of(ArsenalMod.NAMESPACE, name), repair, attributes, durability);
+        entry.lootProperties = Equipment.LootProperties.of(5);
         entries.add(entry);
         return entry;
     }
