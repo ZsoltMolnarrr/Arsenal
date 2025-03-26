@@ -115,7 +115,7 @@ public class ArsenalShields {
     private static final int durability_t1 = 336; // Matches vanilla shield
     private static final int durability_t2 = 672;
     private static final int durability_t3 = 1344;
-    private static final int durability_t4 = 2688;
+    private static final int durability_t4 = 4032;
 
     public static Entry unique_shield_1 = shield("unique_shield_1",
             () -> Ingredient.ofItems(Items.NETHERITE_INGOT), List.of(

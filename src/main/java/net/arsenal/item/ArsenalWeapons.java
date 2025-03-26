@@ -113,12 +113,12 @@ public class ArsenalWeapons {
             .translatedName("Champion's Greatsword")
             .spell(ArsenalSpells.radiance_melee.id());
     public static final Weapon.Entry unique_claymore_sw = claymore("unique_claymore_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 13F)
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 13F)
             .translatedName("Apolyon, the Soul-Render")
             .spell(ArsenalSpells.rampaging_melee.id());
 
     public static final Weapon.Entry unique_staff_damage_1 = damage_staff("unique_staff_damage_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
             .translatedName("Nexus Key")
@@ -130,7 +130,7 @@ public class ArsenalWeapons {
             .translatedName("Antonidas's Staff of Rapt Concentration")
             .spell(ArsenalSpells.chain_reaction_spell.id());
     public static final Weapon.Entry unique_staff_damage_3 = damage_staff("unique_staff_damage_3",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)))
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .translatedName("Draconic Battle Staff")
@@ -155,7 +155,7 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.frost_cloud_spell.id());
 
     public static final Weapon.Entry unique_staff_damage_sw = damage_staff("unique_staff_damage_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.DIAMOND)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
@@ -163,18 +163,18 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.rampaging_spell.id());
 
     public static final Weapon.Entry unique_staff_heal_1 = healing_staff("unique_staff_heal_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_CLUSTER)))
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Crystalline Life-Staff")
             .spell(ArsenalSpells.radiance_spell.id());
     public static final Weapon.Entry unique_staff_heal_2 = healing_staff("unique_staff_heal_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Staff of Immaculate Recovery")
             .spell(ArsenalSpells.guardian_heal.id());
     public static final Weapon.Entry unique_staff_heal_sw = healing_staff("unique_staff_heal_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)))
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
             .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Golden Staff of the Sin'dorei")
             .spell(ArsenalSpells.cooldown_heal.id());
@@ -188,7 +188,7 @@ public class ArsenalWeapons {
             .translatedName("Spear of the Damned")
             .spell(ArsenalSpells.stunning_melee.id());
     public static final Weapon.Entry unique_spear_sw = spear("unique_spear_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 8F)
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 8F)
             .translatedName("Mounting Vengeance")
             .spell(ArsenalSpells.leeching_melee.id());
 
@@ -214,7 +214,7 @@ public class ArsenalWeapons {
             .translatedName("Infernal Harvester")
             .spell(ArsenalSpells.exploding_melee.id());;
     public static final Weapon.Entry unique_sickle_sw = sickle("unique_sickle_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 6.8F)
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 6.8F)
             .translatedName("Thalassian Sickle")
             .spell(ArsenalSpells.swirling_melee.id());
 
