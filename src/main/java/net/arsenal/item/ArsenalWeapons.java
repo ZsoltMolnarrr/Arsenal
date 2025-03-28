@@ -131,8 +131,8 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.chain_reaction_spell.id());
     public static final Weapon.Entry unique_staff_damage_3 = damage_staff("unique_staff_damage_3",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)))
-            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
+            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
             .translatedName("Draconic Battle Staff")
             .spell(ArsenalSpells.flame_cloud_spell.id());
     public static final Weapon.Entry unique_staff_damage_4 = damage_staff("unique_staff_damage_4",
