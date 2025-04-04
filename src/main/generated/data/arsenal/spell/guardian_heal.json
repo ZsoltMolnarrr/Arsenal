@@ -14,6 +14,9 @@
             "health_percent_below": 0.5
           }
         ],
+        "spell": {
+          "type": "ACTIVE"
+        },
         "impact": {
           "impact_type": "HEAL"
         }

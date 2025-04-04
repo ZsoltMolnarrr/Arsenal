@@ -8,6 +8,7 @@
       {
         "type": "SPELL_IMPACT_SPECIFIC",
         "spell": {
+          "type": "ACTIVE",
           "cooldown_min": 5.0
         },
         "impact": {

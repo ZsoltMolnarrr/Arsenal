@@ -8,6 +8,9 @@
       {
         "type": "SPELL_IMPACT_SPECIFIC",
         "chance": 0.2,
+        "spell": {
+          "type": "ACTIVE"
+        },
         "impact": {
           "impact_type": "DAMAGE"
         }

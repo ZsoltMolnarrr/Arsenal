@@ -9,6 +9,9 @@
         "target_override": "CASTER",
         "type": "SPELL_IMPACT_SPECIFIC",
         "chance": 0.5,
+        "spell": {
+          "type": "ACTIVE"
+        },
         "impact": {
           "impact_type": "DAMAGE",
           "critical": true

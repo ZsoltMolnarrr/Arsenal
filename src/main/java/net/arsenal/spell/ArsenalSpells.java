@@ -489,6 +489,8 @@ public class ArsenalSpells {
         trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
         trigger.impact = new Spell.Trigger.ImpactCondition();
         trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.type = Spell.Type.ACTIVE;
         trigger.chance = 0.3F;
         spell.passive.triggers = List.of(trigger);
 
@@ -1144,6 +1146,8 @@ public class ArsenalSpells {
         trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
         trigger.impact = new Spell.Trigger.ImpactCondition();
         trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.type = Spell.Type.ACTIVE;
         trigger.chance = 0.2F;
         spell.passive.triggers = List.of(trigger);
 
@@ -1212,6 +1216,8 @@ public class ArsenalSpells {
         trigger.impact = new Spell.Trigger.ImpactCondition();
         trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
         trigger.impact.critical = true;
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.type = Spell.Type.ACTIVE;
         trigger.chance = 0.5F;
         trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
@@ -1322,6 +1328,7 @@ public class ArsenalSpells {
         trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
         trigger.spell = new Spell.Trigger.SpellCondition();
         trigger.spell.cooldown_min = cooldown_threshold;
+        trigger.spell.type = Spell.Type.ACTIVE;
         spell.passive.triggers = List.of(trigger);
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
@@ -1458,6 +1465,8 @@ public class ArsenalSpells {
         trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
         trigger.impact = new Spell.Trigger.ImpactCondition();
         trigger.impact.impact_type = Spell.Impact.Action.Type.HEAL.toString();
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.type = Spell.Type.ACTIVE;
         trigger.target_conditions = List.of(weakCondition());
         spell.passive.triggers = List.of(trigger);
 
