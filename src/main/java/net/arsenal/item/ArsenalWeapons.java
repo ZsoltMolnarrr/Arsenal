@@ -148,7 +148,7 @@ public class ArsenalWeapons {
             .translatedName("Mage Lord Cane")
             .spell(ArsenalSpells.shockwave_area_spell.id());
     public static final Weapon.Entry unique_staff_damage_6 = damage_staff("unique_staff_damage_6",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)))
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
             .translatedName("Endless Winter")
