@@ -1453,9 +1453,9 @@ public class ArsenalSpells {
 
         var id = Identifier.of(ArsenalMod.NAMESPACE, "guardian_heal");
         var title = "Guardian Remedy";
-        var description = "Healing targets under {bonus} health grants them a temporary absorption shield, lasting {effect_duration} seconds.";
+        var description = "Healing targets under {threshold} health grants them a temporary absorption shield, lasting {effect_duration} seconds.";
         SpellTooltip.DescriptionMutator mutator = (args) -> {
-            return args.description().replace("{bonus}", SpellTooltip.percent(threshold));
+            return args.description().replace("{threshold}", SpellTooltip.percent(threshold));
         };
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
@@ -1505,9 +1505,9 @@ public class ArsenalSpells {
 
         var id = Identifier.of(ArsenalMod.NAMESPACE, "cooldown_heal");
         var title = "Cooldown Touch";
-        var description = "Healing targets under {bonus}% health, has {trigger_chance} chance to reset your spell cooldowns.";
+        var description = "Healing targets under {threshold} health, has {trigger_chance} chance to reset your spell cooldowns.";
         SpellTooltip.DescriptionMutator mutator = (args) -> {
-            return args.description().replace("{bonus}", SpellTooltip.percent(threshold));
+            return args.description().replace("{threshold}", SpellTooltip.percent(threshold));
         };
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;

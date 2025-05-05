@@ -1,3 +1,7 @@
+# 1.0.3
+
+- Fix formatting error of Cooldown Touch spell description
+
 # 1.0.2
 
 - Fix some repair materials
