@@ -1104,12 +1104,17 @@ public class ArsenalSpells {
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
+        spell.release.sound = new Sound(ArsenalSounds.surging_activate.id().toString());
 
         var trigger = killedBySpellTrigger();
         trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.sound = new Sound(ArsenalSounds.surging_activate.id().toString());
+        spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
+        spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
+        spell.deliver.stash_effect.id = effect.id.toString();
+        spell.deliver.stash_effect.consume = 0;
+        spell.deliver.stash_effect.triggers = List.of(trigger);
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 

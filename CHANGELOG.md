@@ -1,3 +1,8 @@
+# 1.0.4
+
+- Fix Surging passive spell not stacking
+- Update translations
+
 # 1.0.3
 
 - Fix formatting error of Cooldown Touch spell description

@@ -27,6 +27,27 @@
   "target": {
     "type": "FROM_TRIGGER"
   },
+  "deliver": {
+    "type": "STASH_EFFECT",
+    "stash_effect": {
+      "id": "arsenal:surging",
+      "triggers": [
+        {
+          "target_override": "CASTER",
+          "type": "SPELL_IMPACT_SPECIFIC",
+          "target_conditions": [
+            {
+              "health_percent_below": 0.0
+            }
+          ],
+          "impact": {
+            "impact_type": "DAMAGE"
+          }
+        }
+      ],
+      "consume": 0
+    }
+  },
   "impacts": [
     {
       "action": {
