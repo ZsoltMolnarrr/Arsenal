@@ -54,7 +54,9 @@
         "type": "STATUS_EFFECT",
         "status_effect": {
           "effect_id": "arsenal:surging",
-          "amplifier": 4,
+          "duration": 12.0,
+          "amplifier": 1,
+          "amplifier_cap": 4,
           "refresh_duration": false,
           "apply_mode": "ADD"
         }

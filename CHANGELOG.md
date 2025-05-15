@@ -1,3 +1,8 @@
+# 1.0.5
+
+- Rampaging, Focusing, Surging now have longer duration
+- Update to latest Spell Engine
+
 # 1.0.4
 
 - Fix Surging passive spell not stacking

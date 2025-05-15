@@ -991,12 +991,15 @@ public class ArsenalSpells {
         return new Entry(id, spell, title, description, null, Category.RANGED);
     }
 
+    private static final float RAMPAGING_DURATION = 12;
+    private static final float RAMPAGING_COOLDOWN = 20;
+
     public static Color RAMPAGING_COLOR = Color.from(0xff471a);
     public static Entry rampaging_melee = add(rampaging_melee());
     private static Entry rampaging_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_melee");
         var title = "Rampaging";
-        var description = "Defeating enemies grants " + title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
+        var description = "Defeating enemies grants " + title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier_cap} times, lasting {effect_duration} seconds.";
         var effect = ArsenalEffects.RAMPAGING;
         SpellTooltip.DescriptionMutator mutator = (args) -> {
             var modifier = effect.config().firstModifier();
@@ -1021,7 +1024,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var buff = createEffectImpact(effect.id.toString(), 10);
+        var buff = createEffectImpact(effect.id.toString(), RAMPAGING_DURATION);
         buff.particles = new ParticleBatch[]{
                 new ParticleBatch(SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
@@ -1029,12 +1032,13 @@ public class ArsenalSpells {
                         .color(RAMPAGING_COLOR.toRGBA())
         };
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
-        buff.action.status_effect.amplifier = 4;
+        buff.action.status_effect.amplifier = 1;
+        buff.action.status_effect.amplifier_cap = 4;
         buff.action.status_effect.refresh_duration = false;
 
         spell.impacts = List.of(buff);
 
-        configureCooldown(spell, 20);
+        configureCooldown(spell, RAMPAGING_COOLDOWN);
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, mutator, Category.MELEE);
@@ -1046,7 +1050,7 @@ public class ArsenalSpells {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_ranged");
         var effect = ArsenalEffects.FOCUSING;
         var title = "Focusing";
-        var description = "Defeating enemies grants " + effect.title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
+        var description = "Defeating enemies grants " + effect.title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier_cap} times, lasting {effect_duration} seconds.";
         SpellTooltip.DescriptionMutator mutator = (args) -> {
             var modifier = effect.config().firstModifier();
             var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
@@ -1070,7 +1074,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var buff = createEffectImpact(effect.id.toString(), 10);
+        var buff = createEffectImpact(effect.id.toString(), RAMPAGING_DURATION);
         buff.particles = new ParticleBatch[]{
                 new ParticleBatch(SPARK_DECELERATE.toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
@@ -1078,12 +1082,13 @@ public class ArsenalSpells {
                         .color(FOCUSING_COLOR.toRGBA())
         };
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
-        buff.action.status_effect.amplifier = 2;
+        buff.action.status_effect.amplifier = 1;
+        buff.action.status_effect.amplifier_cap = 2;
         buff.action.status_effect.refresh_duration = false;
 
         spell.impacts = List.of(buff);
 
-        configureCooldown(spell, 20);
+        configureCooldown(spell, RAMPAGING_COOLDOWN);
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, mutator, Category.RANGED);
@@ -1095,7 +1100,7 @@ public class ArsenalSpells {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_spell");
         var effect = ArsenalEffects.SURGING;
         var title = "Surging";
-        var description = "Defeating enemies grants " + effect.title + " effect, increasing your spell critical chance by {bonus}, stacking up to {effect_amplifier} times, lasting {effect_duration} seconds.";
+        var description = "Defeating enemies grants " + effect.title + " effect, increasing your spell critical chance by {bonus}, stacking up to {effect_amplifier_cap} times, lasting {effect_duration} seconds.";
         SpellTooltip.DescriptionMutator mutator = (args) -> {
             var modifier = effect.config().firstModifier();
             var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
@@ -1118,7 +1123,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var duration = 10;
+        var duration = RAMPAGING_DURATION;
         var buff = createEffectImpact(effect.id.toString(), duration);
         buff.particles = new ParticleBatch[]{
                 new ParticleBatch(SPARK_DECELERATE.toString(),
@@ -1127,12 +1132,13 @@ public class ArsenalSpells {
                         .color(SURGING_COLOR.toRGBA())
         };
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
-        buff.action.status_effect.amplifier = 4;
+        buff.action.status_effect.amplifier = 1;
+        buff.action.status_effect.amplifier_cap = 4;
         buff.action.status_effect.refresh_duration = false;
 
         spell.impacts = List.of(buff);
 
-        configureCooldown(spell, duration * 2);
+        configureCooldown(spell, RAMPAGING_COOLDOWN);
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, mutator, Category.SPELL);

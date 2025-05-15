@@ -74,7 +74,9 @@
         "type": "STATUS_EFFECT",
         "status_effect": {
           "effect_id": "arsenal:focusing",
-          "amplifier": 2,
+          "duration": 12.0,
+          "amplifier": 1,
+          "amplifier_cap": 2,
           "refresh_duration": false,
           "apply_mode": "ADD"
         }
