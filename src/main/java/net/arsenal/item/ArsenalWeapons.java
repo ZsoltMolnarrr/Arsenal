@@ -253,6 +253,10 @@ public class ArsenalWeapons {
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 16F)
             .translatedName("Hammer of Destiny")
             .spell(ArsenalSpells.shockwave_melee.id());
+    public static final Weapon.Entry unique_hammer_2 = hammer("unique_hammer_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 16F)
+            .translatedName("Blackhand")
+            .spell(ArsenalSpells.exploding_melee.id());
     public static final Weapon.Entry unique_hammer_sw = hammer("unique_hammer_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 16F)
             .translatedName("Hammer of Sanctification")

@@ -1,3 +1,10 @@
+# 1.1.0
+
+Add new weapons
+- Great Hammer: Blackhand
+- Mace:
+- Shield:
+
 # 1.0.5
 
 - Rampaging, Focusing, Surging now have longer duration

@@ -5,6 +5,10 @@
       "required": false
     },
     {
+      "id": "arsenal:unique_hammer_2",
+      "required": false
+    },
+    {
       "id": "arsenal:unique_hammer_sw",
       "required": false
     }
