@@ -4,6 +4,7 @@ Add new weapons
 - Great Hammer: Blackhand
 - Mace:
 - Shield:
+- Sword: Dragonscale-Encrusted Longblade
 
 # 1.0.5
 

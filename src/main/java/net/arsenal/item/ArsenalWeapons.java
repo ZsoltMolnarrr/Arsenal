@@ -24,11 +24,12 @@ import java.util.function.Supplier;
 
 public class ArsenalWeapons {
     public static final ArrayList<Weapon.Entry> entries = new ArrayList<>();
+    public static final int LOOT_TIER = 5;
 
     private static Weapon.Entry entry(String name, Weapon.CustomMaterial material, Weapon.Factory factory, WeaponConfig defaults, Equipment.WeaponType weaponType) {
         var entry = new Weapon.Entry(ArsenalMod.NAMESPACE, name, material, factory, defaults, weaponType);
         entry.castSpell();
-        entry.loot(Equipment.LootProperties.of(5));
+        entry.loot(Equipment.LootProperties.of(LOOT_TIER));
         entries.add(entry);
         return entry;
     }
@@ -100,7 +101,11 @@ public class ArsenalWeapons {
         entry.weaponAttributesPreset = "sickle";
         return entry;
     }
-
+    private static Weapon.Entry sword(String name, Weapon.CustomMaterial material, float damage) {
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.4F), Equipment.WeaponType.SICKLE);
+        entry.weaponAttributesPreset = "sword";
+        return entry;
+    }
 
     public static final float TIER_5_SPELL_POWER = 7;
 
@@ -218,10 +223,11 @@ public class ArsenalWeapons {
             .translatedName("Thalassian Sickle")
             .spell(ArsenalSpells.swirling_melee.id());
 
-//    public static final Weapon.Entry unique_longsword_sw = sickle("unique_longsword_sw",
-//            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 6.8F)
-//            .translatedName("Dragonscale-Encrusted Longblade");
-
+    public static final Weapon.Entry unique_longsword_sw = sword("unique_longsword_sw",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 6.8F)
+            .translatedName("Dragonscale-Encrusted Longblade")
+            .loot(Equipment.LootProperties.of(LOOT_TIER, "dragon"))
+            .spell(ArsenalSpells.sundering_melee.id());
 
     public static final Weapon.Entry unique_double_axe_1 = axe("unique_double_axe_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)

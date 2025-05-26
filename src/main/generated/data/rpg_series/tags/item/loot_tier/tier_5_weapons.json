@@ -89,6 +89,10 @@
       "required": false
     },
     {
+      "id": "arsenal:unique_longsword_sw",
+      "required": false
+    },
+    {
       "id": "arsenal:unique_double_axe_1",
       "required": false
     },
