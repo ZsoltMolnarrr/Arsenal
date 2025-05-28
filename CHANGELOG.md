@@ -2,7 +2,7 @@
 
 Add new weapons
 - Great Hammer: Blackhand
-- Mace:
+- Mace: Stormherald
 - Shield:
 - Sword: Dragonscale-Encrusted Longblade
 

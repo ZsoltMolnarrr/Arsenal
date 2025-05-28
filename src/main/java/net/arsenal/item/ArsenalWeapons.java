@@ -272,6 +272,10 @@ public class ArsenalWeapons {
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
             .translatedName("Bonecracker")
             .spell(ArsenalSpells.sundering_melee.id());
+    public static final Weapon.Entry unique_mace_2 = mace("unique_mace_2",
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 11F)
+            .translatedName("Stormherald")
+            .spell(ArsenalSpells.stunning_melee.id());
     public static final Weapon.Entry unique_mace_sw = mace("unique_mace_sw",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 11F)
             .translatedName("Archon's Scepter")

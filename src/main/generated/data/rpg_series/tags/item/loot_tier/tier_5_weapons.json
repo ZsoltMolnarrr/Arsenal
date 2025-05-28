@@ -133,6 +133,10 @@
       "required": false
     },
     {
+      "id": "arsenal:unique_mace_2",
+      "required": false
+    },
+    {
       "id": "arsenal:unique_mace_sw",
       "required": false
     },
