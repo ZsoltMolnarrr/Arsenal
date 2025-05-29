@@ -1,3 +1,13 @@
+# 1.1.1
+
+Fix some emissive textures.
+
+Add new weapons
+- Great Hammer: Blackhand
+- Mace: Stormherald
+- Shield: Bastion of Light
+- Sword: Dragonscale-Encrusted Longblade
+
 # 1.1.0
 
 Add new weapons
