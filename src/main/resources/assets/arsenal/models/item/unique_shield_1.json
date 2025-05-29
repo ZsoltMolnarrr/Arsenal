@@ -1,7 +1,8 @@
 {
 	"parent": "arsenal:item/base/unique_shield_1",
 	"textures": {
-		"0": "arsenal:item/unique_shield_1"
+		"0": "arsenal:item/unique_shield_1",
+		"particle": "arsenal:item/unique_shield_1"
 	},
 	"overrides": [
 		{ "predicate": { "blocking": 1 }, "model": "arsenal:item/unique_shield_1_blocking" }

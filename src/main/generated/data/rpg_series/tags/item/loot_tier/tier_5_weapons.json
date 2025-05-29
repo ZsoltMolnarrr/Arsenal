@@ -165,6 +165,10 @@
       "required": false
     },
     {
+      "id": "arsenal:unique_shield_2",
+      "required": false
+    },
+    {
       "id": "arsenal:unique_shield_sw",
       "required": false
     },

@@ -118,15 +118,23 @@ public class ArsenalShields {
     private static final int durability_t4 = 4032;
 
     public static Entry unique_shield_1 = shield("unique_shield_1",
-            () -> Ingredient.ofItems(Items.NETHERITE_INGOT), List.of(
+            () -> Ingredient.ofItems(Items.NETHERITE_SCRAP), List.of(
                     new AttributeModifier(GENERIC_ARMOR_TOUGHNESS,  2,  EntityAttributeModifier.Operation.ADD_VALUE),
                     new AttributeModifier(GENERIC_MAX_HEALTH,  6.0f,  EntityAttributeModifier.Operation.ADD_VALUE)
             ),
             durability_t4)
             .translatedName("Bulwark of Azzinoth")
             .spell(ArsenalSpells.spiked_shield.id());
+    public static Entry unique_shield_2 = shield("unique_shield_2",
+            () -> Ingredient.ofItems(Items.IRON_BLOCK), List.of(
+                    new AttributeModifier(GENERIC_ARMOR_TOUGHNESS,  2,  EntityAttributeModifier.Operation.ADD_VALUE),
+                    new AttributeModifier(GENERIC_MAX_HEALTH,  6.0f,  EntityAttributeModifier.Operation.ADD_VALUE)
+            ),
+            durability_t4)
+            .translatedName("Bastion of Light")
+            .spell(ArsenalSpells.guarding_shield.id());
     public static Entry unique_shield_sw = shield("unique_shield_sw",
-            () -> Ingredient.ofItems(Items.NETHERITE_INGOT), List.of(
+            () -> Ingredient.ofItems(Items.GOLD_BLOCK), List.of(
                     new AttributeModifier(GENERIC_ARMOR_TOUGHNESS,  2,  EntityAttributeModifier.Operation.ADD_VALUE),
                     new AttributeModifier(GENERIC_MAX_HEALTH,  6.0f,  EntityAttributeModifier.Operation.ADD_VALUE)
             ),

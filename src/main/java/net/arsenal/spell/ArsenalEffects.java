@@ -124,7 +124,7 @@ public class ArsenalEffects {
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE.getIdAsString(),
-                                    2F,
+                                    3F,
                                     EntityAttributeModifier.Operation.ADD_VALUE
                             ),
                             new AttributeModifier(

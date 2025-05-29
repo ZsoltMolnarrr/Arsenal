@@ -3,7 +3,7 @@
 Add new weapons
 - Great Hammer: Blackhand
 - Mace: Stormherald
-- Shield:
+- Shield: Bastion of Light
 - Sword: Dragonscale-Encrusted Longblade
 
 # 1.0.5

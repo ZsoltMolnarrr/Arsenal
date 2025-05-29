@@ -920,6 +920,55 @@ public class ArsenalSpells {
         return new Entry(id, spell, title, description, null, Category.SHIELD);
     }
 
+    public static Entry guarding_shield = add(guarding_shield());
+    private static Entry guarding_shield() {
+        var id = Identifier.of(ArsenalMod.NAMESPACE, "guarding_shield");
+        var title = "Guarding";
+        var description = "On shield block: {trigger_chance} chance to reduce damage taken by {bonus}, lasting {effect_duration} seconds.";
+        var effect = ArsenalEffects.GUARDING;
+
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.3F;
+        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        buffAreaTarget(spell, SpellEngineParticles.area_effect_714.id(), GUARDING_COLOR.toRGBA());
+
+        var buff = createEffectImpact(ArsenalEffects.GUARDING.id.toString(), 5);
+        buff.particles = new ParticleBatch[]{
+                new ParticleBatch(
+                        SpellEngineParticles.area_circle_1.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.FEET,
+                        1, 0.2F, 0.2F)
+                        .followEntity(true)
+                        .scale(0.8F)
+                        .maxAge(0.4F)
+                        .color(GUARDING_COLOR.toRGBA()),
+                new ParticleBatch(SpellEngineParticles.sign_shield.id().toString(),
+                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
+                        1, 0.75F, 0.75F)
+                        .scale(0.8F)
+                        .color(GUARDING_COLOR.alpha(0.75F).toRGBA())
+                        .followEntity(true)
+        };
+        buff.sound = new Sound(ArsenalSounds.guardian_strike_impact.id().toString());
+        spell.impacts = List.of(buff);
+        configureCooldown(spell, 10);
+
+        return new Entry(id, spell, title, description, mutator, Category.SHIELD);
+    }
+
     public static final Color SPIKED_COLOR = Color.from(0xbfbfbf);
     public static Entry spiked_shield = add(spiked_shield());
     private static Entry spiked_shield() {

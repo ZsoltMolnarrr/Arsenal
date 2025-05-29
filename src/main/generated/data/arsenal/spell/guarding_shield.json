@@ -1,0 +1,77 @@
+{
+  "school": "spell_power:physical_melee",
+  "range": 0.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "SHIELD_BLOCK",
+        "chance": 0.3
+      }
+    ]
+  },
+  "release": {
+    "particles_scaled_with_ranged": [
+      {
+        "particle_id": "spell_engine:area_effect_714",
+        "origin": "GROUND",
+        "shape": "SPHERE",
+        "count": 1.0,
+        "max_speed": 0.0,
+        "color_rgba": 1724710911
+      }
+    ]
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "include_caster": true
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "arsenal:guarding",
+          "duration": 5.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:area_circle_1",
+          "origin": "FEET",
+          "shape": "LINE_VERTICAL",
+          "count": 1.0,
+          "min_speed": 0.2,
+          "max_speed": 0.2,
+          "color_rgba": 1724710911,
+          "scale": 0.8,
+          "follow_entity": true,
+          "max_age": 0.4
+        },
+        {
+          "particle_id": "spell_engine:sign_shield",
+          "origin": "CENTER",
+          "shape": "LINE_VERTICAL",
+          "count": 1.0,
+          "min_speed": 0.75,
+          "max_speed": 0.75,
+          "color_rgba": 1724710847,
+          "scale": 0.8,
+          "follow_entity": true
+        }
+      ],
+      "sound": {
+        "id": "arsenal:guardian_strike_impact"
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 10.0,
+      "hosting_item": false
+    }
+  }
+}
