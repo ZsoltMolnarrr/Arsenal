@@ -74,10 +74,10 @@ public class ArsenalBows {
             return durability;
         }
 
-        public Item create(Item.Settings settings) {
+        public Item create(Item.Settings settings, RangedConfig config) {
             this.item = factory.create(
                     settings.maxDamage(durability),
-                    defaults,
+                    config,
                     repairIngredientSupplier
             );
             return this.item;
@@ -207,7 +207,7 @@ public class ArsenalBows {
                     settings.component(SpellDataComponents.SPELL_CONTAINER, SpellContainerHelper.createForRangedWeapon(entry.spells));
                 }
             }
-            var item = entry.create(settings);
+            var item = entry.create(settings, config);
             Registry.register(Registries.ITEM, entry.id, item);
         }
         ItemGroupEvents.modifyEntriesEvent(Group.KEY).register((content) -> {
