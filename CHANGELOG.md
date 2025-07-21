@@ -1,3 +1,7 @@
+# 1.2.0
+
+Update to support latest Spell Engine
+
 # 1.1.2
 
 Fix ranged weapons always using default configuration.
