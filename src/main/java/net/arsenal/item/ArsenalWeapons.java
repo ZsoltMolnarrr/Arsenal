@@ -224,7 +224,7 @@ public class ArsenalWeapons {
             .spell(ArsenalSpells.swirling_melee.id());
 
     public static final Weapon.Entry unique_longsword_sw = sword("unique_longsword_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 6.8F)
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 8F)
             .translatedName("Dragonscale-Encrusted Longblade")
             .loot(Equipment.LootProperties.of(LOOT_TIER, "dragon"))
             .spell(ArsenalSpells.sundering_melee.id());
