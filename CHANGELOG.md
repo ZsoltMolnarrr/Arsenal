@@ -1,3 +1,8 @@
+# 1.2.1
+
+- Fix longblade damage
+- Update to support latest Spell Engine 
+
 # 1.2.0
 
 Update to support latest Spell Engine
