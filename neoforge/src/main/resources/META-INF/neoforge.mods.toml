@@ -1,29 +1,42 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+license = "All Rights Reserved"
 
 [[mods]]
 modId = "arsenal"
 version = "${version}"
-displayName = "Arsenal"
-authors = "Me!"
+displayName = "Arsenal (RPG Series)"
+authors = "Daedelus"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Legendary weapons from the past - not crafted, but conquered.
 '''
-#logoFile = ""
+logoFile = "icon.png"
 
 [[dependencies.arsenal]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.1,)"
+versionRange = "[${neoforge_version},)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.arsenal]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.1,)"
+versionRange = "[${minecraft_compat_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.arsenal]]
+modId = "spell_engine"
+type = "required"
+versionRange = "[${spell_engine_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.arsenal]]
+modId = "ranged_weapon_api"
+type = "required"
+versionRange = "[${ranged_weapon_api_version},)"
 ordering = "NONE"
 side = "BOTH"
 
