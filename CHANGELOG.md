@@ -1,3 +1,7 @@
+# 1.3.0
+
+- Migrate to Architectury
+
 # 1.2.1
 
 - Fix longblade damage

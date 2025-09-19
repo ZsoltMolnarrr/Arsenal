@@ -3,7 +3,6 @@ package net.arsenal.client;
 import net.arsenal.client.particle.AbsorbParticleSpawner;
 import net.arsenal.spell.ArsenalEffects;
 import net.arsenal.spell.ArsenalProjectiles;
-import net.fabricmc.api.ClientModInitializer;
 import net.arsenal.spell.ArsenalSpells;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.api.render.BuffParticleSpawner;
@@ -13,10 +12,8 @@ import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.fx.SpellEngineParticles;
 
-public class ArsenalClient implements ClientModInitializer {
-
-    @Override
-    public void onInitializeClient() {
+public class ArsenalClientMod {
+    public static void init() {
         for (var entry: ArsenalSpells.all) {
             if (entry.mutator() != null) {
                 SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());

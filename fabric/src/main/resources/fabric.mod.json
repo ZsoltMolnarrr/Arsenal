@@ -7,14 +7,14 @@
   "authors": [ "Daedelus" ],
   "contact": {},
   "license": "All-Rights-Reserved",
-  "icon": "assets/arsenal/icon.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
-      "net.arsenal.client.ArsenalClient"
+      "net.arsenal.fabric.client.FabricClientMod"
     ],
     "main": [
-      "net.arsenal.ArsenalMod"
+      "net.arsenal.fabric.FabricMod"
     ],
     "fabric-datagen": [
       "net.arsenal.datagen.ArsenalDataGen"

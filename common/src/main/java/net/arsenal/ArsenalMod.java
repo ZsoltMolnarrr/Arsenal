@@ -4,7 +4,6 @@ import net.arsenal.config.RangedConfigFile;
 import net.arsenal.item.ArsenalBows;
 import net.arsenal.item.ArsenalShields;
 import net.arsenal.item.ArsenalWeapons;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -13,9 +12,9 @@ import net.arsenal.item.Group;
 import net.arsenal.spell.ArsenalEffects;
 import net.arsenal.spell.ArsenalSounds;
 import net.spell_engine.api.config.ConfigFile;
-import net.tinyconfig.ConfigManager;
+import net.tiny_config.ConfigManager;
 
-public class ArsenalMod implements ModInitializer {
+public class ArsenalMod {
     public static final String NAMESPACE = "arsenal";
     public static final String DIRECTORY = NAMESPACE;
     public static ConfigManager<ConfigFile.Equipment> itemConfig = new ConfigManager<>
@@ -44,8 +43,7 @@ public class ArsenalMod implements ModInitializer {
             .sanitize(true)
             .build();
 
-    @Override
-    public void onInitialize() {
+    public static void init() {
         itemConfig.refresh();
         rangedConfig.refresh();
         shieldConfig.refresh();
