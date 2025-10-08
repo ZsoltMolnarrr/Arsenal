@@ -1013,6 +1013,7 @@ public class ArsenalSpells {
         var trigger = new Spell.Trigger();
         trigger.type = Spell.Trigger.Type.ARROW_SHOT;
         trigger.chance = 0.2F;
+        trigger.fire_delay = 1;
         spell.passive.triggers = List.of(trigger);
 
         spell.release.particles = new ParticleBatch[]{
@@ -1028,7 +1029,7 @@ public class ArsenalSpells {
         spell.deliver.type = Spell.Delivery.Type.SHOOT_ARROW;
         spell.deliver.shoot_arrow = new Spell.Delivery.ShootArrow();
         spell.deliver.shoot_arrow.launch_properties.velocity = 3.15F;
-        spell.deliver.delay = 3;
+        spell.deliver.delay = 2;
 
         spell.arrow_perks = new Spell.ArrowPerks();
         spell.arrow_perks.damage_multiplier = 1F;

@@ -7,6 +7,7 @@
     "triggers": [
       {
         "type": "ARROW_SHOT",
+        "fire_delay": 1,
         "chance": 0.2
       }
     ]
@@ -30,7 +31,7 @@
   },
   "deliver": {
     "type": "SHOOT_ARROW",
-    "delay": 3,
+    "delay": 2,
     "shoot_arrow": {}
   },
   "arrow_perks": {

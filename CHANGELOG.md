@@ -1,3 +1,7 @@
+# 1.3.1
+
+- Update Bonus Shot (technical change)
+
 # 1.3.0
 
 - Migrate to Architectury
