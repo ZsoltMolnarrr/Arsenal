@@ -1,6 +1,8 @@
 # 1.3.1
 
+- Add loot theme tags
 - Update Bonus Shot (technical change)
+- Update translations
 
 # 1.3.0
 
