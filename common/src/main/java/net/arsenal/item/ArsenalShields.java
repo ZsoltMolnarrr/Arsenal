@@ -82,6 +82,11 @@ public class ArsenalShields {
             spells = List.of(spellId);
             return this;
         }
+
+        public Entry loot(int tier, String theme) {
+            this.lootProperties = Equipment.LootProperties.of(tier, theme);
+            return this;
+        }
     }
 
     public static final ArrayList<Entry> entries = new ArrayList<>();
@@ -103,7 +108,7 @@ public class ArsenalShields {
 
     public static Entry shield(String name, Supplier<Ingredient> repair, List<AttributeModifier> attributes, int durability) {
         var entry = new Entry(Identifier.of(ArsenalMod.NAMESPACE, name), repair, attributes, durability);
-        entry.lootProperties = Equipment.LootProperties.of(5);
+        entry.lootProperties = Equipment.LootProperties.of(Loot.TIER);
         entries.add(entry);
         return entry;
     }
@@ -124,7 +129,8 @@ public class ArsenalShields {
             ),
             durability_t4)
             .translatedName("Bulwark of Azzinoth")
-            .spell(ArsenalSpells.spiked_shield.id());
+            .spell(ArsenalSpells.spiked_shield.id())
+            .loot(Loot.TIER, Loot.Theme.EVIL.toString());
     public static Entry unique_shield_2 = shield("unique_shield_2",
             () -> Ingredient.ofItems(Items.IRON_BLOCK), List.of(
                     new AttributeModifier(GENERIC_ARMOR_TOUGHNESS,  2,  EntityAttributeModifier.Operation.ADD_VALUE),
@@ -132,7 +138,8 @@ public class ArsenalShields {
             ),
             durability_t4)
             .translatedName("Bastion of Light")
-            .spell(ArsenalSpells.guarding_shield.id());
+            .spell(ArsenalSpells.guarding_shield.id())
+            .loot(Loot.TIER, Loot.Theme.GENERIC.toString());
     public static Entry unique_shield_sw = shield("unique_shield_sw",
             () -> Ingredient.ofItems(Items.GOLD_BLOCK), List.of(
                     new AttributeModifier(GENERIC_ARMOR_TOUGHNESS,  2,  EntityAttributeModifier.Operation.ADD_VALUE),
@@ -140,7 +147,8 @@ public class ArsenalShields {
             ),
             durability_t4)
             .translatedName("Sword Breaker's Bulwark")
-            .spell(ArsenalSpells.unyielding_shield.id());
+            .spell(ArsenalSpells.unyielding_shield.id())
+            .loot(Loot.TIER, Loot.Theme.ELVEN.toString());
 
     static {
         for (var entry: entries) {

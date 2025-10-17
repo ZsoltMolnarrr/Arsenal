@@ -109,6 +109,11 @@ public class ArsenalBows {
             spells = List.of(spellId);
             return this;
         }
+
+        public RangedEntry loot(int tier, String theme) {
+            this.lootProperties = Equipment.LootProperties.of(tier, theme);
+            return this;
+        }
     }
     public static final ArrayList<RangedEntry> entries = new ArrayList<>();
 
@@ -131,7 +136,7 @@ public class ArsenalBows {
         var entry = new RangedEntry(Identifier.of(ArsenalMod.NAMESPACE, name), CustomBow::new, defaults, repairIngredientSupplier, durability);
         entry.weaponAttributesPreset = "bow_two_handed_heavy";
         entry.weaponType = Equipment.WeaponType.LONG_BOW;
-        entry.lootProperties = Equipment.LootProperties.of(5);
+        entry.lootProperties = Equipment.LootProperties.of(Loot.TIER);
         entries.add(entry);
         return entry;
     }
@@ -140,7 +145,7 @@ public class ArsenalBows {
         var entry = new RangedEntry(Identifier.of(ArsenalMod.NAMESPACE, name), CustomCrossbow::new, defaults, repairIngredientSupplier, durability);
         entry.weaponAttributesPreset = "crossbow_two_handed_heavy";
         entry.weaponType = Equipment.WeaponType.HEAVY_CROSSBOW;
-        entry.lootProperties = Equipment.LootProperties.of(5);
+        entry.lootProperties = Equipment.LootProperties.of(Loot.TIER);
         entries.add(entry);
         return entry;
     }
@@ -149,33 +154,39 @@ public class ArsenalBows {
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
             .translatedName("Sunfury Hawk-Bow")
-            .spell(ArsenalSpells.radiance_ranged.id());
+            .spell(ArsenalSpells.radiance_ranged.id())
+            .loot(Loot.TIER, Loot.Theme.DIVINE.toString());
     public static RangedEntry unique_longbow_2 = bow("unique_longbow_2", durabilityTier4,
             () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
             new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
             .translatedName("Black Bow of the Betrayer")
-            .spell(ArsenalSpells.wither_ranged.id());
+            .spell(ArsenalSpells.wither_ranged.id())
+            .loot(Loot.TIER, Loot.Theme.EVIL.toString());
     public static RangedEntry unique_longbow_sw = bow("unique_longbow_sw", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(13.5F, pullTime_longBow, velocity_longBow))
             .translatedName("Golden Bow of Quel'Thalas")
-            .spell(ArsenalSpells.rampaging_ranged.id());
+            .spell(ArsenalSpells.rampaging_ranged.id())
+            .loot(Loot.TIER, Loot.Theme.ELVEN.toString());
 
     public static RangedEntry unique_heavy_crossbow_1 = crossbow("unique_heavy_crossbow_1", durabilityTier4,
             () -> Ingredient.ofItems(Items.NETHERITE_SCRAP),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
             .translatedName("Heavy Crossbow of the Phoenix")
-            .spell(ArsenalSpells.flame_cloud_ranged.id());
+            .spell(ArsenalSpells.flame_cloud_ranged.id())
+            .loot(Loot.TIER, Loot.Theme.FIERY.toString());
     public static RangedEntry unique_heavy_crossbow_2 = crossbow("unique_heavy_crossbow_2", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
             .translatedName("Necropolis Ballista")
-            .spell(ArsenalSpells.poison_cloud_ranged.id());
+            .spell(ArsenalSpells.poison_cloud_ranged.id())
+            .loot(Loot.TIER, Loot.Theme.EVIL.toString());
     public static RangedEntry unique_heavy_crossbow_sw = crossbow("unique_heavy_crossbow_sw", durabilityTier4,
             () -> Ingredient.ofItems(Items.GOLD_BLOCK),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
             .translatedName("Crossbow of Relentless Strikes")
-            .spell(ArsenalSpells.bonus_shot_ranged.id());
+            .spell(ArsenalSpells.bonus_shot_ranged.id())
+            .loot(Loot.TIER, Loot.Theme.ELVEN.toString());
 
     static {
         for (var entry: entries) {

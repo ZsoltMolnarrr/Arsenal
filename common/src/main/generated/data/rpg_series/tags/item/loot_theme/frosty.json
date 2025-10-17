@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "arsenal:unique_staff_damage_6",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_dagger_1",
+      "required": false
+    }
+  ]
+}

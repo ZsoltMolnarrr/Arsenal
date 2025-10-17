@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "arsenal:unique_staff_damage_2",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_staff_heal_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_glaive_2",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_hammer_1",
+      "required": false
+    }
+  ]
+}

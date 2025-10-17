@@ -1,0 +1,28 @@
+{
+  "values": [
+    {
+      "id": "arsenal:unique_staff_damage_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_staff_damage_5",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_spear_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_sickle_1",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_mace_2",
+      "required": false
+    },
+    {
+      "id": "arsenal:unique_shield_2",
+      "required": false
+    }
+  ]
+}
