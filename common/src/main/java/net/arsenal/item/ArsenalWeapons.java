@@ -101,10 +101,15 @@ public class ArsenalWeapons {
         return entry;
     }
     private static Weapon.Entry sword(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.4F), Equipment.WeaponType.SICKLE);
+        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.4F), Equipment.WeaponType.SWORD);
         entry.weaponAttributesPreset = "sword";
         return entry;
     }
+//    private static Weapon.Entry scimitar(String name, Weapon.CustomMaterial material, float damage) {
+//        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.4F), Equipment.WeaponType.SWORD);
+//        entry.weaponAttributesPreset = "scimitar";
+//        return entry;
+//    }
 
     public static final float TIER_5_SPELL_POWER = 7;
 

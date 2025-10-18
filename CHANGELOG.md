@@ -3,6 +3,7 @@
 - Add loot theme tags
 - Update Bonus Shot (technical change)
 - Update translations
+- Make Dragonscale-Encrusted Longblade happier :)
 
 # 1.3.0
 

@@ -11,10 +11,6 @@
     {
       "id": "arsenal:unique_sickle_sw",
       "required": false
-    },
-    {
-      "id": "arsenal:unique_longsword_sw",
-      "required": false
     }
   ]
 }
