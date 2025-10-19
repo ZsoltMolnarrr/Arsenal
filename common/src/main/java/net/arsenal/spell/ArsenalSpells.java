@@ -6,6 +6,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
@@ -446,7 +447,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        flameCloud(spell, 0.4F, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
+        flameCloud(spell, 0.25F, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
 
         configureCooldown(spell, 3);
         spell.cost.batching = true;
@@ -469,7 +470,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        flameCloud(spell, 0.3F, EntityAttributes_RangedWeapon.DAMAGE.id.toString());
+        flameCloud(spell, 0.25F, EntityAttributes_RangedWeapon.DAMAGE.id.toString());
 
         // configureCooldown(spell, 3);
         // spell.cost.batching = true;
@@ -496,7 +497,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        flameCloud(spell, 0.2F, null);
+        flameCloud(spell, 0.25F, null);
 
         configureCooldown(spell, 2);
         // spell.cost.batching = true;
@@ -569,9 +570,10 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        poisonCloud(spell, 0.4F);
+        var duration = 6;
+        poisonCloud(spell, 0.25F, duration);
 
-        configureCooldown(spell, 1);
+        configureCooldown(spell, duration * 0.5F);
         spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, null, Category.MELEE);
@@ -592,15 +594,16 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        poisonCloud(spell, 0.3F);
+        var duration = 8;
+        poisonCloud(spell, 0.25F, duration);
 
-        // configureCooldown(spell, 3);
+        configureCooldown(spell, duration * 0.5F);
         // spell.cost.batching = true;
 
         return new Entry(id, spell, title, description, null, Category.RANGED);
     }
 
-    private static void poisonCloud(Spell spell, float coefficient) {
+    private static void poisonCloud(Spell spell, float coefficient, float cloudDuration) {
         spell.deliver.type = Spell.Delivery.Type.CLOUD;
         spell.deliver.delay = 8;
         var cloud = new Spell.Delivery.Cloud();
@@ -608,7 +611,7 @@ public class ArsenalSpells {
         cloud.volume.area.vertical_range_multiplier = 0.3F;
         cloud.volume.sound = new Sound(ArsenalSounds.poison_cloud_tick.id().toString());
         cloud.impact_tick_interval = 8;
-        cloud.time_to_live_seconds = 3;
+        cloud.time_to_live_seconds = cloudDuration;
         cloud.spawn.sound = new Sound(ArsenalSounds.poison_cloud_spawn.id().toString());
         cloud.client_data = new Spell.Delivery.Cloud.ClientData();
         cloud.client_data.light_level = 0;
@@ -624,14 +627,17 @@ public class ArsenalSpells {
         };
         spell.deliver.clouds = List.of(cloud);
 
-        var impact = new Spell.Impact();
-        impact.action = new Spell.Impact.Action();
-        impact.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        impact.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        impact.action.status_effect.effect_id = "poison";
-        impact.action.status_effect.show_particles = true;
-        impact.action.status_effect.duration = 5;
-        impact.action.status_effect.amplifier_power_multiplier = coefficient;
+         var impact = SpellBuilder.Impacts.effectAdd_ScaledCap("poison", 5, coefficient);
+//        var impact = SpellBuilder.Impacts.effectSet_ScaledAmplifier("poison", 5, 0, coefficient);
+//        var impact = new Spell.Impact();
+//        impact.action = new Spell.Impact.Action();
+//        impact.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
+//        impact.action.status_effect = new Spell.Impact.Action.StatusEffect();
+//        impact.action.status_effect.effect_id = "poison";
+//
+//        impact.action.status_effect.show_particles = true;
+//        impact.action.status_effect.duration = 5;
+//        impact.action.status_effect.amplifier_power_multiplier = coefficient;
         // impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_2.id().toString());
         impact.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
@@ -1198,7 +1204,7 @@ public class ArsenalSpells {
     public static Entry frost_cloud_spell = add(frost_cloud_spell());
     private static Entry frost_cloud_spell() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "frost_cloud_spell");
-        var title = "Frostbite Puddle";
+        var title = "Frosty Puddle";
         var description = "On spell hit: {trigger_chance} chance to create a freezing zone around the target, slowing its movement and attack speed, lasting for {effect_duration} seconds.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.FROST;

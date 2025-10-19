@@ -4,7 +4,9 @@ import net.arsenal.ArsenalMod;
 import net.fabric_extras.ranged_weapon.api.EntityAttributes_RangedWeapon;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ConfigFile;
@@ -171,6 +173,8 @@ public class ArsenalEffects {
         for (var entry: entries) {
             Synchronized.configure(entry.effect, true);
         }
+
+        Synchronized.configure(StatusEffects.POISON.value(), true);
 
         Effects.register(entries, config.effects);
     }

@@ -79,7 +79,7 @@
   "spell.arsenal.flame_cloud_spell.description": "On spell hit: {trigger_chance} chance to ignite the area around the target, dealing {damage} damage per second.",
   "spell.arsenal.flame_cloud_spell.name": "Flame Strike",
   "spell.arsenal.frost_cloud_spell.description": "On spell hit: {trigger_chance} chance to create a freezing zone around the target, slowing its movement and attack speed, lasting for {effect_duration} seconds.",
-  "spell.arsenal.frost_cloud_spell.name": "Frostbite Puddle",
+  "spell.arsenal.frost_cloud_spell.name": "Frosty Puddle",
   "spell.arsenal.guardian_heal.description": "Healing targets under {threshold} health grants them a temporary absorption shield, lasting {effect_duration} seconds.",
   "spell.arsenal.guardian_heal.name": "Guardian Remedy",
   "spell.arsenal.guarding_shield.description": "On shield block: {trigger_chance} chance to reduce damage taken by {bonus}, lasting {effect_duration} seconds.",

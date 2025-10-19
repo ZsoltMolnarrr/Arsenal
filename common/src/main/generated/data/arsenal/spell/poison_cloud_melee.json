@@ -29,7 +29,7 @@
             "id": "arsenal:poison_cloud_tick"
           }
         },
-        "time_to_live_seconds": 3.0,
+        "time_to_live_seconds": 6.0,
         "impact_tick_interval": 8,
         "client_data": {
           "particles": [
@@ -68,8 +68,10 @@
         "status_effect": {
           "effect_id": "poison",
           "duration": 5.0,
-          "amplifier_power_multiplier": 0.4,
-          "show_particles": true
+          "amplifier": 1,
+          "amplifier_cap": 1,
+          "amplifier_cap_power_multiplier": 0.25,
+          "apply_mode": "ADD"
         }
       },
       "particles": [
@@ -97,7 +99,7 @@
   "cost": {
     "batching": true,
     "cooldown": {
-      "duration": 1.0,
+      "duration": 3.0,
       "hosting_item": false
     }
   }
