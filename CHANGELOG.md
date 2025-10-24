@@ -1,3 +1,7 @@
+# 1.3.2
+
+- Fix some repair materials
+
 # 1.3.1
 
 - Add loot theme tags

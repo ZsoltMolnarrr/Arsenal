@@ -176,7 +176,7 @@ public class ArsenalBows {
             .spell(ArsenalSpells.flame_cloud_ranged.id())
             .loot(Loot.TIER, Loot.Theme.FIERY.toString());
     public static RangedEntry unique_heavy_crossbow_2 = crossbow("unique_heavy_crossbow_2", durabilityTier4,
-            () -> Ingredient.ofItems(Items.GOLD_BLOCK),
+            () -> Ingredient.ofItems(Items.BONE_BLOCK),
             new RangedConfig(17F, pullTime_heavyCrossbow, velocity_heavyCrossbow))
             .translatedName("Necropolis Ballista")
             .spell(ArsenalSpells.poison_cloud_ranged.id())
