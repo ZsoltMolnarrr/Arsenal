@@ -13,7 +13,7 @@ public class ArsenalMod {
     public static final String NAMESPACE = "arsenal";
     public static final String DIRECTORY = NAMESPACE;
     public static ConfigManager<ConfigFile.Equipment> itemConfig = new ConfigManager<>
-            ("equipment", new ConfigFile.Equipment())
+            ("equipment_v2", new ConfigFile.Equipment())
             .builder()
             .setDirectory(DIRECTORY)
             .sanitize(true)
@@ -30,7 +30,6 @@ public class ArsenalMod {
             .setDirectory(DIRECTORY)
             .sanitize(true)
             .build();
-
     public static ConfigManager<ConfigFile.Effects> effectConfig = new ConfigManager<>
             ("effects", new ConfigFile.Effects())
             .builder()

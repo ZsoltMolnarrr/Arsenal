@@ -1,3 +1,7 @@
+# 1.3.3
+
+- Update spell power bonus of staves
+
 # 1.3.2
 
 - Fix some repair materials

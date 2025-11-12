@@ -111,7 +111,7 @@ public class ArsenalWeapons {
 //        return entry;
 //    }
 
-    public static final float TIER_5_SPELL_POWER = 7;
+    public static final float TIER_5_SPELL_POWER = 8;
 
     public static final Weapon.Entry unique_claymore_1 = claymore("unique_claymore_1",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 13F)
