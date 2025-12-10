@@ -1,3 +1,7 @@
+# 1.3.4
+
+- Update translations
+
 # 1.3.3
 
 - Update spell power bonus of staves
