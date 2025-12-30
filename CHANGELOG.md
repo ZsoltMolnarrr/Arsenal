@@ -1,6 +1,7 @@
 # 1.3.4
 
 - Update translations
+- Update some of the melee and ranged spell triggers
 
 # 1.3.3
 

@@ -13,6 +13,19 @@
             "health_percent_below": 0.0
           }
         ]
+      },
+      {
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "equipment_condition": "MAINHAND",
+        "target_conditions": [
+          {
+            "health_percent_below": 0.0
+          }
+        ],
+        "spell": {
+          "school": "spell_power:physical_melee",
+          "type": "ACTIVE"
+        }
       }
     ]
   },

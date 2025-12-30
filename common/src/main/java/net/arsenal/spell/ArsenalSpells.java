@@ -15,6 +15,7 @@ import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
+import net.spell_engine.internals.SpellTriggers;
 import net.spell_power.api.SpellSchools;
 import org.jetbrains.annotations.Nullable;
 
@@ -116,15 +117,6 @@ public class ArsenalSpells {
             SpellEngineParticles.MagicParticles.Motion.ASCEND
     ).id();
 
-    private static Spell.Trigger killedByMeleeTrigger() {
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        var deadCondition = deadCondition();
-        trigger.target_conditions = List.of(deadCondition);
-        return trigger;
-    }
-
     private static Spell.TargetCondition deadCondition() {
         var deadCondition = new Spell.TargetCondition();
         deadCondition.health_percent_below = 0F;
@@ -147,23 +139,6 @@ public class ArsenalSpells {
         var deadCondition = deadCondition();
         trigger.target_conditions = List.of(deadCondition);
         return trigger;
-    }
-
-    private static List<Spell.Trigger> killedByRangedTrigger() {
-        var deadCondition = deadCondition();
-
-        var arrowTrigger = new Spell.Trigger();
-        arrowTrigger.type = Spell.Trigger.Type.ARROW_IMPACT;
-        arrowTrigger.equipment_condition = EquipmentSlot.MAINHAND;
-        arrowTrigger.target_conditions = List.of(deadCondition);
-
-        var skillTrigger = new Spell.Trigger();
-        skillTrigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
-        skillTrigger.spell = new Spell.Trigger.SpellCondition();
-        skillTrigger.spell.school = ExternalSpellSchools.PHYSICAL_RANGED.id.toString();
-        skillTrigger.target_conditions = List.of(deadCondition);
-
-        return List.of(arrowTrigger, skillTrigger);
     }
 
     private static void areaTarget(Spell spell, Identifier particleId, long particleColor) {
@@ -229,9 +204,8 @@ public class ArsenalSpells {
         spell.school = SpellSchools.HEALING;
         spell.range = 2F;
 
-        var trigger = new Spell.Trigger();
+        var trigger = SpellBuilder.Triggers.arrowHit();
         trigger.chance = 0.25F;
-        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
         trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
@@ -310,12 +284,14 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        trigger.chance_batching = true;
-        trigger.chance = 0.2F;
-        spell.passive.triggers = List.of(trigger);
+        var triggers =  SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeImpact()
+        );
+        triggers.forEach(trigger -> {
+            trigger.chance_batching = true;
+            trigger.chance = 0.2F;
+        });
+        spell.passive.triggers = triggers;
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
@@ -337,12 +313,13 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        trigger.chance = 0.2F;
-        spell.passive.triggers = List.of(trigger);
-
+        var triggers =  SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeImpact()
+        );
+        triggers.forEach(trigger -> {
+            trigger.chance = 0.2F;
+        });
+        spell.passive.triggers = triggers;
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         var explosion = new Spell.Impact();
@@ -375,11 +352,13 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        trigger.chance = 0.2F;
-        spell.passive.triggers = List.of(trigger);
+        var triggers =  SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeImpact()
+        );
+        triggers.forEach(trigger -> {
+            trigger.chance = 0.2F;
+        });
+        spell.passive.triggers = triggers;
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
@@ -399,8 +378,7 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        var trigger = SpellBuilder.Triggers.arrowHit();
         trigger.chance = 0.3F;
         spell.passive.triggers = List.of(trigger);
 
@@ -439,11 +417,13 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        trigger.chance = 0.2F;
-        spell.passive.triggers = List.of(trigger);
+        var triggers =  SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeImpact()
+        );
+        triggers.forEach(trigger -> {
+            trigger.chance = 0.2F;
+        });
+        spell.passive.triggers = triggers;
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
@@ -463,8 +443,7 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = SpellSchools.FIRE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        var trigger = SpellBuilder.Triggers.arrowHit();
         trigger.chance = 0.3F;
         spell.passive.triggers = List.of(trigger);
 
@@ -562,11 +541,13 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        trigger.chance = 0.2F;
-        spell.passive.triggers = List.of(trigger);
+        var triggers =  SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeImpact()
+        );
+        triggers.forEach(trigger -> {
+            trigger.chance = 0.2F;
+        });
+        spell.passive.triggers = triggers;
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
@@ -587,8 +568,7 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        var trigger = SpellBuilder.Triggers.arrowHit();
         trigger.chance = 0.3F;
         spell.passive.triggers = List.of(trigger);
 
@@ -670,12 +650,14 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
-        trigger.chance_batching = true;
-        trigger.chance = 0.2F;
-        spell.passive.triggers = List.of(trigger);
+        var triggers =  SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeImpact()
+        );
+        triggers.forEach(trigger -> {
+            trigger.chance_batching = true;
+            trigger.chance = 0.2F;
+        });
+        spell.passive.triggers = triggers;
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
@@ -702,7 +684,9 @@ public class ArsenalSpells {
         var description = "Defeating enemies heals you by a small portion of their max health.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
-        spell.passive.triggers = List.of(killedByMeleeTrigger());
+        spell.passive.triggers = SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeKills()
+        );
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         leechingEffect(spell);
@@ -768,9 +752,9 @@ public class ArsenalSpells {
         spell.range = -0.5F;
         spell.range_mechanic = Spell.RangeMechanic.MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        var trigger = SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeAttackImpact()
+        );
         trigger.melee = new Spell.Trigger.MeleeCondition();
         trigger.melee.is_combo = true;
         trigger.melee.is_offhand = false;
@@ -814,10 +798,14 @@ public class ArsenalSpells {
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
         spell.range = 2F;
 
-        var trigger = killedByMeleeTrigger();
-        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
-        trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
-        spell.passive.triggers = List.of(trigger);
+        var triggers = SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeKills()
+        );
+        for (var trigger : triggers) {
+            trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+            trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
+        }
+        spell.passive.triggers = triggers;
 
         spell.release.sound = new Sound(ArsenalSounds.guardian_strike_release.id().toString());
 
@@ -863,9 +851,9 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        var trigger = SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeAttackImpact()
+        );
         trigger.chance_batching = true;
         trigger.chance = 0.2F;
         spell.passive.triggers = List.of(trigger);
@@ -899,8 +887,7 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
+        var trigger = SpellBuilder.Triggers.shieldBlock();
         spell.passive.triggers = List.of(trigger);
 
         var duration = 5;
@@ -942,9 +929,8 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
+        var trigger = SpellBuilder.Triggers.shieldBlock();
         trigger.chance = 0.3F;
-        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
         spell.passive.triggers = List.of(trigger);
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
@@ -985,9 +971,8 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = new Spell.Trigger();
+        var trigger = SpellBuilder.Triggers.shieldBlock();
         trigger.chance = 0.5F;
-        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
         trigger.target_override = Spell.Trigger.TargetSelector.TARGET;
         spell.passive.triggers = List.of(trigger);
 
@@ -1016,8 +1001,7 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.ARROW_SHOT;
+        var trigger = SpellBuilder.Triggers.arrowShot();
         trigger.chance = 0.2F;
         trigger.fire_delay = 1;
         spell.passive.triggers = List.of(trigger);
@@ -1066,9 +1050,13 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        var trigger = killedByMeleeTrigger();
-        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
-        spell.passive.triggers = List.of(trigger);
+        var triggers = SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeKills()
+        );
+        for (var trigger : triggers) {
+            trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        }
+        spell.passive.triggers = triggers;
 
         spell.release.sound = new Sound(ArsenalSounds.rampaging_activate.id().toString());
 
@@ -1076,7 +1064,7 @@ public class ArsenalSpells {
         spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
         spell.deliver.stash_effect.id = effect.id.toString();
         spell.deliver.stash_effect.consume = 0;
-        spell.deliver.stash_effect.triggers = List.of(trigger);
+        spell.deliver.stash_effect.triggers = triggers;
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
@@ -1116,7 +1104,9 @@ public class ArsenalSpells {
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
 
-        var triggers = killedByRangedTrigger();
+        var triggers = SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.rangedKill()
+        );
         triggers.forEach(trigger -> trigger.target_override = Spell.Trigger.TargetSelector.CASTER);
         spell.passive.triggers = triggers;
 
@@ -1333,9 +1323,9 @@ public class ArsenalSpells {
 //        trigger.chance = 0.3F;
 //        trigger.chance_batching = true;
 
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
-        trigger.equipment_condition = EquipmentSlot.MAINHAND;
+        var trigger = SpellBuilder.Triggers.withConditionMustWield(
+                SpellBuilder.Triggers.meleeAttackImpact()
+        );
         trigger.melee = new Spell.Trigger.MeleeCondition();
         trigger.melee.is_combo = true;
         trigger.melee.is_offhand = false;

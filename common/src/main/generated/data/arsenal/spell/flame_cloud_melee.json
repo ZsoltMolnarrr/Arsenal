@@ -9,6 +9,15 @@
         "type": "MELEE_IMPACT",
         "chance": 0.2,
         "equipment_condition": "MAINHAND"
+      },
+      {
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "chance": 0.2,
+        "equipment_condition": "MAINHAND",
+        "spell": {
+          "school": "spell_power:physical_melee",
+          "type": "ACTIVE"
+        }
       }
     ]
   },
