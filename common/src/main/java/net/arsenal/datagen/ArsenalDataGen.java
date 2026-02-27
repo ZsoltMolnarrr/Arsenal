@@ -1,6 +1,7 @@
 package net.arsenal.datagen;
 
 import net.arsenal.item.*;
+import net.arsenal.spell.ArsenalWeaponSpellTags;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -74,6 +75,29 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
                     tag.addOptional(entry.id());
                 }
             });
+
+            var arcane = Identifier.of("wizards", "weapon/arcane_staff");
+            var fire = Identifier.of("wizards", "weapon/fire_staff");
+            var frost = Identifier.of("wizards", "weapon/frost_staff");
+            var wizard = Identifier.of("wizards", "weapon/wizard_staff");
+            var holy = Identifier.of("paladins", "weapon/holy_staff");
+
+            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_ARCANE_FIRE)
+                    .addOptionalTag(arcane)
+                    .addOptionalTag(fire);
+            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_ARCANE_HEALING)
+                    .addOptionalTag(arcane)
+                    .addOptionalTag(holy);
+            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_ARCANE_FROST)
+                    .addOptionalTag(arcane)
+                    .addOptionalTag(frost);
+            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_FIRE_FROST)
+                    .addOptionalTag(fire)
+                    .addOptionalTag(frost);
+            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_ARCANE_FIRE_FROST)
+                    .addOptionalTag(wizard);
+            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_HEALING)
+                    .addOptionalTag(holy);
         }
     }
 

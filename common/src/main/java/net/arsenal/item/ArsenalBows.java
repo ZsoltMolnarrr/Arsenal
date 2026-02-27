@@ -15,10 +15,9 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.Util;
-import net.spell_engine.api.item.Equipment;
-import net.spell_engine.api.item.Tiers;
 import net.spell_engine.api.spell.SpellDataComponents;
 import net.spell_engine.api.spell.container.SpellContainerHelper;
+import net.spell_engine.rpg_series.item.Equipment;
 
 import java.util.ArrayList;
 import java.util.List;

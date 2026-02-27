@@ -2,322 +2,214 @@ package net.arsenal.item;
 
 import net.arsenal.ArsenalMod;
 import net.arsenal.spell.ArsenalSpells;
-import net.minecraft.item.Item;
+import net.arsenal.spell.ArsenalWeaponSpellTags;
 import net.minecraft.item.Items;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.WeaponConfig;
-import net.spell_engine.api.item.Equipment;
-import net.spell_engine.api.item.weapon.SpellSwordItem;
-import net.spell_engine.api.item.weapon.SpellWeaponItem;
-import net.spell_engine.api.item.weapon.StaffItem;
-import net.spell_engine.api.item.weapon.Weapon;
+import net.spell_engine.rpg_series.item.Equipment;
+import net.spell_engine.rpg_series.item.Weapon;
+import net.spell_engine.rpg_series.item.Weapons;
 import net.spell_power.api.SpellSchools;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class ArsenalWeapons {
     public static final ArrayList<Weapon.Entry> entries = new ArrayList<>();
 
-    private static Weapon.Entry entry(String name, Weapon.CustomMaterial material, Weapon.Factory factory, WeaponConfig defaults, Equipment.WeaponType weaponType) {
-        var entry = new Weapon.Entry(ArsenalMod.NAMESPACE, name, material, factory, defaults, weaponType);
-        entry.castSpell();
-        entry.loot(Equipment.LootProperties.of(Loot.TIER));
+    private static Weapon.Entry add(Weapon.Entry entry) {
         entries.add(entry);
         return entry;
     }
 
-    private static Supplier<Ingredient> ingredient(String idString, boolean requirement, Item fallback) {
-        var id = Identifier.of(idString);
-        if (requirement) {
-            return () -> {
-                return Ingredient.ofItems(fallback);
-            };
-        } else {
-            return () -> {
-                var item = Registries.ITEM.get(id);
-                var ingredient = item != null ? item : fallback;
-                return Ingredient.ofItems(ingredient);
-            };
-        }
-    }
-
-    private static Weapon.Entry claymore(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -3F), Equipment.WeaponType.CLAYMORE);
-        entry.weaponAttributesPreset = "claymore";
-        return entry;
-    }
-    private static Weapon.Entry hammer(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -3.2F), Equipment.WeaponType.HAMMER);
-        entry.weaponAttributesPreset = "hammer";
-        return entry;
-    }
-    private static final float staffAttackDamage = 4;
-    private static final float staffAttackSpeed = -3F;
-    private static Weapon.Entry damage_staff(String name, Weapon.CustomMaterial material) {
-        var entry = entry(name, material, StaffItem::new, new WeaponConfig(staffAttackDamage, staffAttackSpeed), Equipment.WeaponType.DAMAGE_STAFF);
-        entry.weaponAttributesPreset = "staff";
-        return entry;
-    }
-    private static Weapon.Entry healing_staff(String name, Weapon.CustomMaterial material) {
-        var entry = entry(name, material, StaffItem::new, new WeaponConfig(staffAttackDamage, staffAttackSpeed), Equipment.WeaponType.HEALING_STAFF);
-        entry.weaponAttributesPreset = "staff";
-        return entry;
-    }
-    private static Weapon.Entry spear(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -2.6F), Equipment.WeaponType.SPEAR);
-        entry.weaponAttributesPreset = "spear";
-        return entry;
-    }
-    private static Weapon.Entry mace(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellWeaponItem::new, new WeaponConfig(damage, -2.8F), Equipment.WeaponType.MACE);
-        entry.weaponAttributesPreset = "mace";
-        return entry;
-    }
-    private static Weapon.Entry glaive(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.6F), Equipment.WeaponType.GLAIVE);
-        entry.weaponAttributesPreset = "glaive";
-        return entry;
-    }
-    private static Weapon.Entry axe(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.8F), Equipment.WeaponType.DOUBLE_AXE);
-        entry.weaponAttributesPreset = "double_axe";
-        return entry;
-    }
-    private static Weapon.Entry dagger(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -1.6F), Equipment.WeaponType.DAGGER);
-        entry.weaponAttributesPreset = "dagger";
-        return entry;
-    }
-    private static Weapon.Entry sickle(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2F), Equipment.WeaponType.SICKLE);
-        entry.weaponAttributesPreset = "sickle";
-        return entry;
-    }
-    private static Weapon.Entry sword(String name, Weapon.CustomMaterial material, float damage) {
-        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.4F), Equipment.WeaponType.SWORD);
-        entry.weaponAttributesPreset = "sword";
-        return entry;
-    }
-//    private static Weapon.Entry scimitar(String name, Weapon.CustomMaterial material, float damage) {
-//        var entry = entry(name, material, SpellSwordItem::new, new WeaponConfig(damage, -2.4F), Equipment.WeaponType.SWORD);
-//        entry.weaponAttributesPreset = "scimitar";
-//        return entry;
-//    }
-
     public static final float TIER_5_SPELL_POWER = 8;
 
-    public static final Weapon.Entry unique_claymore_1 = claymore("unique_claymore_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 13F)
+    // MARK: Claymores
+
+    public static final Weapon.Entry unique_claymore_1 = add(Weapons.claymoreWithSkill(ArsenalMod.NAMESPACE, "unique_claymore_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.MAGMA_BLOCK))
             .translatedName("Cataclysm's Edge")
-            .spell(ArsenalSpells.exploding_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString()));
-    public static final Weapon.Entry unique_claymore_2 = claymore("unique_claymore_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 13F)
+            .withAdditionalSpell(ArsenalSpells.exploding_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString())));
+    public static final Weapon.Entry unique_claymore_2 = add(Weapons.claymoreWithSkill(ArsenalMod.NAMESPACE, "unique_claymore_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.IRON_BLOCK))
             .translatedName("Champion's Greatsword")
-            .spell(ArsenalSpells.radiance_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.DIVINE.toString()));
-    public static final Weapon.Entry unique_claymore_sw = claymore("unique_claymore_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 13F)
+            .withAdditionalSpell(ArsenalSpells.radiance_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.DIVINE.toString())));
+    public static final Weapon.Entry unique_claymore_sw = add(Weapons.claymoreWithSkill(ArsenalMod.NAMESPACE, "unique_claymore_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Apolyon, the Soul-Render")
-            .spell(ArsenalSpells.rampaging_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withAdditionalSpell(ArsenalSpells.rampaging_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_staff_damage_1 = damage_staff("unique_staff_damage_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)))
-            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+    // MARK: Damage Staves
+
+    public static final Weapon.Entry unique_staff_damage_1 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK), List.of(SpellSchools.ARCANE.id, SpellSchools.FROST.id))
             .translatedName("Nexus Key")
-            .spell(ArsenalSpells.cooldown_shot_spell.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString()));
-    public static final Weapon.Entry unique_staff_damage_2 = damage_staff("unique_staff_damage_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
-            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_ARCANE_FROST.id().toString())
+            .withAdditionalSpell(ArsenalSpells.cooldown_shot_spell.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString())));
+    public static final Weapon.Entry unique_staff_damage_2 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK), List.of(SpellSchools.ARCANE.id, SpellSchools.FIRE.id))
             .translatedName("Antonidas's Staff of Rapt Concentration")
-            .spell(ArsenalSpells.chain_reaction_spell.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.CRYSTAL.toString()));
-    public static final Weapon.Entry unique_staff_damage_3 = damage_staff("unique_staff_damage_3",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)))
-            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_ARCANE_FIRE.id().toString())
+            .withAdditionalSpell(ArsenalSpells.chain_reaction_spell.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.CRYSTAL.toString())));
+    public static final Weapon.Entry unique_staff_damage_3 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_3", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP), List.of(SpellSchools.ARCANE.id, SpellSchools.FIRE.id))
             .translatedName("Draconic Battle Staff")
-            .spell(ArsenalSpells.flame_cloud_spell.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString()));
-    public static final Weapon.Entry unique_staff_damage_4 = damage_staff("unique_staff_damage_4",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)))
-            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_ARCANE_FIRE.id().toString())
+            .withAdditionalSpell(ArsenalSpells.flame_cloud_spell.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString())));
+    public static final Weapon.Entry unique_staff_damage_4 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_4", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP), List.of(SpellSchools.FIRE.id, SpellSchools.FROST.id))
             .translatedName("Gargoyle's Bite")
-            .spell(ArsenalSpells.leeching_spell.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString()));
-    public static final Weapon.Entry unique_staff_damage_5 = damage_staff("unique_staff_damage_5",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)))
-            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_FIRE_FROST.id().toString())
+            .withAdditionalSpell(ArsenalSpells.leeching_spell.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString())));
+    public static final Weapon.Entry unique_staff_damage_5 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_5", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK), List.of(SpellSchools.ARCANE.id, SpellSchools.FROST.id))
             .translatedName("Mage Lord Cane")
-            .spell(ArsenalSpells.shockwave_area_spell.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString()));
-    public static final Weapon.Entry unique_staff_damage_6 = damage_staff("unique_staff_damage_6",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)))
-            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_ARCANE_FROST.id().toString())
+            .withAdditionalSpell(ArsenalSpells.shockwave_area_spell.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString())));
+    public static final Weapon.Entry unique_staff_damage_6 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_6", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP), List.of(SpellSchools.ARCANE.id, SpellSchools.FROST.id))
             .translatedName("Endless Winter")
-            .spell(ArsenalSpells.frost_cloud_spell.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FROSTY.toString()));
-
-    public static final Weapon.Entry unique_staff_damage_sw = damage_staff("unique_staff_damage_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.DIAMOND)))
-            .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.FIRE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.FROST.id, TIER_5_SPELL_POWER))
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_ARCANE_FROST.id().toString())
+            .withAdditionalSpell(ArsenalSpells.frost_cloud_spell.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FROSTY.toString())));
+    public static final Weapon.Entry unique_staff_damage_sw = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.DIAMOND), List.of(SpellSchools.ARCANE.id, SpellSchools.FIRE.id, SpellSchools.FROST.id))
             .translatedName("Grand Magister's Staff of Torrents")
-            .spell(ArsenalSpells.rampaging_spell.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_ARCANE_FIRE_FROST.id().toString())
+            .withAdditionalSpell(ArsenalSpells.rampaging_spell.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_staff_heal_1 = healing_staff("unique_staff_heal_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)))
+    // MARK: Healing Staves
+
+    public static final Weapon.Entry unique_staff_heal_1 = add(Weapons.healingStaff(ArsenalMod.NAMESPACE, "unique_staff_heal_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK))
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
-            .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
             .translatedName("Crystalline Life-Staff")
-            .spell(ArsenalSpells.radiance_spell.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.CRYSTAL.toString()));
-    public static final Weapon.Entry unique_staff_heal_2 = healing_staff("unique_staff_heal_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)))
-            .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_ARCANE_HEALING.id().toString())
+            .withAdditionalSpell(ArsenalSpells.radiance_spell.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.CRYSTAL.toString())));
+    public static final Weapon.Entry unique_staff_heal_2 = add(Weapons.healingStaff(ArsenalMod.NAMESPACE, "unique_staff_heal_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.IRON_BLOCK))
             .translatedName("Staff of Immaculate Recovery")
-            .spell(ArsenalSpells.guardian_heal.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.DIVINE.toString()));
-    public static final Weapon.Entry unique_staff_heal_sw = healing_staff("unique_staff_heal_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)))
-            .attribute(AttributeModifier.bonus(SpellSchools.HEALING.id, TIER_5_SPELL_POWER))
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_HEALING.id().toString())
+            .withAdditionalSpell(ArsenalSpells.guardian_heal.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.DIVINE.toString())));
+    public static final Weapon.Entry unique_staff_heal_sw = add(Weapons.healingStaff(ArsenalMod.NAMESPACE, "unique_staff_heal_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Golden Staff of the Sin'dorei")
-            .spell(ArsenalSpells.cooldown_heal.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_HEALING.id().toString())
+            .withAdditionalSpell(ArsenalSpells.cooldown_heal.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_spear_1 = spear("unique_spear_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 8F)
+    // MARK: Spears
+
+    public static final Weapon.Entry unique_spear_1 = add(Weapons.spearWithSkill(ArsenalMod.NAMESPACE, "unique_spear_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP))
             .translatedName("Sonic Spear")
-            .spell(ArsenalSpells.slowing_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString()));
-    public static final Weapon.Entry unique_spear_2 = spear("unique_spear_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 8F)
+            .withAdditionalSpell(ArsenalSpells.slowing_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString())));
+    public static final Weapon.Entry unique_spear_2 = add(Weapons.spearWithSkill(ArsenalMod.NAMESPACE, "unique_spear_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Spear of the Damned")
-            .spell(ArsenalSpells.stunning_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.DIVINE.toString()));
-    public static final Weapon.Entry unique_spear_sw = spear("unique_spear_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 8F)
+            .withAdditionalSpell(ArsenalSpells.stunning_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.DIVINE.toString())));
+    public static final Weapon.Entry unique_spear_sw = add(Weapons.spearWithSkill(ArsenalMod.NAMESPACE, "unique_spear_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Mounting Vengeance")
-            .spell(ArsenalSpells.leeching_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withAdditionalSpell(ArsenalSpells.leeching_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_dagger_1 = dagger("unique_dagger_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.PRISMARINE)), 5.5F)
+    // MARK: Daggers
+
+    public static final Weapon.Entry unique_dagger_1 = add(Weapons.daggerWithSkill(ArsenalMod.NAMESPACE, "unique_dagger_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.PRISMARINE))
             .translatedName("Frost Fang")
-            .spell(ArsenalSpells.slowing_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FROSTY.toString()));
-    public static final Weapon.Entry unique_dagger_2 = dagger("unique_dagger_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 5.5F)
+            .withAdditionalSpell(ArsenalSpells.slowing_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FROSTY.toString())));
+    public static final Weapon.Entry unique_dagger_2 = add(Weapons.daggerWithSkill(ArsenalMod.NAMESPACE, "unique_dagger_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP))
             .translatedName("Demonic Shiv")
-            .spell(ArsenalSpells.leeching_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString()));
-    public static final Weapon.Entry unique_dagger_sw = dagger("unique_dagger_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 5.5F)
+            .withAdditionalSpell(ArsenalSpells.leeching_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString())));
+    public static final Weapon.Entry unique_dagger_sw = add(Weapons.daggerWithSkill(ArsenalMod.NAMESPACE, "unique_dagger_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Crux of the Apocalypse")
-            .spell(ArsenalSpells.sundering_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withAdditionalSpell(ArsenalSpells.sundering_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_sickle_1 = sickle("unique_sickle_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 6.8F)
+    // MARK: Sickles
+
+    public static final Weapon.Entry unique_sickle_1 = add(Weapons.sickleWithSkill(ArsenalMod.NAMESPACE, "unique_sickle_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP))
             .translatedName("Toxic Sickle")
-            .spell(ArsenalSpells.poison_cloud_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString()));
-    public static final Weapon.Entry unique_sickle_2 = sickle("unique_sickle_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.MAGMA_BLOCK)), 6.8F)
+            .withAdditionalSpell(ArsenalSpells.poison_cloud_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString())));
+    public static final Weapon.Entry unique_sickle_2 = add(Weapons.sickleWithSkill(ArsenalMod.NAMESPACE, "unique_sickle_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.MAGMA_BLOCK))
             .translatedName("Infernal Harvester")
-            .spell(ArsenalSpells.exploding_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString()));
-    public static final Weapon.Entry unique_sickle_sw = sickle("unique_sickle_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 6.8F)
+            .withAdditionalSpell(ArsenalSpells.exploding_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString())));
+    public static final Weapon.Entry unique_sickle_sw = add(Weapons.sickleWithSkill(ArsenalMod.NAMESPACE, "unique_sickle_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Thalassian Sickle")
-            .spell(ArsenalSpells.swirling_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withAdditionalSpell(ArsenalSpells.swirling_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_longsword_sw = sword("unique_longsword_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 8F)
+    // MARK: Longsword
+
+    public static final Weapon.Entry unique_longsword_sw = add(Weapons.swordWithSkill(ArsenalMod.NAMESPACE, "unique_longsword_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_INGOT))
             .translatedName("Dragonscale-Encrusted Longblade")
-            .spell(ArsenalSpells.sundering_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withAdditionalSpell(ArsenalSpells.sundering_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_double_axe_1 = axe("unique_double_axe_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
+    // MARK: Double Axes
+
+    public static final Weapon.Entry unique_double_axe_1 = add(Weapons.doubleAxeWithSkill(ArsenalMod.NAMESPACE, "unique_double_axe_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP))
             .translatedName("Dual-blade Butcher")
-            .spell(ArsenalSpells.leeching_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString()));
-    public static final Weapon.Entry unique_double_axe_2 = axe("unique_double_axe_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 11F)
+            .withAdditionalSpell(ArsenalSpells.leeching_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString())));
+    public static final Weapon.Entry unique_double_axe_2 = add(Weapons.doubleAxeWithSkill(ArsenalMod.NAMESPACE, "unique_double_axe_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.IRON_BLOCK))
             .translatedName("Arcanite Reaper")
-            .spell(ArsenalSpells.wither_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString()));
-    public static final Weapon.Entry unique_double_axe_sw = axe("unique_double_axe_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_INGOT)), 11F)
+            .withAdditionalSpell(ArsenalSpells.wither_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString())));
+    public static final Weapon.Entry unique_double_axe_sw = add(Weapons.doubleAxeWithSkill(ArsenalMod.NAMESPACE, "unique_double_axe_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_INGOT))
             .translatedName("Sunreaver War Axe")
-            .spell(ArsenalSpells.rampaging_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withAdditionalSpell(ArsenalSpells.rampaging_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_glaive_1 = glaive("unique_glaive_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 9.3F)
+    // MARK: Glaives
+
+    public static final Weapon.Entry unique_glaive_1 = add(Weapons.glaiveWithSkill(ArsenalMod.NAMESPACE, "unique_glaive_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP))
             .translatedName("Hellreaver")
-            .spell(ArsenalSpells.flame_cloud_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString()));
-    public static final Weapon.Entry unique_glaive_2 = glaive("unique_glaive_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 9.3F)
+            .withAdditionalSpell(ArsenalSpells.flame_cloud_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString())));
+    public static final Weapon.Entry unique_glaive_2 = add(Weapons.glaiveWithSkill(ArsenalMod.NAMESPACE, "unique_glaive_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK))
             .translatedName("Crystalforge Glaive")
-            .spell(ArsenalSpells.shockwave_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.CRYSTAL.toString()));
-    public static final Weapon.Entry unique_glaive_sw = glaive("unique_glaive_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 9.3F)
+            .withAdditionalSpell(ArsenalSpells.shockwave_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.CRYSTAL.toString())));
+    public static final Weapon.Entry unique_glaive_sw = add(Weapons.glaiveWithSkill(ArsenalMod.NAMESPACE, "unique_glaive_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Shivering Felspine")
-            .spell(ArsenalSpells.swirling_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withAdditionalSpell(ArsenalSpells.swirling_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_hammer_1 = hammer("unique_hammer_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK)), 16F)
+    // MARK: Hammers
+
+    public static final Weapon.Entry unique_hammer_1 = add(Weapons.hammerWithSkill(ArsenalMod.NAMESPACE, "unique_hammer_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.AMETHYST_BLOCK))
             .translatedName("Hammer of Destiny")
-            .spell(ArsenalSpells.shockwave_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.CRYSTAL.toString()));
-    public static final Weapon.Entry unique_hammer_2 = hammer("unique_hammer_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 16F)
+            .withAdditionalSpell(ArsenalSpells.shockwave_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.CRYSTAL.toString())));
+    public static final Weapon.Entry unique_hammer_2 = add(Weapons.hammerWithSkill(ArsenalMod.NAMESPACE, "unique_hammer_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP))
             .translatedName("Blackhand")
-            .spell(ArsenalSpells.exploding_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString()));
-    public static final Weapon.Entry unique_hammer_sw = hammer("unique_hammer_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 16F)
+            .withAdditionalSpell(ArsenalSpells.exploding_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.FIERY.toString())));
+    public static final Weapon.Entry unique_hammer_sw = add(Weapons.hammerWithSkill(ArsenalMod.NAMESPACE, "unique_hammer_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Hammer of Sanctification")
-            .spell(ArsenalSpells.radiance_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withAdditionalSpell(ArsenalSpells.radiance_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
-    public static final Weapon.Entry unique_mace_1 = mace("unique_mace_1",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP)), 11F)
+    // MARK: Maces
+
+    public static final Weapon.Entry unique_mace_1 = add(Weapons.maceWithSkill(ArsenalMod.NAMESPACE, "unique_mace_1", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.NETHERITE_SCRAP))
             .translatedName("Bonecracker")
-            .spell(ArsenalSpells.sundering_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString()));
-    public static final Weapon.Entry unique_mace_2 = mace("unique_mace_2",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.IRON_BLOCK)), 11F)
+            .withAdditionalSpell(ArsenalSpells.sundering_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.EVIL.toString())));
+    public static final Weapon.Entry unique_mace_2 = add(Weapons.maceWithSkill(ArsenalMod.NAMESPACE, "unique_mace_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.IRON_BLOCK))
             .translatedName("Stormherald")
-            .spell(ArsenalSpells.stunning_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString()));
-    public static final Weapon.Entry unique_mace_sw = mace("unique_mace_sw",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(Items.GOLD_BLOCK)), 11F)
+            .withAdditionalSpell(ArsenalSpells.stunning_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.GENERIC.toString())));
+    public static final Weapon.Entry unique_mace_sw = add(Weapons.maceWithSkill(ArsenalMod.NAMESPACE, "unique_mace_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Archon's Scepter")
-            .spell(ArsenalSpells.guarding_strike_melee.id())
-            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString()));
+            .withAdditionalSpell(ArsenalSpells.guarding_strike_melee.id().toString())
+            .loot(Equipment.LootProperties.of(Loot.TIER, Loot.Theme.ELVEN.toString())));
 
     static {
         entries.forEach(entry -> entry.rarity = Rarity.RARE);
