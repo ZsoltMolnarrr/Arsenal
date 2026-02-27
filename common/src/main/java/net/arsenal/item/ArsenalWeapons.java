@@ -99,14 +99,16 @@ public class ArsenalWeapons {
             .lootTheme(Loot.Theme.CRYSTAL.toString()));
     public static final Weapon.Entry unique_staff_heal_2 = add(Weapons.healingStaff(ArsenalMod.NAMESPACE, "unique_staff_heal_2", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.IRON_BLOCK))
             .translatedName("Staff of Immaculate Recovery")
-            .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_HEALING.id().toString())
+            .spellContainer(SpellContainers.forMagicWeapon().withSpell("paladins:holy_shock"))
+//            .spellContainer(SpellContainers.forMagicWeapon())
+//            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_HEALING.id().toString())
             .withAdditionalSpell(ArsenalSpells.guardian_heal.id().toString())
             .lootTheme(Loot.Theme.DIVINE.toString()));
     public static final Weapon.Entry unique_staff_heal_sw = add(Weapons.healingStaff(ArsenalMod.NAMESPACE, "unique_staff_heal_sw", Equipment.Tier.TIER_5, () -> Ingredient.ofItems(Items.GOLD_BLOCK))
             .translatedName("Golden Staff of the Sin'dorei")
-            .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_HEALING.id().toString())
+            .spellContainer(SpellContainers.forMagicWeapon().withSpell("paladins:holy_shock"))
+//            .spellContainer(SpellContainers.forMagicWeapon())
+//            .withSpellChoices(ArsenalWeaponSpellTags.STAFF_HEALING.id().toString())
             .withAdditionalSpell(ArsenalSpells.cooldown_heal.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 
