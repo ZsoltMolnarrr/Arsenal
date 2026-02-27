@@ -19,11 +19,10 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.Util;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ShieldConfig;
-import net.spell_engine.api.item.Equipment;
-import net.spell_engine.api.item.Tiers;
-import net.spell_engine.api.item.weapon.Weapon;
 import net.spell_engine.api.spell.SpellDataComponents;
 import net.spell_engine.api.spell.container.SpellContainerHelper;
+import net.spell_engine.rpg_series.item.Equipment;
+import net.spell_engine.rpg_series.item.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +156,7 @@ public class ArsenalShields {
     }
 
     public static void register(Map<String, ShieldConfig> configs) {
-        var netheriteTier = Tiers.unsafe("netherite");
+        var netheriteTier = 3;
         ArrayList<Item> shields = new ArrayList<>();
         for (var entry: entries) {
             var config = configs.get(entry.id.toString());
@@ -172,7 +171,7 @@ public class ArsenalShields {
                 shieldAttributes.add(new Pair<>(modifier.attribute(), modifier.modifier()));
             }
             var settings = new Item.Settings().maxDamage(config.durability);
-            var tier = Tiers.unsafe(entry.id());
+            var tier = 3;
             if (tier >= netheriteTier) {
                 settings.fireproof();
             }

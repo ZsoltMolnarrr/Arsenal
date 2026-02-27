@@ -19,6 +19,7 @@ import net.arsenal.spell.ArsenalSounds;
 import net.arsenal.spell.ArsenalSpells;
 import net.spell_engine.api.datagen.SimpleSoundGeneratorV2;
 import net.spell_engine.api.datagen.SpellGenerator;
+import net.spell_engine.api.datagen.WeaponAttributeGenerator;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
@@ -50,7 +51,7 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
             generateWeaponTags(ArsenalWeapons.entries);
 
             var bowEntries = ArsenalBows.entries.stream().map(entry ->
-                    new RPGSeriesDataGen.BowEntry(entry.id(), entry.weaponType, entry.lootProperties)
+                    new RPGSeriesDataGen.BowEntry(entry.id(), entry.category, entry.lootProperties)
             ).toList();
             generateBowTags(bowEntries);
 

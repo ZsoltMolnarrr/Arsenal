@@ -23,7 +23,7 @@
           }
         ],
         "spell": {
-          "school": "spell_power:physical_melee",
+          "archetype": "MELEE",
           "type": "ACTIVE"
         }
       }

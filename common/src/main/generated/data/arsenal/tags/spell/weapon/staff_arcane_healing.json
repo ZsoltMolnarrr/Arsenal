@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#wizards:weapon/arcane_staff",
+      "required": false
+    },
+    {
+      "id": "#paladins:weapon/holy_staff",
+      "required": false
+    }
+  ]
+}

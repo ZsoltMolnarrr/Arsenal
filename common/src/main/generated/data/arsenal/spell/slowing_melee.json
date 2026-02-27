@@ -17,7 +17,7 @@
         "chance_batching": true,
         "equipment_condition": "MAINHAND",
         "spell": {
-          "school": "spell_power:physical_melee",
+          "archetype": "MELEE",
           "type": "ACTIVE"
         }
       }

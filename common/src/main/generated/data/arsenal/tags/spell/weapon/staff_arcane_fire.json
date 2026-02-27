@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#wizards:weapon/arcane_staff",
+      "required": false
+    },
+    {
+      "id": "#wizards:weapon/fire_staff",
+      "required": false
+    }
+  ]
+}
