@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "rpg_series:swipe",
+      "required": false
+    },
+    {
+      "id": "rpg_series:cleave",
+      "required": false
+    }
+  ]
+}

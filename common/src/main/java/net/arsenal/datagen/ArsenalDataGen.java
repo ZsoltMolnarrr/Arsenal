@@ -1,7 +1,7 @@
 package net.arsenal.datagen;
 
 import net.arsenal.item.*;
-import net.arsenal.spell.ArsenalWeaponSpellTags;
+import net.arsenal.spell.ArsenalSpellGroups;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -23,6 +23,7 @@ import net.spell_engine.api.datagen.WeaponAttributeGenerator;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
+import net.spell_engine.rpg_series.datagen.WeaponSkills;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -83,22 +84,60 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
             var wizard = Identifier.of("wizards", "weapon/wizard_staff");
             var holy = Identifier.of("paladins", "weapon/holy_staff");
 
-            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_ARCANE_FIRE)
+            getOrCreateTagBuilder(ArsenalSpellGroups.STAFF_ARCANE_FIRE)
                     .addOptionalTag(arcane)
                     .addOptionalTag(fire);
-            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_ARCANE_HEALING)
+            getOrCreateTagBuilder(ArsenalSpellGroups.STAFF_ARCANE_HEALING)
                     .addOptionalTag(arcane)
                     .addOptionalTag(holy);
-            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_ARCANE_FROST)
+            getOrCreateTagBuilder(ArsenalSpellGroups.STAFF_ARCANE_FROST)
                     .addOptionalTag(arcane)
                     .addOptionalTag(frost);
-            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_FIRE_FROST)
+            getOrCreateTagBuilder(ArsenalSpellGroups.STAFF_FIRE_FROST)
                     .addOptionalTag(fire)
                     .addOptionalTag(frost);
-            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_ARCANE_FIRE_FROST)
+            getOrCreateTagBuilder(ArsenalSpellGroups.STAFF_ARCANE_FIRE_FROST)
                     .addOptionalTag(wizard);
-            getOrCreateTagBuilder(ArsenalWeaponSpellTags.STAFF_HEALING)
+            getOrCreateTagBuilder(ArsenalSpellGroups.STAFF_HEALING)
                     .addOptionalTag(holy);
+
+            getOrCreateTagBuilder(ArsenalSpellGroups.ONE_HANDED_SLASHER)
+                    .addOptional(WeaponSkills.SWIFT_STRIKES.id())
+                    .addOptional(WeaponSkills.CLEAVE.id())
+                    .addOptional(WeaponSkills.SWIPE.id());
+
+            getOrCreateTagBuilder(ArsenalSpellGroups.TWO_HANDED_SLASHER)
+                    .addOptional(WeaponSkills.FLURRY.id())
+                    .addOptional(WeaponSkills.WHIRLWIND.id())
+                    .addOptional(WeaponSkills.THRUST.id());
+
+            getOrCreateTagBuilder(ArsenalSpellGroups.CLAYMORE_HAMMER)
+                    .addOptional(WeaponSkills.FLURRY.id())
+                    .addOptional(WeaponSkills.GROUND_SLAM.id());
+            getOrCreateTagBuilder(ArsenalSpellGroups.CLAYMORE_DOUBLE_AXE)
+                    .addOptional(WeaponSkills.FLURRY.id())
+                    .addOptional(WeaponSkills.WHIRLWIND.id());
+            getOrCreateTagBuilder(ArsenalSpellGroups.CLAYMORE_GLAIVE)
+                    .addOptional(WeaponSkills.FLURRY.id())
+                    .addOptional(WeaponSkills.THRUST.id());
+            getOrCreateTagBuilder(ArsenalSpellGroups.SPEAR_GLAIVE)
+                    .addOptional(WeaponSkills.IMPALE.id())
+                    .addOptional(WeaponSkills.THRUST.id());
+            getOrCreateTagBuilder(ArsenalSpellGroups.DAGGER_SICKLE)
+                    .addOptional(WeaponSkills.FAN_OF_KNIVES.id())
+                    .addOptional(WeaponSkills.SWIPE.id());
+            getOrCreateTagBuilder(ArsenalSpellGroups.SICKLE_AXE)
+                    .addOptional(WeaponSkills.SWIPE.id())
+                    .addOptional(WeaponSkills.CLEAVE.id());
+            getOrCreateTagBuilder(ArsenalSpellGroups.DOUBLE_AXE_HAMMER)
+                    .addOptional(WeaponSkills.GROUND_SLAM.id())
+                    .addOptional(WeaponSkills.WHIRLWIND.id());
+            getOrCreateTagBuilder(ArsenalSpellGroups.GLAIVE_DOUBLE_AXE)
+                    .addOptional(WeaponSkills.THRUST.id())
+                    .addOptional(WeaponSkills.WHIRLWIND.id());
+            getOrCreateTagBuilder(ArsenalSpellGroups.MACE_SWORD)
+                    .addOptional(WeaponSkills.SMASH.id())
+                    .addOptional(WeaponSkills.SWIFT_STRIKES.id());
         }
     }
 

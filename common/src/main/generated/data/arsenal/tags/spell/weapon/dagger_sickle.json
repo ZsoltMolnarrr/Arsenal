@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "rpg_series:fan_of_knives",
+      "required": false
+    },
+    {
+      "id": "rpg_series:swipe",
+      "required": false
+    }
+  ]
+}

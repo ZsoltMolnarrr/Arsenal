@@ -20,9 +20,6 @@ public class ArsenalClientMod {
             }
         }
 
-        var projectileIds = ArsenalProjectiles.all.stream().map(ArsenalProjectiles.Entry::id).toList();
-        CustomModels.registerModelIds(projectileIds);
-
         CustomParticleStatusEffect.register(
                 ArsenalEffects.STUN.effect,
                 new StunParticleSpawner()

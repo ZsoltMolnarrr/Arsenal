@@ -61,7 +61,7 @@
             }
           ],
           "model": {
-            "model_id": "arsenal:projectile/missile",
+            "model_id": "arsenal:spell_projectile/missile",
             "scale": 0.5
           }
         }

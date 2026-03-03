@@ -331,7 +331,7 @@
 	],
 	"gui_light": "front",
 	"overrides": [
-		{"predicate": {"blocking": 1}, "model": "shieldapitest:item/test_buckler_blocking"}
+		{"predicate": {"blocking": 1}, "model": "arsenal:item/unique_shield_2_blocking"}
 	],
 	"display": {
 		"thirdperson_righthand": {

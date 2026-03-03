@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "rpg_series:flurry",
+      "required": false
+    },
+    {
+      "id": "rpg_series:thrust",
+      "required": false
+    }
+  ]
+}

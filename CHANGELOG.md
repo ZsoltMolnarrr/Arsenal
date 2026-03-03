@@ -1,3 +1,8 @@
+# 1.4.1
+
+- Some melee weapons now come with spell choices
+- Remove some deprecated API calls
+
 # 1.4.0
 
 DISCLAIMER: All spell books and spell scrolls will be reset, due to major API changes. Some (looted) weapons with custom spell containers become non-functional, and need to be re-obtained. Apologies for the inconvenience.

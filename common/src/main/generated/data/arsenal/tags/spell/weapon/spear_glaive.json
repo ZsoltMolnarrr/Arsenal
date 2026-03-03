@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "rpg_series:impale",
+      "required": false
+    },
+    {
+      "id": "rpg_series:thrust",
+      "required": false
+    }
+  ]
+}

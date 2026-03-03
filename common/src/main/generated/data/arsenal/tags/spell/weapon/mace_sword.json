@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "rpg_series:smash",
+      "required": false
+    },
+    {
+      "id": "rpg_series:swift_strikes",
+      "required": false
+    }
+  ]
+}

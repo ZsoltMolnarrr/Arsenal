@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "rpg_series:swift_strikes",
+      "required": false
+    },
+    {
+      "id": "rpg_series:cleave",
+      "required": false
+    },
+    {
+      "id": "rpg_series:swipe",
+      "required": false
+    }
+  ]
+}

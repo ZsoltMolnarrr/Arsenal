@@ -39,7 +39,7 @@
         },
         "client_data": {
           "model": {
-            "model_id": "arsenal:projectile/shockwave_large",
+            "model_id": "arsenal:spell_projectile/shockwave_large",
             "scale": 4.0,
             "rotate_degrees_per_tick": 0.0
           }
