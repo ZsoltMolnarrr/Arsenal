@@ -10,16 +10,6 @@
         "chance": 0.2,
         "chance_batching": true,
         "equipment_condition": "MAINHAND"
-      },
-      {
-        "type": "SPELL_IMPACT_SPECIFIC",
-        "chance": 0.2,
-        "chance_batching": true,
-        "equipment_condition": "MAINHAND",
-        "spell": {
-          "archetype": "MELEE",
-          "type": "ACTIVE"
-        }
       }
     ]
   },

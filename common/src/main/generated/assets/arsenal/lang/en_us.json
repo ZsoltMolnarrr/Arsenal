@@ -122,7 +122,7 @@
   "spell.arsenal.swirling_melee.name": "Swirling",
   "spell.arsenal.unyielding_shield.description": "Blocking grants you increased knockback resistance and armor toughness, lasting {effect_duration} seconds.",
   "spell.arsenal.unyielding_shield.name": "Unyielding",
-  "spell.arsenal.wither_melee.description": "On melee hit: {trigger_chance} chance to inflict the target with strong Wither effect for {effect_duration} seconds.",
+  "spell.arsenal.wither_melee.description": "On melee hit: {trigger_chance_1} chance to inflict the target with strong Wither effect for {effect_duration} seconds.",
   "spell.arsenal.wither_melee.name": "Withering",
   "spell.arsenal.wither_ranged.description": "On arrow hit: {trigger_chance} chance to inflict the target with strong Wither effect for {effect_duration} seconds.",
   "spell.arsenal.wither_ranged.name": "Withering"

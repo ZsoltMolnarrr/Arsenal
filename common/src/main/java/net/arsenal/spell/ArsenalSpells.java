@@ -15,7 +15,6 @@ import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
-import net.spell_engine.internals.SpellTriggers;
 import net.spell_power.api.SpellSchools;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,23 +38,6 @@ public class ArsenalSpells {
     private static Entry add(Entry entry) {
         all.add(entry);
         return entry;
-    }
-
-    private static Spell activeSpellBase() {
-        var spell = new Spell();
-        spell.range = 0;
-        spell.tier = 8;
-
-        spell.type = Spell.Type.ACTIVE;
-        spell.active = new Spell.Active();
-
-        spell.tooltip = new Spell.Tooltip();
-        spell.tooltip.show_header = false;
-        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, true);
-        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
-        spell.tooltip.description.show_in_compact = true;
-
-        return spell;
     }
 
     private static Spell passiveSpellBase() {
@@ -285,7 +267,7 @@ public class ArsenalSpells {
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
         var triggers =  SpellBuilder.Triggers.withConditionMustWield(
-                SpellBuilder.Triggers.meleeImpact()
+                List.of(SpellBuilder.Triggers.meleeAttackImpact())
         );
         triggers.forEach(trigger -> {
             trigger.chance_batching = true;
@@ -314,7 +296,7 @@ public class ArsenalSpells {
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
         var triggers =  SpellBuilder.Triggers.withConditionMustWield(
-                SpellBuilder.Triggers.meleeImpact()
+                List.of(SpellBuilder.Triggers.meleeAttackImpact())
         );
         triggers.forEach(trigger -> {
             trigger.chance = 0.2F;
@@ -348,7 +330,7 @@ public class ArsenalSpells {
     private static Entry wither_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "wither_melee");
         var title = "Withering";
-        var description = "On melee hit: {trigger_chance} chance to inflict the target with strong Wither effect for {effect_duration} seconds.";
+        var description = "On melee hit: {trigger_chance_1} chance to inflict the target with strong Wither effect for {effect_duration} seconds.";
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
@@ -418,7 +400,7 @@ public class ArsenalSpells {
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
         var triggers =  SpellBuilder.Triggers.withConditionMustWield(
-                SpellBuilder.Triggers.meleeImpact()
+                List.of(SpellBuilder.Triggers.meleeAttackImpact())
         );
         triggers.forEach(trigger -> {
             trigger.chance = 0.2F;
@@ -542,7 +524,7 @@ public class ArsenalSpells {
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
         var triggers =  SpellBuilder.Triggers.withConditionMustWield(
-                SpellBuilder.Triggers.meleeImpact()
+                List.of(SpellBuilder.Triggers.meleeAttackImpact())
         );
         triggers.forEach(trigger -> {
             trigger.chance = 0.2F;
@@ -651,7 +633,7 @@ public class ArsenalSpells {
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
         var triggers =  SpellBuilder.Triggers.withConditionMustWield(
-                SpellBuilder.Triggers.meleeImpact()
+                List.of(SpellBuilder.Triggers.meleeAttackImpact())
         );
         triggers.forEach(trigger -> {
             trigger.chance_batching = true;

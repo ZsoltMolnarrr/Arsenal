@@ -1,3 +1,7 @@
+# 1.4.2
+
+- Fixed some spell trigger placeholders
+
 # 1.4.1
 
 - Some melee weapons now come with spell choices
