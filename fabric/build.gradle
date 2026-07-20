@@ -71,7 +71,7 @@ dependencies {
     modImplementation("maven.modrinth:tiny-config:${project.tiny_config_version}-${platform}")
 
     // Trinkets
-    modImplementation("maven.modrinth:trinkets:${project.trinkets_version}")
+    modImplementation("dev.emi:trinkets:${project.trinkets_version}")
 
     include(modImplementation("maven.modrinth:shield-api:${project.shield_api_version}-${platform}"))
 
