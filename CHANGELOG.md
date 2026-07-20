@@ -1,3 +1,7 @@
+# 1.4.3
+
+- Update to latest version of Spell Engine
+
 # 1.4.2
 
 - Fixed some spell trigger placeholders
