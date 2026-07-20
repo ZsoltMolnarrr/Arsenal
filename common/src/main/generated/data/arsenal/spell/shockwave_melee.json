@@ -38,10 +38,16 @@
           "width": 3.5
         },
         "client_data": {
-          "model": {
-            "model_id": "arsenal:spell_projectile/shockwave_large",
-            "scale": 4.0,
-            "rotate_degrees_per_tick": 0.0
+          "composite_model": {
+            "models": [
+              {
+                "rotate_degrees_per_tick": 0.0,
+                "fx": {
+                  "model_id": "arsenal:spell_projectile/shockwave_large",
+                  "scale": 4.0
+                }
+              }
+            ]
           }
         }
       }

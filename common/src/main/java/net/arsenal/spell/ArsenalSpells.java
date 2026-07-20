@@ -1325,11 +1325,9 @@ public class ArsenalSpells {
         var projectile = new Spell.ProjectileData();
         projectile.homing_angle = 0F;
         projectile.client_data = new Spell.ProjectileData.Client();
-        projectile.client_data.model = new Spell.ProjectileModel();
-        projectile.client_data.model.model_id = ArsenalProjectiles.shockwave_large.id().toString();
-
-        projectile.client_data.model.scale = 4F;
-        projectile.client_data.model.rotate_degrees_per_tick = 0;
+        var shockwaveLargeModel = SpellBuilder.ProjectileModels.model(ArsenalProjectiles.shockwave_large.id().toString(), 4F);
+        shockwaveLargeModel.rotate_degrees_per_tick = 0;
+        projectile.client_data.composite_model = SpellBuilder.ProjectileModels.composite(shockwaveLargeModel);
         projectile.perks.pierce = 999;
         projectile.hitbox = new Spell.ProjectileData.HitBox(3.5F, 0.5F);
         spell.deliver.projectile.projectile = projectile;
@@ -1388,11 +1386,9 @@ public class ArsenalSpells {
         var projectile = new Spell.ProjectileData();
         projectile.homing_angle = 0F;
         projectile.client_data = new Spell.ProjectileData.Client();
-        projectile.client_data.model = new Spell.ProjectileModel();
-        projectile.client_data.model.model_id = ArsenalProjectiles.shockwave.id().toString();
-
-        projectile.client_data.model.scale = 2F;
-        projectile.client_data.model.rotate_degrees_per_tick = 0;
+        var shockwaveModel = SpellBuilder.ProjectileModels.model(ArsenalProjectiles.shockwave.id().toString(), 2F);
+        shockwaveModel.rotate_degrees_per_tick = 0;
+        projectile.client_data.composite_model = SpellBuilder.ProjectileModels.composite(shockwaveModel);
         projectile.perks.pierce = 999;
         projectile.hitbox = new Spell.ProjectileData.HitBox(2F, 0.4F);
 
@@ -1461,9 +1457,7 @@ public class ArsenalSpells {
                         ParticleBatch.Rotation.LOOK, 1, 0.05F, 0.1F, 0.0F, 0F)
                         .color(CHAIN_REACTION_COLOR.toRGBA())
         };
-        projectile.client_data.model = new Spell.ProjectileModel();
-        projectile.client_data.model.model_id = ArsenalProjectiles.missile.id().toString();
-        projectile.client_data.model.scale = 0.5F;
+        projectile.client_data.composite_model = SpellBuilder.ProjectileModels.single(ArsenalProjectiles.missile.id().toString(), 0.5F);
         spell.deliver.projectile.projectile = projectile;
 
         var damage = damageImpact(0.5F, 0.25F);

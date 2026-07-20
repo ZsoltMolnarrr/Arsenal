@@ -60,9 +60,15 @@
               "color_rgba": 3839885311
             }
           ],
-          "model": {
-            "model_id": "arsenal:spell_projectile/missile",
-            "scale": 0.5
+          "composite_model": {
+            "models": [
+              {
+                "fx": {
+                  "model_id": "arsenal:spell_projectile/missile",
+                  "scale": 0.5
+                }
+              }
+            ]
           }
         }
       }
