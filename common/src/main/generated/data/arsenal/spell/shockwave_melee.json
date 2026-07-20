@@ -35,7 +35,8 @@
           "pierce": 999
         },
         "hitbox": {
-          "width": 3.5
+          "width": 3.5,
+          "length": 1.0
         },
         "client_data": {
           "composite_model": {

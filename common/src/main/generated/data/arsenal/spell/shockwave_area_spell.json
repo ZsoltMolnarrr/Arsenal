@@ -52,7 +52,8 @@
         },
         "hitbox": {
           "width": 2.0,
-          "height": 0.4
+          "height": 0.4,
+          "length": 1.0
         },
         "client_data": {
           "composite_model": {

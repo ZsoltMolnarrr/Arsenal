@@ -1330,6 +1330,7 @@ public class ArsenalSpells {
         projectile.client_data.composite_model = SpellBuilder.ProjectileModels.composite(shockwaveLargeModel);
         projectile.perks.pierce = 999;
         projectile.hitbox = new Spell.ProjectileData.HitBox(3.5F, 0.5F);
+        projectile.hitbox.length = 1F; // thin wall along travel; without this the OBB depth falls back to width (3.5)
         spell.deliver.projectile.projectile = projectile;
 
         var damage = damageImpact(0.25F, 0.5F);
@@ -1391,6 +1392,7 @@ public class ArsenalSpells {
         projectile.client_data.composite_model = SpellBuilder.ProjectileModels.composite(shockwaveModel);
         projectile.perks.pierce = 999;
         projectile.hitbox = new Spell.ProjectileData.HitBox(2F, 0.4F);
+        projectile.hitbox.length = 1F; // thin wall along travel; without this the OBB depth falls back to width (2.0)
 
         spell.deliver.projectile.projectile = projectile;
 
