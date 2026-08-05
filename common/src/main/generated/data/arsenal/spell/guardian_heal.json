@@ -36,28 +36,39 @@
           "amplifier_power_multiplier": 0.2
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:area_circle_1",
-          "origin": "FEET",
-          "shape": "LINE_VERTICAL",
-          "count": 1.0,
-          "min_speed": 0.2,
-          "max_speed": 0.2,
-          "color_rgba": 4294954239,
-          "scale": 0.8,
-          "follow_entity": true,
-          "max_age": 0.4
-        },
-        {
-          "particle_id": "spell_engine:area_effect_714",
-          "origin": "GROUND",
-          "shape": "SPHERE",
-          "count": 1.0,
-          "max_speed": 0.0,
-          "color_rgba": 4294954239
-        }
-      ],
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:area_circle_1",
+            "appearance": {
+              "playback_speed": 2.5,
+              "color": 4294954239,
+              "scale": 0.8,
+              "attachment": "POSITION"
+            },
+            "batch": {
+              "count": 1.0,
+              "shape": "LINE_VERTICAL",
+              "anchor": "ENTITY",
+              "vertical_origin": 0.1,
+              "min_speed": 0.2,
+              "max_speed": 0.2
+            }
+          },
+          {
+            "id": "spell_engine:area_effect_714",
+            "appearance": {
+              "color": 4294954239,
+              "facing": "GROUND"
+            },
+            "batch": {
+              "count": 1.0,
+              "shape": "NONE",
+              "anchor": "GROUND"
+            }
+          }
+        ]
+      },
       "sound": {
         "id": "arsenal:guardian_heal_impact"
       }

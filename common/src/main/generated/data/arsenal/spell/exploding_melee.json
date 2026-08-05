@@ -30,15 +30,20 @@
     "area": {
       "distance_dropoff": "SQUARED"
     },
-    "particles": [
-      {
-        "particle_id": "spell_engine:fire_explosion",
-        "origin": "CENTER",
-        "shape": "SPHERE",
-        "count": 1.0,
-        "max_speed": 0.1
-      }
-    ],
+    "visuals": {
+      "particles": [
+        {
+          "id": "spell_engine:fire_explosion",
+          "appearance": {},
+          "batch": {
+            "count": 1.0,
+            "shape": "SPHERE",
+            "anchor": "ENTITY",
+            "max_speed": 0.1
+          }
+        }
+      ]
+    },
     "sound": {
       "id": "spell_engine:generic_fire_impact_1"
     }

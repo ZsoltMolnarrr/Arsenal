@@ -13,17 +13,24 @@
     ]
   },
   "release": {
-    "particles": [
-      {
-        "particle_id": "spell_engine:magic_spark_decelerate",
-        "origin": "LAUNCH_POINT",
-        "shape": "PIPE",
-        "rotation": "LOOK",
-        "count": 25.0,
-        "min_speed": 0.2,
-        "max_speed": 0.7
-      }
-    ]
+    "visuals": {
+      "particles": [
+        {
+          "id": "spell_engine:magic_spark",
+          "appearance": {
+            "motion": "DECELERATE"
+          },
+          "batch": {
+            "count": 25.0,
+            "shape": "PIPE",
+            "anchor": "LAUNCH_POINT",
+            "alignment": "LOOK",
+            "min_speed": 0.2,
+            "max_speed": 0.7
+          }
+        }
+      ]
+    }
   },
   "target": {
     "type": "AIM",

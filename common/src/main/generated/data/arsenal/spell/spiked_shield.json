@@ -25,17 +25,24 @@
           "knockback": 0.25
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:magic_spark_float",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 10.0,
-          "min_speed": 0.3,
-          "max_speed": 0.35,
-          "color_rgba": 3217014783
-        }
-      ],
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:magic_spark",
+            "appearance": {
+              "color": 3217014783,
+              "motion": "FLOAT"
+            },
+            "batch": {
+              "count": 10.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.3,
+              "max_speed": 0.35
+            }
+          }
+        ]
+      },
       "sound": {
         "id": "arsenal:spike_impact"
       }

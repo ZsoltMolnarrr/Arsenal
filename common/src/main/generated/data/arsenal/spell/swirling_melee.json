@@ -17,17 +17,22 @@
     ]
   },
   "release": {
-    "particles_scaled_with_ranged": [
-      {
-        "particle_id": "spell_engine:area_swirl",
-        "origin": "CENTER",
-        "shape": "SPHERE",
-        "count": 1.0,
-        "max_speed": 0.0,
-        "scale": 0.8,
-        "follow_entity": true
-      }
-    ],
+    "visuals": {
+      "particles": [
+        {
+          "id": "spell_engine:area_swirl",
+          "appearance": {
+            "scale_with": "RANGE",
+            "attachment": "POSITION"
+          },
+          "batch": {
+            "count": 1.0,
+            "shape": "NONE",
+            "anchor": "ENTITY"
+          }
+        }
+      ]
+    },
     "sound": {
       "id": "arsenal:swirling"
     }

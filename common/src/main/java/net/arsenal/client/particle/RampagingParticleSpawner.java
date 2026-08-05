@@ -2,7 +2,7 @@ package net.arsenal.client.particle;
 
 import net.minecraft.entity.LivingEntity;
 import net.spell_engine.api.render.BuffParticleSpawner;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.ParticleGroup;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class RampagingParticleSpawner extends BuffParticleSpawner {
         super(particleId, particleCount);
     }
 
-    public RampagingParticleSpawner(ParticleBatch[] particles) {
+    public RampagingParticleSpawner(ParticleGroup... particles) {
         super(particles);
     }
 

@@ -32,39 +32,55 @@
           "spell_power_coefficient": 0.05
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:magic_spark_float",
-          "origin": "CENTER",
-          "shape": "WIDE_PIPE",
-          "count": 15.0,
-          "min_speed": 0.02,
-          "max_speed": 0.1,
-          "color_rgba": 4281545727
-        },
-        {
-          "particle_id": "spell_engine:magic_spark_decelerate",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 25.0,
-          "min_speed": 0.08,
-          "max_speed": 0.12,
-          "pre_spawn_travel": 5.0,
-          "invert": true,
-          "color_rgba": 4281545727,
-          "follow_entity": true
-        },
-        {
-          "particle_id": "spell_engine:ground_glow",
-          "origin": "GROUND",
-          "shape": "LINE_VERTICAL",
-          "count": 1.0,
-          "max_speed": 0.0,
-          "color_rgba": 4281545523,
-          "scale": 0.8,
-          "follow_entity": true
-        }
-      ],
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:magic_spark",
+            "appearance": {
+              "color": 4281545727,
+              "motion": "FLOAT"
+            },
+            "batch": {
+              "count": 15.0,
+              "shape": "PIPE",
+              "anchor": "ENTITY",
+              "min_speed": 0.02,
+              "max_speed": 0.1,
+              "width_factor": 2.0
+            }
+          },
+          {
+            "id": "spell_engine:magic_spark",
+            "appearance": {
+              "color": 4281545727,
+              "motion": "DECELERATE",
+              "attachment": "POSITION"
+            },
+            "batch": {
+              "count": 25.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.08,
+              "max_speed": 0.12,
+              "pre_travel": 5.0,
+              "invert": true
+            }
+          },
+          {
+            "id": "spell_engine:ground_glow",
+            "appearance": {
+              "color": 4281545523,
+              "scale": 0.8,
+              "attachment": "POSITION_HORIZONTAL"
+            },
+            "batch": {
+              "count": 1.0,
+              "shape": "LINE_VERTICAL",
+              "anchor": "GROUND"
+            }
+          }
+        ]
+      },
       "sound": {
         "id": "arsenal:leeching_impact",
         "volume": 0.6

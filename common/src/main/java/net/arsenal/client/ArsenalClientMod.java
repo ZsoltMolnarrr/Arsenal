@@ -8,7 +8,9 @@ import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.render.CustomModels;
 import net.spell_engine.api.render.StunParticleSpawner;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder.Batches;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.fx.SpellEngineParticles;
 
@@ -30,78 +32,57 @@ public class ArsenalClientMod {
                 new StunParticleSpawner(SpellEngineParticles.snowflake.id())
         );
 
-        final var guardingParticles = new ParticleBatch(
-                SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPARK,
-                        SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
-                ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                1F, 0.1F, 0.15F)
-                .color(ArsenalSpells.GUARDING_COLOR.toRGBA());
+        final var guardingParticles = ParticleGroupBuilder
+                .magic(SpellEngineParticles.magic_spark, ParticleGroup.Motion.FLOAT, ArsenalSpells.GUARDING_COLOR)
+                .batch(b -> b.shape(ParticleGroup.Shape.PIPE).count(1F)
+                        .speed(0.1F, 0.15F).verticalOrigin(Batches.FEET));
         CustomParticleStatusEffect.register(
                 ArsenalEffects.GUARDING.effect,
-                new BuffParticleSpawner(new ParticleBatch[]{ guardingParticles })
+                new BuffParticleSpawner(guardingParticles)
         );
 
-        final var sunderingParticles = new ParticleBatch(
-                SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPARK,
-                        SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                2F, 0.6F, 0.7F)
-                .color(ArsenalSpells.SUNDERING_COLOR.toRGBA());
+        final var sunderingParticles = ParticleGroupBuilder
+                .magic(SpellEngineParticles.magic_spark, ParticleGroup.Motion.BURST, ArsenalSpells.SUNDERING_COLOR)
+                .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(2F).speed(0.6F, 0.7F));
         CustomParticleStatusEffect.register(
                 ArsenalEffects.SUNDERING.effect,
-                new BuffParticleSpawner(new ParticleBatch[]{ sunderingParticles })
+                new BuffParticleSpawner(sunderingParticles)
         );
 
-        final var rampagingParticles = new ParticleBatch(
-                SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.STRIPE,
-                        SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
-                ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                0.4F, 0.1F, 0.15F)
-                .color(ArsenalSpells.RAMPAGING_COLOR.toRGBA());
+        final var rampagingParticles = stripeColumn(ArsenalSpells.RAMPAGING_COLOR);
         CustomParticleStatusEffect.register(
                 ArsenalEffects.RAMPAGING.effect,
-                new BuffParticleSpawner(new ParticleBatch[]{ rampagingParticles })
+                new BuffParticleSpawner(rampagingParticles)
                         .withGroundEffect(
                                 SpellEngineParticles.area_effect_741.id().toString(),
                                 ArsenalSpells.RAMPAGING_COLOR,
                                 SpellEngineParticles.area_effect_741.texture().frames())
         );
 
-        final var focusingParticles = rampagingParticles.copy()
-                .color(ArsenalSpells.FOCUSING_COLOR.toRGBA());
+        final var focusingParticles = stripeColumn(ArsenalSpells.FOCUSING_COLOR);
         CustomParticleStatusEffect.register(
                 ArsenalEffects.FOCUSING.effect,
-                new BuffParticleSpawner(new ParticleBatch[]{ focusingParticles })
+                new BuffParticleSpawner(focusingParticles)
                         .withGroundEffect(
                                 SpellEngineParticles.area_effect_741.id().toString(),
                                 ArsenalSpells.FOCUSING_COLOR,
                                 SpellEngineParticles.area_effect_741.texture().frames())
         );
 
-        final var surgingParticles = rampagingParticles.copy()
-                .color(ArsenalSpells.SURGING_COLOR.toRGBA());
+        final var surgingParticles = stripeColumn(ArsenalSpells.SURGING_COLOR);
         CustomParticleStatusEffect.register(
                 ArsenalEffects.SURGING.effect,
-                new BuffParticleSpawner(new ParticleBatch[]{ surgingParticles })
+                new BuffParticleSpawner(surgingParticles)
                         .withGroundEffect(
                                 SpellEngineParticles.area_effect_741.id().toString(),
                                 ArsenalSpells.SURGING_COLOR,
                                 SpellEngineParticles.area_effect_741.texture().frames())
         );
 
-        final var unyieldingParticles = new ParticleBatch(
-                SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.STRIPE,
-                        SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
-                ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                0.4F, 0.1F, 0.15F)
-                .color(ArsenalSpells.UNYIELDING_COLOR.toRGBA());
+        final var unyieldingParticles = stripeColumn(ArsenalSpells.UNYIELDING_COLOR);
         CustomParticleStatusEffect.register(
                 ArsenalEffects.UNYIELDING.effect,
-                new BuffParticleSpawner(new ParticleBatch[]{ unyieldingParticles })
+                new BuffParticleSpawner(unyieldingParticles)
                         .withGroundEffect(
                                 SpellEngineParticles.area_effect_741.id().toString(),
                                 ArsenalSpells.UNYIELDING_COLOR,
@@ -112,5 +93,13 @@ public class ArsenalClientMod {
                 ArsenalEffects.ABSORPTION.effect,
                 new AbsorbParticleSpawner()
         );
+    }
+
+    /// The drifting stripe column shared by the four "on a roll" buffs, tinted per effect.
+    private static ParticleGroup stripeColumn(net.spell_engine.client.util.Color color) {
+        return ParticleGroupBuilder
+                .magic(SpellEngineParticles.magic_stripe, ParticleGroup.Motion.FLOAT, color)
+                .batch(b -> b.shape(ParticleGroup.Shape.PIPE).count(0.4F)
+                        .speed(0.1F, 0.15F).verticalOrigin(Batches.FEET));
     }
 }

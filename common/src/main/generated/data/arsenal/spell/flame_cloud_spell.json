@@ -40,35 +40,50 @@
           "light_level": 15,
           "particles": [
             {
-              "particle_id": "spell_engine:flame_ground",
-              "origin": "FEET",
-              "shape": "PILLAR",
-              "count": 3.0,
-              "max_speed": 0.0
+              "id": "spell_engine:flame_ground",
+              "appearance": {},
+              "batch": {
+                "count": 3.0,
+                "shape": "PILLAR",
+                "anchor": "ENTITY",
+                "vertical_origin": 0.1
+              }
             },
             {
-              "particle_id": "spell_engine:flame_medium_a",
-              "origin": "FEET",
-              "shape": "PILLAR",
-              "count": 2.0,
-              "min_speed": 0.02,
-              "max_speed": 0.1
+              "id": "spell_engine:flame_medium_a",
+              "appearance": {},
+              "batch": {
+                "count": 2.0,
+                "shape": "PILLAR",
+                "anchor": "ENTITY",
+                "vertical_origin": 0.1,
+                "min_speed": 0.02,
+                "max_speed": 0.1
+              }
             },
             {
-              "particle_id": "spell_engine:flame_medium_b",
-              "origin": "FEET",
-              "shape": "PILLAR",
-              "count": 1.0,
-              "min_speed": 0.02,
-              "max_speed": 0.1
+              "id": "spell_engine:flame_medium_b",
+              "appearance": {},
+              "batch": {
+                "count": 1.0,
+                "shape": "PILLAR",
+                "anchor": "ENTITY",
+                "vertical_origin": 0.1,
+                "min_speed": 0.02,
+                "max_speed": 0.1
+              }
             },
             {
-              "particle_id": "spell_engine:flame_spark",
-              "origin": "FEET",
-              "shape": "PILLAR",
-              "count": 3.0,
-              "min_speed": 0.03,
-              "max_speed": 0.2
+              "id": "spell_engine:flame_spark",
+              "appearance": {},
+              "batch": {
+                "count": 3.0,
+                "shape": "PILLAR",
+                "anchor": "ENTITY",
+                "vertical_origin": 0.1,
+                "min_speed": 0.03,
+                "max_speed": 0.2
+              }
             }
           ]
         },
@@ -89,24 +104,34 @@
           "knockback": 0.5
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:flame",
-          "origin": "FEET",
-          "shape": "PILLAR",
-          "count": 20.0,
-          "min_speed": 0.05,
-          "max_speed": 0.15
-        },
-        {
-          "particle_id": "spell_engine:flame_medium_a",
-          "origin": "FEET",
-          "shape": "PILLAR",
-          "count": 20.0,
-          "min_speed": 0.05,
-          "max_speed": 0.15
-        }
-      ],
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:flame",
+            "appearance": {},
+            "batch": {
+              "count": 20.0,
+              "shape": "PILLAR",
+              "anchor": "ENTITY",
+              "vertical_origin": 0.1,
+              "min_speed": 0.05,
+              "max_speed": 0.15
+            }
+          },
+          {
+            "id": "spell_engine:flame_medium_a",
+            "appearance": {},
+            "batch": {
+              "count": 20.0,
+              "shape": "PILLAR",
+              "anchor": "ENTITY",
+              "vertical_origin": 0.1,
+              "min_speed": 0.05,
+              "max_speed": 0.15
+            }
+          }
+        ]
+      },
       "sound": {
         "id": "spell_engine:generic_fire_impact_1"
       }

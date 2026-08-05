@@ -34,22 +34,32 @@
         "client_data": {
           "particles": [
             {
-              "particle_id": "spell_engine:smoke_large",
-              "origin": "FEET",
-              "shape": "PILLAR",
-              "count": 1.0,
-              "min_speed": 0.01,
-              "max_speed": 0.02,
-              "color_rgba": 2583652010
+              "id": "spell_engine:smoke_large",
+              "appearance": {
+                "color": 2583652010
+              },
+              "batch": {
+                "count": 1.0,
+                "shape": "PILLAR",
+                "anchor": "ENTITY",
+                "vertical_origin": 0.1,
+                "min_speed": 0.01,
+                "max_speed": 0.02
+              }
             },
             {
-              "particle_id": "spell_engine:smoke_large",
-              "origin": "FEET",
-              "shape": "PILLAR",
-              "count": 1.0,
-              "min_speed": 0.01,
-              "max_speed": 0.02,
-              "color_rgba": 870134766
+              "id": "spell_engine:smoke_large",
+              "appearance": {
+                "color": 870134766
+              },
+              "batch": {
+                "count": 1.0,
+                "shape": "PILLAR",
+                "anchor": "ENTITY",
+                "vertical_origin": 0.1,
+                "min_speed": 0.01,
+                "max_speed": 0.02
+              }
             }
           ]
         },
@@ -74,26 +84,37 @@
           "apply_mode": "ADD"
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:smoke_large",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 0.5,
-          "min_speed": 0.01,
-          "max_speed": 0.02,
-          "color_rgba": 870134698
-        },
-        {
-          "particle_id": "spell_engine:magic_skull_decelerate",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 3.0,
-          "min_speed": 0.1,
-          "max_speed": 0.2,
-          "color_rgba": 870134698
-        }
-      ]
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:smoke_large",
+            "appearance": {
+              "color": 870134698
+            },
+            "batch": {
+              "count": 0.5,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.01,
+              "max_speed": 0.02
+            }
+          },
+          {
+            "id": "spell_engine:magic_skull",
+            "appearance": {
+              "color": 870134698,
+              "motion": "DECELERATE"
+            },
+            "batch": {
+              "count": 3.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.1,
+              "max_speed": 0.2
+            }
+          }
+        ]
+      }
     }
   ],
   "cost": {

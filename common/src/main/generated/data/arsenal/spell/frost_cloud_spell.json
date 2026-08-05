@@ -40,24 +40,32 @@
           "light_level": 6,
           "particles": [
             {
-              "particle_id": "spell_engine:snowflake",
-              "origin": "FEET",
-              "shape": "PILLAR",
-              "count": 2.0,
-              "min_speed": 0.1,
-              "max_speed": 0.12
+              "id": "spell_engine:snowflake",
+              "appearance": {},
+              "batch": {
+                "count": 2.0,
+                "shape": "PILLAR",
+                "anchor": "ENTITY",
+                "vertical_origin": 0.1,
+                "min_speed": 0.1,
+                "max_speed": 0.12
+              }
             }
           ],
           "particle_spawn_interval": 12,
           "interval_particles": [
             {
-              "particle_id": "spell_engine:area_effect_480",
-              "origin": "GROUND",
-              "shape": "SPHERE",
-              "count": 1.0,
-              "max_speed": 0.0,
-              "color_rgba": 3439329215,
-              "scale": 2.0
+              "id": "spell_engine:area_effect_480",
+              "appearance": {
+                "color": 3439329215,
+                "scale": 2.0,
+                "facing": "GROUND"
+              },
+              "batch": {
+                "count": 1.0,
+                "shape": "NONE",
+                "anchor": "GROUND"
+              }
             }
           ]
         },
@@ -78,16 +86,22 @@
           "duration": 2.0
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:snowflake",
-          "origin": "FEET",
-          "shape": "PILLAR",
-          "count": 20.0,
-          "min_speed": 0.05,
-          "max_speed": 0.15
-        }
-      ],
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:snowflake",
+            "appearance": {},
+            "batch": {
+              "count": 20.0,
+              "shape": "PILLAR",
+              "anchor": "ENTITY",
+              "vertical_origin": 0.1,
+              "min_speed": 0.05,
+              "max_speed": 0.15
+            }
+          }
+        ]
+      },
       "sound": {
         "id": "spell_engine:stun_generic"
       }

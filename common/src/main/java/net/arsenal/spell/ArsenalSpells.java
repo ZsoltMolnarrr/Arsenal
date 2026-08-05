@@ -9,7 +9,10 @@ import net.minecraft.util.Identifier;
 import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.Fx;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder.Batches;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
@@ -21,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ArsenalSpells {
     public enum Category {
@@ -78,26 +82,57 @@ public class ArsenalSpells {
         spell.cost.cooldown.hosting_item = false;
     }
 
-    private static final Identifier HOLY_DECELERATE = SpellEngineParticles.MagicParticles.get(
-            SpellEngineParticles.MagicParticles.Shape.HOLY,
-            SpellEngineParticles.MagicParticles.Motion.DECELERATE
-    ).id();
-    private static final Identifier SPARK_DECELERATE = SpellEngineParticles.MagicParticles.get(
-            SpellEngineParticles.MagicParticles.Shape.SPARK,
-            SpellEngineParticles.MagicParticles.Motion.DECELERATE
-    ).id();
-    private static final Identifier SPARK_FLOAT = SpellEngineParticles.MagicParticles.get(
-            SpellEngineParticles.MagicParticles.Shape.SPARK,
-            SpellEngineParticles.MagicParticles.Motion.FLOAT
-    ).id();
-    private static final Identifier STRIPE_FLOAT = SpellEngineParticles.MagicParticles.get(
-            SpellEngineParticles.MagicParticles.Shape.STRIPE,
-            SpellEngineParticles.MagicParticles.Motion.FLOAT
-    ).id();
-    private static final Identifier SPELL_ASCEND = SpellEngineParticles.MagicParticles.get(
-            SpellEngineParticles.MagicParticles.Shape.SPELL,
-            SpellEngineParticles.MagicParticles.Motion.ASCEND
-    ).id();
+    // MARK: Particle shorthands
+    // The `magic_<shape>_<motion>` ids collapsed to eight `magic_<shape>` entries, with motion
+    // chosen per effect — so what used to be an id constant is now a half-built effect.
+
+    private static ParticleGroupBuilder holyDecelerate() {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_holy, ParticleGroup.Motion.DECELERATE);
+    }
+    private static ParticleGroupBuilder sparkDecelerate() {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_spark, ParticleGroup.Motion.DECELERATE);
+    }
+    private static ParticleGroupBuilder sparkFloat() {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_spark, ParticleGroup.Motion.FLOAT);
+    }
+    private static ParticleGroupBuilder stripeFloat() {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_stripe, ParticleGroup.Motion.FLOAT);
+    }
+    private static ParticleGroupBuilder spellAscend() {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_spell, ParticleGroup.Motion.ASCEND);
+    }
+    private static ParticleGroupBuilder skullDecelerate() {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_skull, ParticleGroup.Motion.DECELERATE);
+    }
+    private static ParticleGroupBuilder arcaneBurst() {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_arcane, ParticleGroup.Motion.BURST);
+    }
+
+    /// Outward from the target's centre — the standard Arsenal impact spray.
+    private static Consumer<ParticleGroup.Batch> burst(float count, float minSpeed, float maxSpeed) {
+        return b -> b.shape(ParticleGroup.Shape.SPHERE).count(count).speed(minSpeed, maxSpeed);
+    }
+
+    /// A column rising from the feet.
+    private static Consumer<ParticleGroup.Batch> column(float count, float minSpeed, float maxSpeed) {
+        return b -> b.shape(ParticleGroup.Shape.PILLAR).count(count)
+                .speed(minSpeed, maxSpeed).verticalOrigin(Batches.FEET);
+    }
+
+    /// A sign icon riding on the entity — Arsenal's buff and cooldown markers.
+    private static ParticleGroup sign(SpellEngineParticles.Entry entry, long color) {
+        return ParticleGroupBuilder.of(entry).scale(0.8F).color(color).attached()
+                .batch(b -> b.shape(ParticleGroup.Shape.LINE_VERTICAL).count(1).speed(0.75F, 0.75F));
+    }
+
+    /// The flat ring pulsed under a buffed entity. `playbackSpeed` replaces V1's `maxAge` lifetime
+    /// multiplier and is its **reciprocal** — V1 `maxAge(0.4)` is `playbackSpeed(2.5)`.
+    private static ParticleGroup ringDecal(float playbackSpeed, long color) {
+        return ParticleGroupBuilder.of(SpellEngineParticles.area_circle_1)
+                .attached().scale(0.8F).playbackSpeed(playbackSpeed).color(color)
+                .batch(b -> b.shape(ParticleGroup.Shape.LINE_VERTICAL).count(1)
+                        .speed(0.2F, 0.2F).verticalOrigin(Batches.FEET));
+    }
 
     private static Spell.TargetCondition deadCondition() {
         var deadCondition = new Spell.TargetCondition();
@@ -124,12 +159,14 @@ public class ArsenalSpells {
     }
 
     private static void areaTarget(Spell spell, Identifier particleId, long particleColor) {
-        spell.release.particles_scaled_with_ranged = new ParticleBatch[]{
-                new ParticleBatch(particleId.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.GROUND,
-                        1, 0.0F, 0.F)
+        // Ground decal sized to the spell's reach. `scale_with` multiplies the authored scale
+        // (the old `particles_scaled_with_ranged` replaced it), so scale stays at its default 1.
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.zone(particleId)
                         .color(particleColor)
-        };
+                        .scaleWith(Fx.ScaleWith.RANGE)
+                        .batch(Batches.ground(1))
+        );
 
         spell.target = new Spell.Target();
         spell.target.type = Spell.Target.Type.AREA;
@@ -235,25 +272,13 @@ public class ArsenalSpells {
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
         heal.action.heal.spell_power_coefficient = 0.25F;
-        heal.particles = new ParticleBatch[]{
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
-                        20, 0.1F, 0.1F)
-                        .color(HOLY_COLOR),
-                new ParticleBatch(
-                        SpellEngineParticles.area_circle_1.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.FEET,
-                        1, 0.2F, 0.2F)
-                        .followEntity(true)
-                        .scale(0.8F)
-                        .maxAge(0.8F)
-                        .color(Color.HOLY.toRGBA()),
-                new ParticleBatch(
-                        HOLY_DECELERATE.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        15, 0.2F, 0.25F)
-                        .color(HOLY_COLOR)
-        };
+        heal.visuals = Fx.Visuals.of(
+                sparkDecelerate().color(HOLY_COLOR)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE).widthFactor(2F)
+                                .count(20).speed(0.1F, 0.1F).verticalOrigin(Batches.FEET)),
+                ringDecal(1.25F, Color.HOLY.toRGBA()),
+                holyDecelerate().color(HOLY_COLOR).batch(burst(15, 0.2F, 0.25F))
+        );
         heal.sound = new Sound(ArsenalSounds.radiance_impact.id().toString());
         spell.impacts = List.of(heal);
     }
@@ -314,12 +339,10 @@ public class ArsenalSpells {
         spell.area_impact = new Spell.AreaImpact();
         spell.area_impact.radius = 2.5F;
         spell.area_impact.area.distance_dropoff = Spell.Target.Area.DropoffCurve.SQUARED;
-        spell.area_impact.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.fire_explosion.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        1, 0F, 0.1F)
-        };
+        spell.area_impact.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.fire_explosion)
+                        .batch(burst(1, 0F, 0.1F))
+        );
         spell.area_impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
 
         return new Entry(id, spell, title, description, null, Category.MELEE);
@@ -378,15 +401,9 @@ public class ArsenalSpells {
         var wither = createEffectImpact("wither", 5);
         wither.action.status_effect.amplifier_power_multiplier = amplifier_multiplier;
         wither.action.status_effect.show_particles = true;
-        wither.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SKULL,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.2F, 0.25F)
-                        .color(WITHER_COLOR.toRGBA())
-        };
+        wither.visuals = Fx.Visuals.of(
+                skullDecelerate().color(WITHER_COLOR).batch(burst(25, 0.2F, 0.25F))
+        );
         wither.sound = new Sound(ArsenalSounds.wither_impact.id().toString());
         spell.impacts = List.of(wither);
     }
@@ -478,20 +495,12 @@ public class ArsenalSpells {
         cloud.spawn.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IGNITE.id().toString());
         cloud.client_data = new Spell.Delivery.Cloud.ClientData();
         cloud.client_data.light_level = 15;
-        cloud.client_data.particles = new ParticleBatch[] {
-                new ParticleBatch(SpellEngineParticles.flame_ground.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        3, 0, 0),
-                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        2, 0.02F, 0.1F),
-                new ParticleBatch(SpellEngineParticles.flame_medium_b.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        1, 0.02F, 0.1F),
-                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        3, 0.03F, 0.2F),
-        };
+        cloud.client_data.particles = List.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_ground).batch(column(3, 0, 0)),
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_medium_a).batch(column(2, 0.02F, 0.1F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_medium_b).batch(column(1, 0.02F, 0.1F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_spark).batch(column(3, 0.03F, 0.2F))
+        );
         spell.deliver.clouds = List.of(cloud);
 
         var damage = new Spell.Impact();
@@ -504,14 +513,10 @@ public class ArsenalSpells {
         damage.action.damage.knockback = 0.5F;
         damage.action.damage.spell_power_coefficient = coefficient;
         damage.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.flame.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        20, 0.05F, 0.15F),
-                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        20, 0.05F, 0.15F),
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.flame).batch(column(20, 0.05F, 0.15F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_medium_a).batch(column(20, 0.05F, 0.15F))
+        );
         spell.impacts = List.of(damage);
     }
 
@@ -577,16 +582,12 @@ public class ArsenalSpells {
         cloud.spawn.sound = new Sound(ArsenalSounds.poison_cloud_spawn.id().toString());
         cloud.client_data = new Spell.Delivery.Cloud.ClientData();
         cloud.client_data.light_level = 0;
-        cloud.client_data.particles = new ParticleBatch[] {
-                new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        1, 0.01F, 0.02F)
-                        .color(0x99FF66AAL),
-                new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        1, 0.01F, 0.02F)
-                        .color(0x33DD33EE),
-        };
+        cloud.client_data.particles = List.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.smoke_large)
+                        .color(0x99FF66AAL).batch(column(1, 0.01F, 0.02F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.smoke_large)
+                        .color(0x33DD33EE).batch(column(1, 0.01F, 0.02F))
+        );
         spell.deliver.clouds = List.of(cloud);
 
          var impact = SpellBuilder.Impacts.effectAdd_ScaledCap("poison", 5, coefficient);
@@ -601,19 +602,11 @@ public class ArsenalSpells {
 //        impact.action.status_effect.duration = 5;
 //        impact.action.status_effect.amplifier_power_multiplier = coefficient;
         // impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_2.id().toString());
-        impact.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.smoke_large.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        0.5F, 0.01F, 0.02F)
-                        .color(0x33DD33AA),
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SKULL,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        3, 0.1F, 0.2F)
-                        .color(0x33DD33AA)
-        };
+        impact.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.smoke_large)
+                        .color(0x33DD33AAL).batch(burst(0.5F, 0.01F, 0.02F)),
+                skullDecelerate().color(0x33DD33AAL).batch(burst(3, 0.1F, 0.2F))
+        );
         spell.impacts = List.of(impact);
     }
 
@@ -644,11 +637,9 @@ public class ArsenalSpells {
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         var slow = createEffectImpact(ArsenalEffects.FROSTBITE.id.toString(), 4);
-        slow.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.1F, 0.15F)
-        };
+        slow.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.snowflake).batch(burst(25, 0.1F, 0.15F))
+        );
         slow.sound = new Sound(SpellEngineSounds.STUN_GENERIC.id().toString());
         spell.impacts = List.of(slow);
 
@@ -700,26 +691,17 @@ public class ArsenalSpells {
         leech.action.type = Spell.Impact.Action.Type.HEAL;
         leech.action.heal = new Spell.Impact.Action.Heal();
         leech.action.heal.spell_power_coefficient = 0.05F;
-        leech.particles = new ParticleBatch[]{
-                new ParticleBatch(SPARK_FLOAT.toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.CENTER,
-                        15, 0.02F, 0.1F)
-                        .color(LEECHING_COLOR.toRGBA()),
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.08F, 0.12F)
-                        .invert()
-                        .preSpawnTravel(5)
-                        .followEntity(true)
-                        .color(LEECHING_COLOR.toRGBA()),
-                new ParticleBatch(
-                        SpellEngineParticles.ground_glow.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.GROUND,
-                        1, 0.0F, 0.F)
-                        .followEntity(true)
-                        .scale(0.8F)
-                        .color(LEECHING_COLOR.alpha(0.2F).toRGBA())
-        };
+        leech.visuals = Fx.Visuals.of(
+                sparkFloat().color(LEECHING_COLOR)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE).widthFactor(2F)
+                                .count(15).speed(0.02F, 0.1F)),
+                sparkDecelerate().color(LEECHING_COLOR).attached()
+                        .batch(burst(25, 0.08F, 0.12F).andThen(b -> b.invert(true).preTravel(5))),
+                ParticleGroupBuilder.of(SpellEngineParticles.ground_glow)
+                        .attachedToGround().scale(0.8F).color(LEECHING_COLOR.alpha(0.2F))
+                        .batch(b -> b.shape(ParticleGroup.Shape.LINE_VERTICAL).count(1)
+                                .anchor(ParticleGroup.Anchor.GROUND))
+        );
         leech.sound = Sound.withVolume(ArsenalSounds.leeching_impact.id(), 0.6F);
         spell.impacts = List.of(leech);
     }
@@ -749,13 +731,14 @@ public class ArsenalSpells {
         spell.target.area.distance_dropoff = Spell.Target.Area.DropoffCurve.NONE;
         spell.target.area.vertical_range_multiplier = 0.5F;
 
-        spell.release.particles_scaled_with_ranged = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.area_swirl.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        1, 0.0F, 0.F)
-                        .scale(0.8F)
-                        .followEntity(true)
-        };
+        // Sized to the swing's reach. The authored `scale(0.8)` was dead code under the old
+        // range path (which replaced scale outright), so it is dropped rather than carried over.
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.area_swirl)
+                        .attached()
+                        .scaleWith(Fx.ScaleWith.RANGE)
+                        .batch(Batches.placed(1))
+        );
 
         var damage = damageImpact(0.5F, 0.5F);
         spell.impacts = List.of(damage);
@@ -794,22 +777,10 @@ public class ArsenalSpells {
         buffAreaTarget(spell, SpellEngineParticles.area_effect_714.id(), GUARDING_COLOR.toRGBA());
 
         var buff = createEffectImpact(ArsenalEffects.GUARDING.id.toString(), 5);
-        buff.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.area_circle_1.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.FEET,
-                        1, 0.2F, 0.2F)
-                        .followEntity(true)
-                        .scale(0.8F)
-                        .maxAge(0.4F)
-                        .color(GUARDING_COLOR.toRGBA()),
-                new ParticleBatch(SpellEngineParticles.sign_shield.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
-                        1, 0.75F, 0.75F)
-                        .scale(0.8F)
-                        .color(GUARDING_COLOR.alpha(0.75F).toRGBA())
-                        .followEntity(true)
-        };
+        buff.visuals = Fx.Visuals.of(
+                ringDecal(2.5F, GUARDING_COLOR.toRGBA()),
+                sign(SpellEngineParticles.sign_shield, GUARDING_COLOR.alpha(0.75F).toRGBA())
+        );
         buff.sound = new Sound(ArsenalSounds.guardian_strike_impact.id().toString());
         spell.impacts = List.of(buff);
         configureCooldown(spell, 10);
@@ -843,12 +814,10 @@ public class ArsenalSpells {
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         var sunder = createEffectImpact(ArsenalEffects.SUNDERING.id.toString(), 5);
-        sunder.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.1F, 0.1F)
-                        .color(SUNDERING_COLOR.toRGBA())
-        };
+        sunder.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.smoke_medium)
+                        .color(SUNDERING_COLOR).batch(burst(25, 0.1F, 0.1F))
+        );
         sunder.sound = new Sound(ArsenalSounds.sunder_impact.id().toString());
         spell.impacts = List.of(sunder);
 
@@ -875,18 +844,10 @@ public class ArsenalSpells {
         var duration = 5;
 
         var buff = createEffectImpact(effect.id.toString(), duration);
-        buff.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.sign_shield.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
-                        1, 0.75F, 0.75F)
-                        .scale(0.8F)
-                        .color(UNYIELDING_COLOR.alpha(0.75F).toRGBA())
-                        .followEntity(true),
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.3F, 0.35F)
-                        .color(UNYIELDING_COLOR.toRGBA())
-        };
+        buff.visuals = Fx.Visuals.of(
+                sign(SpellEngineParticles.sign_shield, UNYIELDING_COLOR.alpha(0.75F).toRGBA()),
+                sparkDecelerate().color(UNYIELDING_COLOR).batch(burst(10, 0.3F, 0.35F))
+        );
         buff.sound = new Sound(ArsenalSounds.unyielding_impact.id().toString());
         spell.impacts = List.of(buff);
 
@@ -920,22 +881,10 @@ public class ArsenalSpells {
         buffAreaTarget(spell, SpellEngineParticles.area_effect_714.id(), GUARDING_COLOR.toRGBA());
 
         var buff = createEffectImpact(ArsenalEffects.GUARDING.id.toString(), 5);
-        buff.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.area_circle_1.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.FEET,
-                        1, 0.2F, 0.2F)
-                        .followEntity(true)
-                        .scale(0.8F)
-                        .maxAge(0.4F)
-                        .color(GUARDING_COLOR.toRGBA()),
-                new ParticleBatch(SpellEngineParticles.sign_shield.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
-                        1, 0.75F, 0.75F)
-                        .scale(0.8F)
-                        .color(GUARDING_COLOR.alpha(0.75F).toRGBA())
-                        .followEntity(true)
-        };
+        buff.visuals = Fx.Visuals.of(
+                ringDecal(2.5F, GUARDING_COLOR.toRGBA()),
+                sign(SpellEngineParticles.sign_shield, GUARDING_COLOR.alpha(0.75F).toRGBA())
+        );
         buff.sound = new Sound(ArsenalSounds.guardian_strike_impact.id().toString());
         spell.impacts = List.of(buff);
         configureCooldown(spell, 10);
@@ -962,12 +911,9 @@ public class ArsenalSpells {
 
         var damage = damageImpact(0.25F, 0.25F);
         damage.action.min_power = 10;
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(SPARK_FLOAT.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.3F, 0.35F)
-                        .color(SPIKED_COLOR.toRGBA())
-        };
+        damage.visuals = Fx.Visuals.of(
+                sparkFloat().color(SPIKED_COLOR).batch(burst(10, 0.3F, 0.35F))
+        );
         damage.sound = new Sound(ArsenalSounds.spike_impact.id().toString());
 
         spell.impacts = List.of(damage);
@@ -988,12 +934,12 @@ public class ArsenalSpells {
         trigger.fire_delay = 1;
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        25, 0.2F, 0.7F)
-                        .rotate(ParticleBatch.Rotation.LOOK)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                sparkDecelerate()
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE).count(25).speed(0.2F, 0.7F)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .alignment(ParticleGroup.Alignment.LOOK))
+        );
 
         spell.target.type = Spell.Target.Type.AIM;
         spell.target.aim = new Spell.Target.Aim();
@@ -1051,12 +997,9 @@ public class ArsenalSpells {
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         var buff = createEffectImpact(effect.id.toString(), RAMPAGING_DURATION);
-        buff.particles = new ParticleBatch[]{
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.3F, 0.35F)
-                        .color(RAMPAGING_COLOR.toRGBA())
-        };
+        buff.visuals = Fx.Visuals.of(
+                sparkDecelerate().color(RAMPAGING_COLOR).batch(burst(10, 0.3F, 0.35F))
+        );
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 1;
         buff.action.status_effect.amplifier_cap = 4;
@@ -1103,12 +1046,9 @@ public class ArsenalSpells {
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         var buff = createEffectImpact(effect.id.toString(), RAMPAGING_DURATION);
-        buff.particles = new ParticleBatch[]{
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.3F, 0.35F)
-                        .color(FOCUSING_COLOR.toRGBA())
-        };
+        buff.visuals = Fx.Visuals.of(
+                sparkDecelerate().color(FOCUSING_COLOR).batch(burst(10, 0.3F, 0.35F))
+        );
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 1;
         buff.action.status_effect.amplifier_cap = 2;
@@ -1153,12 +1093,9 @@ public class ArsenalSpells {
 
         var duration = RAMPAGING_DURATION;
         var buff = createEffectImpact(effect.id.toString(), duration);
-        buff.particles = new ParticleBatch[]{
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.3F, 0.35F)
-                        .color(SURGING_COLOR.toRGBA())
-        };
+        buff.visuals = Fx.Visuals.of(
+                sparkDecelerate().color(SURGING_COLOR).batch(burst(10, 0.3F, 0.35F))
+        );
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 1;
         buff.action.status_effect.amplifier_cap = 4;
@@ -1215,28 +1152,23 @@ public class ArsenalSpells {
         cloud.spawn.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IGNITE.id().toString());
         cloud.client_data = new Spell.Delivery.Cloud.ClientData();
         cloud.client_data.light_level = 6;
-        cloud.client_data.particles = new ParticleBatch[] {
-                new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        2, 0.1F, 0.12F)
-        };
+        cloud.client_data.particles = List.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.snowflake).batch(column(2, 0.1F, 0.12F))
+        );
         cloud.client_data.particle_spawn_interval = SpellEngineParticles.area_effect_480.texture().frames();
-        cloud.client_data.interval_particles = new ParticleBatch[] {
-                new ParticleBatch(areaParticle.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.GROUND,
-                        1, 0.0F, 0.F)
+        cloud.client_data.interval_particles = List.of(
+                ParticleGroupBuilder.zone(areaParticle)
                         .scale(radius)
-                        .color(FROST_CLOUD_COLOR.alpha(0.75F).toRGBA()),
-        };
+                        .color(FROST_CLOUD_COLOR.alpha(0.75F))
+                        .batch(Batches.ground(1))
+        );
         spell.deliver.clouds = List.of(cloud);
 
         var impact = createEffectImpact(ArsenalEffects.FROSTBITE.id.toString(), 2);
         impact.sound = new Sound(SpellEngineSounds.STUN_GENERIC.id().toString());
-        impact.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.snowflake.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        20, 0.05F, 0.15F)
-        };
+        impact.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.snowflake).batch(column(20, 0.05F, 0.15F))
+        );
         spell.impacts = List.of(impact);
     }
 
@@ -1269,18 +1201,10 @@ public class ArsenalSpells {
         impact.action.cooldown = new Spell.Impact.Action.Cooldown();
         impact.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
         impact.action.cooldown.actives.duration_multiplier = 0;
-        impact.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.sign_hourglass.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
-                        1, 0.75F, 0.75F)
-                        .scale(0.8F)
-                        .color(COOLDOWN_SHOT_COLOR.toRGBA())
-                        .followEntity(true),
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        40, 0.3F, 0.3F)
-                        .color(COOLDOWN_SHOT_COLOR.toRGBA())
-        };
+        impact.visuals = Fx.Visuals.of(
+                sign(SpellEngineParticles.sign_hourglass, COOLDOWN_SHOT_COLOR.toRGBA()),
+                sparkDecelerate().color(COOLDOWN_SHOT_COLOR).batch(burst(40, 0.3F, 0.3F))
+        );
         impact.sound = new Sound(ArsenalSounds.spell_cooldown_impact.id().toString());
         spell.impacts = List.of(impact);
 
@@ -1334,15 +1258,9 @@ public class ArsenalSpells {
         spell.deliver.projectile.projectile = projectile;
 
         var damage = damageImpact(0.25F, 0.5F);
-        damage.particles = new ParticleBatch[] {
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.ARCANE,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 20, 0.2F, 0.7F, 0.0F, 0F)
-                        .color(SHOCKWAVE_COLOR.toRGBA())
-        };
+        damage.visuals = Fx.Visuals.of(
+                arcaneBurst().color(SHOCKWAVE_COLOR).batch(burst(20, 0.2F, 0.7F))
+        );
         damage.sound = new Sound(ArsenalSounds.shockwave_impact.id().toString());
         spell.impacts = List.of(damage);
 
@@ -1398,15 +1316,9 @@ public class ArsenalSpells {
 
         var damage = damageImpact(0.25F, 0.5F);
         damage.action.min_power = 7;
-        damage.particles = new ParticleBatch[] {
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.ARCANE,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 20, 0.2F, 0.7F, 0.0F, 0F)
-                        .color(SHOCKWAVE_COLOR.toRGBA())
-        };
+        damage.visuals = Fx.Visuals.of(
+                arcaneBurst().color(SHOCKWAVE_COLOR).batch(burst(20, 0.2F, 0.7F))
+        );
         damage.sound = new Sound(ArsenalSounds.shockwave_impact.id().toString());
         spell.impacts = List.of(damage);
 
@@ -1452,27 +1364,18 @@ public class ArsenalSpells {
         projectile.perks.chain_reaction_triggers = 1;
         projectile.client_data = new Spell.ProjectileData.Client();
         projectile.client_data.light_level = 10;
-        projectile.client_data.travel_particles = new ParticleBatch[] {
-                new ParticleBatch(
-                        SPELL_ASCEND.toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        ParticleBatch.Rotation.LOOK, 1, 0.05F, 0.1F, 0.0F, 0F)
-                        .color(CHAIN_REACTION_COLOR.toRGBA())
-        };
+        projectile.client_data.travel_particles = List.of(
+                spellAscend().color(CHAIN_REACTION_COLOR)
+                        .batch(Batches.travel(1, 0.1F).andThen(b -> b.speed(0.05F, 0.1F)))
+        );
         projectile.client_data.composite_model = SpellBuilder.ProjectileModels.single(ArsenalProjectiles.missile.id().toString(), 0.5F);
         spell.deliver.projectile.projectile = projectile;
 
         var damage = damageImpact(0.5F, 0.25F);
         damage.action.min_power = 7;
-        damage.particles = new ParticleBatch[] {
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.ARCANE,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 20, 0.2F, 0.7F, 0.0F, 0F)
-                        .color(CHAIN_REACTION_COLOR.toRGBA())
-        };
+        damage.visuals = Fx.Visuals.of(
+                arcaneBurst().color(CHAIN_REACTION_COLOR).batch(burst(20, 0.2F, 0.7F))
+        );
         damage.sound = new Sound(ArsenalSounds.missile_impact.id().toString());
         spell.impacts = List.of(damage);
 
@@ -1510,20 +1413,12 @@ public class ArsenalSpells {
         var effect = createEffectImpact(ArsenalEffects.ABSORPTION.id.toString(), duration);
         effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
         effect.action.status_effect.amplifier_power_multiplier = 0.2F;
-        effect.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.area_circle_1.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.FEET,
-                        1, 0.2F, 0.2F)
-                        .followEntity(true)
-                        .scale(0.8F)
-                        .maxAge(0.4F)
-                        .color(Color.HOLY.toRGBA()),
-                new ParticleBatch(SpellEngineParticles.area_effect_714.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.GROUND,
-                        1, 0.0F, 0.F)
-                        .color(Color.HOLY.toRGBA())
-        };
+        effect.visuals = Fx.Visuals.of(
+                ringDecal(2.5F, Color.HOLY.toRGBA()),
+                ParticleGroupBuilder.zone(SpellEngineParticles.area_effect_714)
+                        .color(Color.HOLY)
+                        .batch(Batches.ground(1))
+        );
         effect.sound = new Sound(ArsenalSounds.guardian_heal_impact.id().toString());
         spell.impacts = List.of(effect);
 
@@ -1567,18 +1462,10 @@ public class ArsenalSpells {
         impact.action.cooldown = new Spell.Impact.Action.Cooldown();
         impact.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
         impact.action.cooldown.actives.duration_multiplier = 0;
-        impact.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.sign_hourglass.id().toString(),
-                        ParticleBatch.Shape.LINE_VERTICAL, ParticleBatch.Origin.CENTER,
-                        1, 0.75F, 0.75F)
-                        .scale(0.8F)
-                        .color(COOLDOWN_HEAL_COLOR.toRGBA())
-                        .followEntity(true),
-                new ParticleBatch(SPARK_DECELERATE.toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        40, 0.3F, 0.3F)
-                        .color(COOLDOWN_HEAL_COLOR.toRGBA())
-        };
+        impact.visuals = Fx.Visuals.of(
+                sign(SpellEngineParticles.sign_hourglass, COOLDOWN_HEAL_COLOR.toRGBA()),
+                sparkDecelerate().color(COOLDOWN_HEAL_COLOR).batch(burst(40, 0.3F, 0.3F))
+        );
         impact.sound = new Sound(ArsenalSounds.spell_cooldown_impact.id().toString());
         spell.impacts = List.of(impact);
 

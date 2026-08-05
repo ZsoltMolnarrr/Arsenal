@@ -38,28 +38,39 @@
           }
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:sign_hourglass",
-          "origin": "CENTER",
-          "shape": "LINE_VERTICAL",
-          "count": 1.0,
-          "min_speed": 0.75,
-          "max_speed": 0.75,
-          "color_rgba": 4291598847,
-          "scale": 0.8,
-          "follow_entity": true
-        },
-        {
-          "particle_id": "spell_engine:magic_spark_decelerate",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 40.0,
-          "min_speed": 0.3,
-          "max_speed": 0.3,
-          "color_rgba": 4291598847
-        }
-      ],
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:sign_hourglass",
+            "appearance": {
+              "color": 4291598847,
+              "scale": 0.8,
+              "attachment": "POSITION"
+            },
+            "batch": {
+              "count": 1.0,
+              "shape": "LINE_VERTICAL",
+              "anchor": "ENTITY",
+              "min_speed": 0.75,
+              "max_speed": 0.75
+            }
+          },
+          {
+            "id": "spell_engine:magic_spark",
+            "appearance": {
+              "color": 4291598847,
+              "motion": "DECELERATE"
+            },
+            "batch": {
+              "count": 40.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.3,
+              "max_speed": 0.3
+            }
+          }
+        ]
+      },
       "sound": {
         "id": "arsenal:spell_cooldown_impact"
       }
