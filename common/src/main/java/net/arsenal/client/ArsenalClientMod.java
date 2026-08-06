@@ -11,17 +11,10 @@ import net.spell_engine.api.render.StunParticleSpawner;
 import net.spell_engine.api.spell.fx.ParticleGroup;
 import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.api.spell.fx.ParticleGroupBuilder.Batches;
-import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.fx.SpellEngineParticles;
 
 public class ArsenalClientMod {
     public static void init() {
-        for (var entry: ArsenalSpells.all) {
-            if (entry.mutator() != null) {
-                SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());
-            }
-        }
-
         CustomParticleStatusEffect.register(
                 ArsenalEffects.STUN.effect,
                 new StunParticleSpawner()

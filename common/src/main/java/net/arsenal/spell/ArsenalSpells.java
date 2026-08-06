@@ -4,7 +4,6 @@ import net.arsenal.ArsenalMod;
 import net.fabric_extras.ranged_weapon.api.EntityAttributes_RangedWeapon;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.spell.ExternalSpellSchools;
@@ -14,7 +13,7 @@ import net.spell_engine.api.spell.fx.ParticleGroup;
 import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.api.spell.fx.ParticleGroupBuilder.Batches;
 import net.spell_engine.api.spell.fx.Sound;
-import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.api.spell.tooltip.TooltipTokens;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
@@ -31,10 +30,9 @@ public class ArsenalSpells {
         MELEE, RANGED, SPELL, HEAL, SHIELD
     }
     public record Entry(Identifier id, Spell spell, String title, String description,
-                        @Nullable SpellTooltip.DescriptionMutator mutator, EnumSet<Category> categories) {
-        public Entry(Identifier id, Spell spell, String title, String description,
-                     @Nullable SpellTooltip.DescriptionMutator mutator, Category category) {
-            this(id, spell, title, description, mutator, EnumSet.of(category));
+                        EnumSet<Category> categories) {
+        public Entry(Identifier id, Spell spell, String title, String description, Category category) {
+            this(id, spell, title, description, EnumSet.of(category));
         }
     }
 
@@ -42,6 +40,13 @@ public class ArsenalSpells {
     private static Entry add(Entry entry) {
         all.add(entry);
         return entry;
+    }
+
+    /// A percentage baked directly into a description literal. The description is a lang value and
+    /// `I18n.translate` feeds it to `String.format`, so a literal `%` must be doubled (`%%` → `%`) or
+    /// it renders as "Format error". Token percentages injected after translation don't need this.
+    private static String bakedPercent(float value) {
+        return TooltipTokens.percent(value).replace("%", "%%");
     }
 
     private static Spell passiveSpellBase() {
@@ -211,7 +216,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3F);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Entry radiance_ranged = add(radiance_ranged());
@@ -233,7 +238,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 0.5F);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null, Category.RANGED);
+        return new Entry(id, spell, title, description, Category.RANGED);
     }
 
     public static Entry radiance_spell = add(radiance_spell());
@@ -258,7 +263,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 5F);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null, EnumSet.of(Category.SPELL, Category.HEAL));
+        return new Entry(id, spell, title, description, EnumSet.of(Category.SPELL, Category.HEAL));
     }
 
     private static void radianceTargetAndImpact(Spell spell, @Nullable String attribute) {
@@ -309,7 +314,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 20);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Entry exploding_melee = add(exploding_melee());
@@ -345,7 +350,7 @@ public class ArsenalSpells {
         );
         spell.area_impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IMPACT_1.id().toString());
 
-        return new Entry(id, spell, title, description, null, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static final Color WITHER_COLOR = Color.from(0x333333);
@@ -372,7 +377,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Entry wither_ranged = add(wither_ranged());
@@ -394,7 +399,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null, Category.RANGED);
+        return new Entry(id, spell, title, description, Category.RANGED);
     }
 
     private static void witherImpact(Spell spell, float amplifier_multiplier) {
@@ -431,7 +436,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Entry flame_cloud_ranged = add(flame_cloud_ranged());
@@ -453,7 +458,7 @@ public class ArsenalSpells {
         // configureCooldown(spell, 3);
         // spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null, Category.RANGED);
+        return new Entry(id, spell, title, description, Category.RANGED);
     }
 
     public static Entry flame_cloud_spell = add(flame_cloud_spell());
@@ -480,7 +485,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 2);
         // spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null, Category.SPELL);
+        return new Entry(id, spell, title, description, Category.SPELL);
     }
 
     private static void flameCloud(Spell spell, float coefficient, @Nullable String attribute) {
@@ -544,7 +549,7 @@ public class ArsenalSpells {
         configureCooldown(spell, duration * 0.5F);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Entry poison_cloud_ranged = add(poison_cloud_ranged());
@@ -567,7 +572,7 @@ public class ArsenalSpells {
         configureCooldown(spell, duration * 0.5F);
         // spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, null, Category.RANGED);
+        return new Entry(id, spell, title, description, Category.RANGED);
     }
 
     private static void poisonCloud(Spell spell, float coefficient, float cloudDuration) {
@@ -614,13 +619,13 @@ public class ArsenalSpells {
     private static Entry slowing_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "slowing_melee");
         var title = "Frostbite";
-        var description = "On melee hit: {trigger_chance} chance to slow movement and attack speed of the the target by {bonus}, for {effect_duration} seconds.";
-        var effect = ArsenalEffects.FROSTBITE;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        // Frostbite carries two equal modifiers (movement + attack speed); name one explicitly since
+        // the "sole modifier" default is only deterministic for single-modifier effects.
+        var description = "On melee hit: {trigger_chance} chance to slow movement and attack speed of the the target by "
+                + TooltipTokens.effect(ArsenalEffects.FROSTBITE.id, 0,
+                        Identifier.of(EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString()),
+                        TooltipTokens.Format.ABS)
+                + ", for {effect_duration} seconds.";
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -646,7 +651,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 3);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Color LEECHING_COLOR = Color.from(0xff3333);
@@ -664,7 +669,7 @@ public class ArsenalSpells {
 
         leechingEffect(spell);
 
-        return new Entry(id, spell, title, description, null, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Entry leeching_spell = add(leeching_spell());
@@ -679,7 +684,7 @@ public class ArsenalSpells {
 
         leechingEffect(spell);
 
-        return new Entry(id, spell, title, description, null, Category.SPELL);
+        return new Entry(id, spell, title, description, Category.SPELL);
     }
 
     private static void leechingEffect(Spell spell) {
@@ -743,7 +748,7 @@ public class ArsenalSpells {
         var damage = damageImpact(0.5F, 0.5F);
         spell.impacts = List.of(damage);
 
-        return new Entry(id, spell, title, description, null, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static final Color GUARDING_COLOR = Color.from(0x66ccff);
@@ -751,13 +756,9 @@ public class ArsenalSpells {
     private static Entry guarding_strike_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "guarding_strike_melee");
         var title = "Guarding Strike";
-        var effect = ArsenalEffects.GUARDING;
-        var description = "Defeating enemies grants you and nearby allies a temporary effect reducing damage taken by {bonus}, lasting {effect_duration} seconds.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "Defeating enemies grants you and nearby allies a temporary effect reducing damage taken by "
+                + TooltipTokens.effect(ArsenalEffects.GUARDING.id, 0, null, TooltipTokens.Format.ABS)
+                + ", lasting {effect_duration} seconds.";
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -785,7 +786,7 @@ public class ArsenalSpells {
         spell.impacts = List.of(buff);
         configureCooldown(spell, 10);
 
-        return new Entry(id, spell, title, description, mutator, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Color SUNDERING_COLOR = Color.from(0x595959);
@@ -793,13 +794,9 @@ public class ArsenalSpells {
     private static Entry sundering_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "sundering_melee");
         var title = "Sundering";
-        var description = "On melee hit: {trigger_chance} chance to reduce the target's armor by {bonus} for {effect_duration} seconds.";
-        var effect = ArsenalEffects.SUNDERING;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "On melee hit: {trigger_chance} chance to reduce the target's armor by "
+                + TooltipTokens.effect(ArsenalEffects.SUNDERING.id, 0, null, TooltipTokens.Format.ABS)
+                + " for {effect_duration} seconds.";
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -824,7 +821,7 @@ public class ArsenalSpells {
         configureCooldown(spell, 5);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Color UNYIELDING_COLOR = Color.from(0xff4a53);
@@ -853,21 +850,16 @@ public class ArsenalSpells {
 
         configureCooldown(spell, duration * 2);
 
-        return new Entry(id, spell, title, description, null, Category.SHIELD);
+        return new Entry(id, spell, title, description, Category.SHIELD);
     }
 
     public static Entry guarding_shield = add(guarding_shield());
     private static Entry guarding_shield() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "guarding_shield");
         var title = "Guarding";
-        var description = "On shield block: {trigger_chance} chance to reduce damage taken by {bonus}, lasting {effect_duration} seconds.";
-        var effect = ArsenalEffects.GUARDING;
-
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "On shield block: {trigger_chance} chance to reduce damage taken by "
+                + TooltipTokens.effect(ArsenalEffects.GUARDING.id, 0, null, TooltipTokens.Format.ABS)
+                + ", lasting {effect_duration} seconds.";
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -889,7 +881,7 @@ public class ArsenalSpells {
         spell.impacts = List.of(buff);
         configureCooldown(spell, 10);
 
-        return new Entry(id, spell, title, description, mutator, Category.SHIELD);
+        return new Entry(id, spell, title, description, Category.SHIELD);
     }
 
     public static final Color SPIKED_COLOR = Color.from(0xbfbfbf);
@@ -918,7 +910,7 @@ public class ArsenalSpells {
 
         spell.impacts = List.of(damage);
 
-        return new Entry(id, spell, title, description, null, Category.SHIELD);
+        return new Entry(id, spell, title, description, Category.SHIELD);
     }
 
     public static Entry bonus_shot_ranged = add(bonus_shot_ranged());
@@ -956,7 +948,7 @@ public class ArsenalSpells {
 
         configureCooldown(spell ,1);
 
-        return new Entry(id, spell, title, description, null, Category.RANGED);
+        return new Entry(id, spell, title, description, Category.RANGED);
     }
 
     private static final float RAMPAGING_DURATION = 12;
@@ -967,13 +959,10 @@ public class ArsenalSpells {
     private static Entry rampaging_melee() {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_melee");
         var title = "Rampaging";
-        var description = "Defeating enemies grants " + title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier_cap} times, lasting {effect_duration} seconds.";
         var effect = ArsenalEffects.RAMPAGING;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "Defeating enemies grants " + title + " effect, increasing your damage by "
+                + TooltipTokens.effect(effect.id, 0, null, TooltipTokens.Format.ABS)
+                + ", stacking up to {effect_amplifier_cap} times, lasting {effect_duration} seconds.";
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -1010,7 +999,7 @@ public class ArsenalSpells {
         configureCooldown(spell, RAMPAGING_COOLDOWN);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Color FOCUSING_COLOR = Color.from(0x99ff66);
@@ -1019,12 +1008,9 @@ public class ArsenalSpells {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_ranged");
         var effect = ArsenalEffects.FOCUSING;
         var title = "Focusing";
-        var description = "Defeating enemies grants " + effect.title + " effect, increasing your damage by {bonus}, stacking up to {effect_amplifier_cap} times, lasting {effect_duration} seconds.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "Defeating enemies grants " + effect.title + " effect, increasing your damage by "
+                + TooltipTokens.effect(effect.id, 0, null, TooltipTokens.Format.ABS)
+                + ", stacking up to {effect_amplifier_cap} times, lasting {effect_duration} seconds.";
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
@@ -1059,7 +1045,7 @@ public class ArsenalSpells {
         configureCooldown(spell, RAMPAGING_COOLDOWN);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator, Category.RANGED);
+        return new Entry(id, spell, title, description, Category.RANGED);
     }
 
     public static final Color SURGING_COLOR = Color.from(0x99ffff);
@@ -1068,12 +1054,9 @@ public class ArsenalSpells {
         var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_spell");
         var effect = ArsenalEffects.SURGING;
         var title = "Surging";
-        var description = "Defeating enemies grants " + effect.title + " effect, increasing your spell critical chance by {bonus}, stacking up to {effect_amplifier_cap} times, lasting {effect_duration} seconds.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(Math.abs(modifier.value), modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "Defeating enemies grants " + effect.title + " effect, increasing your spell critical chance by "
+                + TooltipTokens.effect(effect.id, 0, null, TooltipTokens.Format.ABS)
+                + ", stacking up to {effect_amplifier_cap} times, lasting {effect_duration} seconds.";
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -1106,7 +1089,7 @@ public class ArsenalSpells {
         configureCooldown(spell, RAMPAGING_COOLDOWN);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator, Category.SPELL);
+        return new Entry(id, spell, title, description, Category.SPELL);
     }
 
     public static final Color FROST_CLOUD_COLOR = Color.from(0xccffff);
@@ -1133,7 +1116,7 @@ public class ArsenalSpells {
 
         configureCooldown(spell, 2);
 
-        return new Entry(id, spell, title, description, null, Category.SPELL);
+        return new Entry(id, spell, title, description, Category.SPELL);
     }
 
     private static void frostCloud(Spell spell) {
@@ -1210,7 +1193,7 @@ public class ArsenalSpells {
 
         configureCooldown(spell, 30);
 
-        return new Entry(id, spell, title, description, null, EnumSet.of(Category.SPELL, Category.HEAL));
+        return new Entry(id, spell, title, description, EnumSet.of(Category.SPELL, Category.HEAL));
     }
 
     public static final Color SHOCKWAVE_COLOR = Color.from(0xa7e5f5);
@@ -1264,7 +1247,7 @@ public class ArsenalSpells {
         damage.sound = new Sound(ArsenalSounds.shockwave_impact.id().toString());
         spell.impacts = List.of(damage);
 
-        return new Entry(id, spell, title, description, null, Category.MELEE);
+        return new Entry(id, spell, title, description, Category.MELEE);
     }
 
     public static Entry shockwave_area_spell = add(shockwave_area_spell());
@@ -1324,7 +1307,7 @@ public class ArsenalSpells {
 
         configureCooldown(spell, 4);
 
-        return new Entry(id, spell, title, description, null, EnumSet.of(Category.SPELL, Category.HEAL));
+        return new Entry(id, spell, title, description, EnumSet.of(Category.SPELL, Category.HEAL));
     }
 
     public static final Color CHAIN_REACTION_COLOR = Color.from(0xe4dfff);
@@ -1381,7 +1364,7 @@ public class ArsenalSpells {
 
         configureCooldown(spell,  1);
 
-        return new Entry(id, spell, title, description, null, EnumSet.of(Category.SPELL, Category.HEAL));
+        return new Entry(id, spell, title, description, EnumSet.of(Category.SPELL, Category.HEAL));
     }
 
     public static Entry guardian_heal = add(guardian_heal());
@@ -1391,10 +1374,8 @@ public class ArsenalSpells {
 
         var id = Identifier.of(ArsenalMod.NAMESPACE, "guardian_heal");
         var title = "Guardian Remedy";
-        var description = "Healing targets under {threshold} health grants them a temporary absorption shield, lasting {effect_duration} seconds.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            return args.description().replace("{threshold}", SpellTooltip.percent(threshold));
-        };
+        var description = "Healing targets under " + bakedPercent(threshold)
+                + " health grants them a temporary absorption shield, lasting {effect_duration} seconds.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
 
@@ -1425,7 +1406,7 @@ public class ArsenalSpells {
         configureCooldown(spell, duration);
         spell.cost.batching = true;
 
-        return new Entry(id, spell, title, description, mutator, Category.HEAL);
+        return new Entry(id, spell, title, description, Category.HEAL);
     }
 
     public static final Color COOLDOWN_HEAL_COLOR = Color.from(0xffcc99);
@@ -1435,10 +1416,8 @@ public class ArsenalSpells {
 
         var id = Identifier.of(ArsenalMod.NAMESPACE, "cooldown_heal");
         var title = "Cooldown Touch";
-        var description = "Healing targets under {threshold} health, has {trigger_chance} chance to reset your spell cooldowns.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            return args.description().replace("{threshold}", SpellTooltip.percent(threshold));
-        };
+        var description = "Healing targets under " + bakedPercent(threshold)
+                + " health, has {trigger_chance} chance to reset your spell cooldowns.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
 
@@ -1471,6 +1450,6 @@ public class ArsenalSpells {
 
         configureCooldown(spell, 30);
 
-        return new Entry(id, spell, title, description, mutator, Category.HEAL);
+        return new Entry(id, spell, title, description, Category.HEAL);
     }
 }
