@@ -1,4 +1,4 @@
-package net.arsenal.datagen;
+package net.arsenal.fabric.datagen;
 
 import net.arsenal.item.*;
 import net.arsenal.spell.ArsenalSpellGroups;

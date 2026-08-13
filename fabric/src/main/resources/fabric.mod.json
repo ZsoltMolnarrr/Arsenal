@@ -17,7 +17,7 @@
       "net.arsenal.fabric.FabricMod"
     ],
     "fabric-datagen": [
-      "net.arsenal.datagen.ArsenalDataGen"
+      "net.arsenal.fabric.datagen.ArsenalDataGen"
     ]
   },
   "mixins": [

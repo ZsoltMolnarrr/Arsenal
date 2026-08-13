@@ -25,7 +25,7 @@ public final class NeoForgeMod {
         });
         event.register(RegistryKeys.ITEM_GROUP, reg -> {
             // Create and register item group (NeoForge-specific)
-            Group.GROUP = ItemGroup.builder()
+            Group.GROUP = new ItemGroup.Builder(ItemGroup.Row.TOP, 0)
                     .icon(Group.ICON)
                     .displayName(Text.translatable(Group.translationKey))
                     .build();
