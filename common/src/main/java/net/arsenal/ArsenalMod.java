@@ -6,7 +6,7 @@ import net.arsenal.item.ArsenalShields;
 import net.arsenal.item.ArsenalWeapons;
 import net.arsenal.spell.ArsenalEffects;
 import net.arsenal.spell.ArsenalSounds;
-import net.spell_engine.api.config.ConfigFile;
+import net.spell_engine.rpg_series.config.ConfigFile;
 import net.tiny_config.ConfigManager;
 
 public class ArsenalMod {
