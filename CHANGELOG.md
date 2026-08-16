@@ -2,6 +2,7 @@
 
 - Adopt Spell Engine 1.10 changes
 - NeoForge version no longer depends on Forgified Fabric API
+- Fully translated content, now supporting 20 languages
 
 # 1.4.3
 
