@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Vùng Sóng Xung Kích",
   "spell.arsenal.shockwave_melee.description": "Đòn đánh cuối cùng trong chuỗi combo sẽ phát ra một sóng xung kích về phía trước, gây {damage} sát thương cho kẻ địch trên đường đi.",
   "spell.arsenal.shockwave_melee.name": "Sóng Xung Kích",
-  "spell.arsenal.slowing_melee.description": "Khi đánh cận chiến trúng: có {trigger_chance} cơ hội làm chậm tốc độ di chuyển và tốc độ tấn công của mục tiêu {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, trong {effect_duration} giây.",
+  "spell.arsenal.slowing_melee.description": "Khi đánh cận chiến trúng: có {trigger_chance} cơ hội làm chậm tốc độ di chuyển và tốc độ tấn công của mục tiêu {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, trong {effect_duration} giây.",
   "spell.arsenal.slowing_melee.name": "Tê Cóng",
   "spell.arsenal.spiked_shield.description": "Khi đỡ bằng khiên: có {trigger_chance} cơ hội gây {damage} sát thương cho kẻ tấn công.",
   "spell.arsenal.spiked_shield.name": "Gai Nhọn",

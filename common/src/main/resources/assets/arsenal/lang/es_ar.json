@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Área de Onda de Choque",
   "spell.arsenal.shockwave_melee.description": "El último ataque en un combo envía una onda de choque hacia adelante, infligiendo {damage} de daño a los enemigos en su camino.",
   "spell.arsenal.shockwave_melee.name": "Onda de Choque",
-  "spell.arsenal.slowing_melee.description": "Al golpe cuerpo a cuerpo: {trigger_chance} de probabilidad de ralentizar el movimiento y la velocidad de ataque del objetivo en {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, durante {effect_duration} segundos.",
+  "spell.arsenal.slowing_melee.description": "Al golpe cuerpo a cuerpo: {trigger_chance} de probabilidad de ralentizar el movimiento y la velocidad de ataque del objetivo en {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, durante {effect_duration} segundos.",
   "spell.arsenal.slowing_melee.name": "Congelación",
   "spell.arsenal.spiked_shield.description": "Al bloquear con escudo: {trigger_chance} de probabilidad de infligir {damage} de daño al atacante.",
   "spell.arsenal.spiked_shield.name": "Púas",

@@ -35,7 +35,7 @@
   "impacts": [
     {
       "attribute_from_target": true,
-      "attribute": "minecraft:generic.max_health",
+      "attribute": "minecraft:max_health",
       "action": {
         "type": "HEAL",
         "apply_to_caster": true,

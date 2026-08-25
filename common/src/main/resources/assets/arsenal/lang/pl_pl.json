@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Strefa Fali Uderzeniowej",
   "spell.arsenal.shockwave_melee.description": "Ostatni atak w kombinacji wysyła falę uderzeniową do przodu, zadającą {damage} obrażeń wrogom na swojej drodze.",
   "spell.arsenal.shockwave_melee.name": "Fala Uderzeniowa",
-  "spell.arsenal.slowing_melee.description": "Przy trafieniu w walce wręcz: {trigger_chance} szansy na spowolnienie prędkości ruchu i ataku celu o {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, na {effect_duration} sekund.",
+  "spell.arsenal.slowing_melee.description": "Przy trafieniu w walce wręcz: {trigger_chance} szansy na spowolnienie prędkości ruchu i ataku celu o {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, na {effect_duration} sekund.",
   "spell.arsenal.slowing_melee.name": "Odmrożenie",
   "spell.arsenal.spiked_shield.description": "Przy zablokowaniu tarczą: {trigger_chance} szansy na zadanie {damage} obrażeń atakującemu.",
   "spell.arsenal.spiked_shield.name": "Kolczasty",

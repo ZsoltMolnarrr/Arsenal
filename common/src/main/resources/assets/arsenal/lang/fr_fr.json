@@ -112,7 +112,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Onde de Choc de Zone",
   "spell.arsenal.shockwave_melee.description": "Le dernier coup d’un combo envoie une onde de choc vers l’avant, infligeant {damage} dégâts aux ennemis touchés.",
   "spell.arsenal.shockwave_melee.name": "Onde de Choc",
-  "spell.arsenal.slowing_melee.description": "Lors d’un coup de mêlée : {trigger_chance} de chance de ralentir la vitesse de déplacement et d’attaque de la cible de {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, pendant {effect_duration} secondes.",
+  "spell.arsenal.slowing_melee.description": "Lors d’un coup de mêlée : {trigger_chance} de chance de ralentir la vitesse de déplacement et d’attaque de la cible de {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, pendant {effect_duration} secondes.",
   "spell.arsenal.slowing_melee.name": "Engelure",
   "spell.arsenal.spiked_shield.description": "Lors d’un blocage avec un bouclier : {trigger_chance} de chance d’infliger {damage} dégâts à l’attaquant.",
   "spell.arsenal.spiked_shield.name": "Épineux",

@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Oblast rázové vlny",
   "spell.arsenal.shockwave_melee.description": "Poslední útok v kombu vyšle rázovou vlnu vpřed, která způsobí {damage} poškození nepřátelům na její cestě.",
   "spell.arsenal.shockwave_melee.name": "Rázová vlna",
-  "spell.arsenal.slowing_melee.description": "Při zásahu na blízko: {trigger_chance} šance na zpomalení pohybu a rychlosti útoku cíle o {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, po dobu {effect_duration} sekund.",
+  "spell.arsenal.slowing_melee.description": "Při zásahu na blízko: {trigger_chance} šance na zpomalení pohybu a rychlosti útoku cíle o {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, po dobu {effect_duration} sekund.",
   "spell.arsenal.slowing_melee.name": "Omrzlina",
   "spell.arsenal.spiked_shield.description": "Při blokování štítem: {trigger_chance} šance na způsobení {damage} poškození útočníkovi.",
   "spell.arsenal.spiked_shield.name": "Ostnatý",

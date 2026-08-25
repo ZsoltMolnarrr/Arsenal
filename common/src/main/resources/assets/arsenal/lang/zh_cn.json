@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "震荡波",
   "spell.arsenal.shockwave_melee.description": "连击的最后一击释放一道冲击波，对路径上的敌人造成{damage}点伤害。",
   "spell.arsenal.shockwave_melee.name": "冲击波",
-  "spell.arsenal.slowing_melee.description": "近战命中时：{trigger_chance}几率使目标移动和攻击速度降低{effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}，持续{effect_duration}秒。",
+  "spell.arsenal.slowing_melee.description": "近战命中时：{trigger_chance}几率使目标移动和攻击速度降低{effect|arsenal:frostbite|0|minecraft:movement_speed|abs}，持续{effect_duration}秒。",
   "spell.arsenal.slowing_melee.name": "霜寒",
   "spell.arsenal.spiked_shield.description": "格挡时：{trigger_chance}几率对攻击者造成{damage}点伤害。",
   "spell.arsenal.spiked_shield.name": "尖刺",

@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Area Gelombang Kejut",
   "spell.arsenal.shockwave_melee.description": "Serangan terakhir dalam sebuah kombo mengirimkan gelombang kejut ke depan, memberikan {damage} kerusakan kepada musuh yang dilaluinya.",
   "spell.arsenal.shockwave_melee.name": "Gelombang Kejut",
-  "spell.arsenal.slowing_melee.description": "Saat serangan jarak dekat mengenai target: peluang {trigger_chance} untuk memperlambat gerakan dan kecepatan serangan target sebesar {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, selama {effect_duration} detik.",
+  "spell.arsenal.slowing_melee.description": "Saat serangan jarak dekat mengenai target: peluang {trigger_chance} untuk memperlambat gerakan dan kecepatan serangan target sebesar {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, selama {effect_duration} detik.",
   "spell.arsenal.slowing_melee.name": "Radang Beku",
   "spell.arsenal.spiked_shield.description": "Saat menangkis dengan perisai: peluang {trigger_chance} untuk memberikan {damage} kerusakan kepada penyerang.",
   "spell.arsenal.spiked_shield.name": "Berduri",

@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Onda d'Urto ad Area",
   "spell.arsenal.shockwave_melee.description": "L'ultimo attacco di una combo genera un'onda d'urto in avanti, infliggendo {damage} danni ai nemici lungo il suo percorso.",
   "spell.arsenal.shockwave_melee.name": "Onda d'Urto",
-  "spell.arsenal.slowing_melee.description": "Al colpo in mischia: {trigger_chance} di possibilità di rallentare la velocità di movimento e attacco del bersaglio di {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, per {effect_duration} secondi.",
+  "spell.arsenal.slowing_melee.description": "Al colpo in mischia: {trigger_chance} di possibilità di rallentare la velocità di movimento e attacco del bersaglio di {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, per {effect_duration} secondi.",
   "spell.arsenal.slowing_melee.name": "Congelamento",
   "spell.arsenal.spiked_shield.description": "Al blocco con lo scudo: {trigger_chance} di possibilità di infliggere {damage} danni all'attaccante.",
   "spell.arsenal.spiked_shield.name": "Chiodato",

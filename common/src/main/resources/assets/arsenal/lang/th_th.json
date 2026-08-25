@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "พื้นที่คลื่นกระแทก",
   "spell.arsenal.shockwave_melee.description": "การโจมตีครั้งสุดท้ายในคอมโบจะส่งคลื่นกระแทกไปข้างหน้า สร้างดาเมจ {damage} ให้กับศัตรูที่อยู่ในเส้นทาง",
   "spell.arsenal.shockwave_melee.name": "คลื่นกระแทก",
-  "spell.arsenal.slowing_melee.description": "เมื่อโจมตีระยะประชิด: มีโอกาส {trigger_chance} ที่จะทำให้เป้าหมายเคลื่อนที่และโจมตีช้าลง {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs} เป็นเวลา {effect_duration} วินาที",
+  "spell.arsenal.slowing_melee.description": "เมื่อโจมตีระยะประชิด: มีโอกาส {trigger_chance} ที่จะทำให้เป้าหมายเคลื่อนที่และโจมตีช้าลง {effect|arsenal:frostbite|0|minecraft:movement_speed|abs} เป็นเวลา {effect_duration} วินาที",
   "spell.arsenal.slowing_melee.name": "น้ำแข็งกัด",
   "spell.arsenal.spiked_shield.description": "เมื่อบล็อกด้วยโล่: มีโอกาส {trigger_chance} ที่จะสร้างดาเมจ {damage} ให้กับผู้โจมตี",
   "spell.arsenal.spiked_shield.name": "หนามแหลม",

@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Ударна хвиля по площі",
   "spell.arsenal.shockwave_melee.description": "Остання атака в комбо посилає ударну хвилю вперед, завдаючи {damage} шкоди ворогам на своєму шляху.",
   "spell.arsenal.shockwave_melee.name": "Ударна хвиля",
-  "spell.arsenal.slowing_melee.description": "При влучанні в ближньому бою: {trigger_chance} шанс сповільнити швидкість пересування та атаки цілі на {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs} протягом {effect_duration} секунд.",
+  "spell.arsenal.slowing_melee.description": "При влучанні в ближньому бою: {trigger_chance} шанс сповільнити швидкість пересування та атаки цілі на {effect|arsenal:frostbite|0|minecraft:movement_speed|abs} протягом {effect_duration} секунд.",
   "spell.arsenal.slowing_melee.name": "Обмороження",
   "spell.arsenal.spiked_shield.description": "При блокуванні щитом: {trigger_chance} шанс завдати {damage} шкоди атакуючому.",
   "spell.arsenal.spiked_shield.name": "Шипастий",

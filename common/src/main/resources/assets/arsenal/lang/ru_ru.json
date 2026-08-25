@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Область ударной волны",
   "spell.arsenal.shockwave_melee.description": "Последняя атака в комбо посылает ударную волну вперёд, нанося {damage} урона врагам на её пути.",
   "spell.arsenal.shockwave_melee.name": "Ударная волна",
-  "spell.arsenal.slowing_melee.description": "При ударе оружием ближнего боя: {trigger_chance} шанс замедлить скорость передвижения и атаки цели на {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, на {effect_duration} секунд.",
+  "spell.arsenal.slowing_melee.description": "При ударе оружием ближнего боя: {trigger_chance} шанс замедлить скорость передвижения и атаки цели на {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, на {effect_duration} секунд.",
   "spell.arsenal.slowing_melee.name": "Обморожение",
   "spell.arsenal.spiked_shield.description": "При блокировании щитом: {trigger_chance} шанс нанести {damage} урона атакующему.",
   "spell.arsenal.spiked_shield.name": "Шипастый",

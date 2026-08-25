@@ -92,7 +92,7 @@
   },
   "impacts": [
     {
-      "attribute": "minecraft:generic.attack_damage",
+      "attribute": "minecraft:attack_damage",
       "action": {
         "type": "DAMAGE",
         "damage": {

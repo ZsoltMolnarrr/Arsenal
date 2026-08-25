@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "範囲衝撃波",
   "spell.arsenal.shockwave_melee.description": "コンボの最後の攻撃が前方に衝撃波を放ち、進路上の敵に{damage}のダメージを与える。",
   "spell.arsenal.shockwave_melee.name": "衝撃波",
-  "spell.arsenal.slowing_melee.description": "近接攻撃が命中した時：{trigger_chance}の確率で対象の移動速度と攻撃速度を{effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}低下させる。効果時間は{effect_duration}秒。",
+  "spell.arsenal.slowing_melee.description": "近接攻撃が命中した時：{trigger_chance}の確率で対象の移動速度と攻撃速度を{effect|arsenal:frostbite|0|minecraft:movement_speed|abs}低下させる。効果時間は{effect_duration}秒。",
   "spell.arsenal.slowing_melee.name": "凍傷",
   "spell.arsenal.spiked_shield.description": "盾で防御した時：{trigger_chance}の確率で攻撃者に{damage}のダメージを与える。",
   "spell.arsenal.spiked_shield.name": "棘付き",

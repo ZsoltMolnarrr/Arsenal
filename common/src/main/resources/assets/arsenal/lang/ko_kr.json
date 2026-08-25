@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "충격파 구역",
   "spell.arsenal.shockwave_melee.description": "콤보의 마지막 공격이 전방으로 충격파를 보내, 경로에 있는 적들에게 {damage} 피해를 입힙니다.",
   "spell.arsenal.shockwave_melee.name": "충격파",
-  "spell.arsenal.slowing_melee.description": "근접 공격 명중 시: {trigger_chance} 확률로 대상의 이동 및 공격 속도를 {effect_duration}초 동안 {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}만큼 느리게 합니다.",
+  "spell.arsenal.slowing_melee.description": "근접 공격 명중 시: {trigger_chance} 확률로 대상의 이동 및 공격 속도를 {effect_duration}초 동안 {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}만큼 느리게 합니다.",
   "spell.arsenal.slowing_melee.name": "동상",
   "spell.arsenal.spiked_shield.description": "방패 방어 시: {trigger_chance} 확률로 공격자에게 {damage} 피해를 입힙니다.",
   "spell.arsenal.spiked_shield.name": "가시 박힌",

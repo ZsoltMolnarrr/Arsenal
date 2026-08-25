@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Područje Udarnog Vala",
   "spell.arsenal.shockwave_melee.description": "Posljednji napad u kombinaciji šalje udarni val naprijed, nanoseći {damage} štete neprijateljima na njegovom putu.",
   "spell.arsenal.shockwave_melee.name": "Udarni Val",
-  "spell.arsenal.slowing_melee.description": "Pri udarcu izbliza: {trigger_chance} šanse da usporiš kretanje i brzinu napada cilja za {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, na {effect_duration} sekundi.",
+  "spell.arsenal.slowing_melee.description": "Pri udarcu izbliza: {trigger_chance} šanse da usporiš kretanje i brzinu napada cilja za {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, na {effect_duration} sekundi.",
   "spell.arsenal.slowing_melee.name": "Ozeblina",
   "spell.arsenal.spiked_shield.description": "Pri blokiranju štitom: {trigger_chance} šanse da naneseš {damage} štete napadaču.",
   "spell.arsenal.spiked_shield.name": "Bodljikavi",

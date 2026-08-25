@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Chockvågszon",
   "spell.arsenal.shockwave_melee.description": "Den sista attacken i en kombo skickar en chockvåg framåt, som gör {damage} skada mot fiender i dess väg.",
   "spell.arsenal.shockwave_melee.name": "Chockvåg",
-  "spell.arsenal.slowing_melee.description": "Vid närstridsträff: {trigger_chance} chans att sakta ner målets förflyttning och attackhastighet med {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, i {effect_duration} sekunder.",
+  "spell.arsenal.slowing_melee.description": "Vid närstridsträff: {trigger_chance} chans att sakta ner målets förflyttning och attackhastighet med {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, i {effect_duration} sekunder.",
   "spell.arsenal.slowing_melee.name": "Frostbett",
   "spell.arsenal.spiked_shield.description": "Vid blockering med sköld: {trigger_chance} chans att orsaka {damage} skada mot angriparen.",
   "spell.arsenal.spiked_shield.name": "Spikad",

@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Şok Dalgası Alanı",
   "spell.arsenal.shockwave_melee.description": "Bir komboda son saldırı ileriye bir şok dalgası gönderir ve yolundaki düşmanlara {damage} hasar verir.",
   "spell.arsenal.shockwave_melee.name": "Şok Dalgası",
-  "spell.arsenal.slowing_melee.description": "Yakın dövüş vuruşunda: {trigger_chance} ihtimalle hedefin hareket ve saldırı hızını {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs} kadar yavaşlatır; {effect_duration} saniye sürer.",
+  "spell.arsenal.slowing_melee.description": "Yakın dövüş vuruşunda: {trigger_chance} ihtimalle hedefin hareket ve saldırı hızını {effect|arsenal:frostbite|0|minecraft:movement_speed|abs} kadar yavaşlatır; {effect_duration} saniye sürer.",
   "spell.arsenal.slowing_melee.name": "Donma",
   "spell.arsenal.spiked_shield.description": "Kalkanla engellemede: {trigger_chance} ihtimalle saldırgana {damage} hasar verir.",
   "spell.arsenal.spiked_shield.name": "Dikenli",

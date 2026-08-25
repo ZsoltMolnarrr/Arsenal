@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Lökéshullám Zóna",
   "spell.arsenal.shockwave_melee.description": "A kombó utolsó támadása lökéshullámot küld előre, {damage} sebzést okozva az útjába kerülő ellenségeknek.",
   "spell.arsenal.shockwave_melee.name": "Lökéshullám",
-  "spell.arsenal.slowing_melee.description": "Közelharci találatkor: {trigger_chance} eséllyel {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs} értékkel lassítja a célpont mozgási és támadási sebességét, {effect_duration} másodpercig.",
+  "spell.arsenal.slowing_melee.description": "Közelharci találatkor: {trigger_chance} eséllyel {effect|arsenal:frostbite|0|minecraft:movement_speed|abs} értékkel lassítja a célpont mozgási és támadási sebességét, {effect_duration} másodpercig.",
   "spell.arsenal.slowing_melee.name": "Fagyás",
   "spell.arsenal.spiked_shield.description": "Pajzsblokkoláskor: {trigger_chance} eséllyel {damage} sebzést okozol a támadónak.",
   "spell.arsenal.spiked_shield.name": "Tüskés",

@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Schockwellenbereich",
   "spell.arsenal.shockwave_melee.description": "Der letzte Angriff einer Kombo sendet eine Schockwelle nach vorn aus, die {damage} Schaden an Gegnern in ihrem Weg verursacht.",
   "spell.arsenal.shockwave_melee.name": "Schockwelle",
-  "spell.arsenal.slowing_melee.description": "Bei einem Nahkampftreffer: {trigger_chance} Chance, die Bewegungs- und Angriffsgeschwindigkeit des Ziels um {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs} zu verlangsamen, für {effect_duration} Sekunden.",
+  "spell.arsenal.slowing_melee.description": "Bei einem Nahkampftreffer: {trigger_chance} Chance, die Bewegungs- und Angriffsgeschwindigkeit des Ziels um {effect|arsenal:frostbite|0|minecraft:movement_speed|abs} zu verlangsamen, für {effect_duration} Sekunden.",
   "spell.arsenal.slowing_melee.name": "Frostbiss",
   "spell.arsenal.spiked_shield.description": "Beim Blocken mit dem Schild: {trigger_chance} Chance, dem Angreifer {damage} Schaden zuzufügen.",
   "spell.arsenal.spiked_shield.name": "Bestachelt",

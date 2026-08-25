@@ -110,7 +110,7 @@
   "spell.arsenal.shockwave_area_spell.name": "Schokgolfgebied",
   "spell.arsenal.shockwave_melee.description": "De laatste aanval in een combo stuurt een schokgolf naar voren, die {damage} schade toebrengt aan vijanden in zijn pad.",
   "spell.arsenal.shockwave_melee.name": "Schokgolf",
-  "spell.arsenal.slowing_melee.description": "Bij een treffer in het nabijgevecht: {trigger_chance} kans om de beweging en aanvalssnelheid van het doel te vertragen met {effect|arsenal:frostbite|0|minecraft:generic.movement_speed|abs}, gedurende {effect_duration} seconden.",
+  "spell.arsenal.slowing_melee.description": "Bij een treffer in het nabijgevecht: {trigger_chance} kans om de beweging en aanvalssnelheid van het doel te vertragen met {effect|arsenal:frostbite|0|minecraft:movement_speed|abs}, gedurende {effect_duration} seconden.",
   "spell.arsenal.slowing_melee.name": "Vorstbeet",
   "spell.arsenal.spiked_shield.description": "Bij het blokkeren met een schild: {trigger_chance} kans om {damage} schade toe te brengen aan de aanvaller.",
   "spell.arsenal.spiked_shield.name": "Stekelig",
