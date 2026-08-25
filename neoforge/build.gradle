@@ -39,8 +39,8 @@ repositories {
         name = 'NeoForged'
         url = 'https://maven.neoforged.net/releases'
     }
-    maven { url 'https://maven.kosmx.dev/' }
-    maven { url 'https://maven.shedaniel.me/' }
+    maven { url = 'https://repo.redlance.org/public' } // PAL (Player Animation Library)
+    maven { url = 'https://maven.shedaniel.me/' }
     maven {
         name = 'Modrinth'
         url = 'https://api.modrinth.com/maven'
@@ -51,7 +51,7 @@ repositories {
 
     // For Curios
     maven { url 'https://maven.theillusivec4.top/' }
-    maven { url 'https://maven.fabricmc.net' }
+    maven { url = 'https://maven.fabricmc.net' }
 
     mavenLocal()
 }
@@ -61,21 +61,19 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 
-    modImplementation("dev.kosmx.player-anim:player-animation-lib-forge:${project.player_anim_version}")
+    modImplementation("com.zigythebird.playeranim:PlayerAnimationLibNeo:${project.player_anim_version}")
     modImplementation("me.shedaniel.cloth:cloth-config-${platform}:${project.cloth_config_version}")
     modImplementation("maven.modrinth:tiny-config:${project.tiny_config_version}-${platform}")
 
     // Curios - https://docs.illusivesoulworks.com/category/curios
     modImplementation("top.theillusivec4.curios:curios-neoforge:${project.curios_version}")
 
-    include(modImplementation("maven.modrinth:shield-api:${project.shield_api_version}-${platform}"))
-
-    modImplementation("maven.modrinth:ranged-weapon-api:${project.ranged_weapon_api_version}-${platform}")
-//    include(modImplementation("net.foundation:ranged_weapon_api-${platform}:${project.ranged_weapon_api_version}"))
-    modImplementation("maven.modrinth:spell-power:${project.spell_power_version}-${platform}")
-//    modImplementation("net.spell_power:spell_power-${platform}:${project.spell_power_version}")
-    modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}-${platform}")
-//    modImplementation("net.spell_engine:spell_engine-${platform}:${project.spell_engine_version}")
+//    modImplementation("maven.modrinth:ranged-weapon-api:${project.ranged_weapon_api_version}-${platform}")
+    modImplementation("net.foundation:ranged_weapon_api-${platform}:${project.ranged_weapon_api_version}")
+//    modImplementation("maven.modrinth:spell-power:${project.spell_power_version}-${platform}")
+    modImplementation("net.spell_power:spell_power-${platform}:${project.spell_power_version}")
+//    modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}-${platform}")
+    modImplementation("net.spell_engine:spell_engine-${platform}:${project.spell_engine_version}")
 }
 
 processResources {
@@ -128,7 +126,7 @@ publishMods {
         client = true                    // >=1 of client/server REQUIRED by CurseForge (Error 1021)
         server = true
         changelogType = "markdown"
-        requires("spell-engine", "shield-api", "ranged-weapon-api")
+        requires("spell-engine", "ranged-weapon-api")
     }
 
     modrinth {
@@ -138,7 +136,6 @@ publishMods {
         minecraftVersions.add(project.minecraft_version)
         minecraftVersions.add(project.minecraft_compat_version)
         requires { slug = "spell-engine" }
-        requires { slug = "shield-api" }
         requires { slug = "ranged-weapon-api" }
     }
 
