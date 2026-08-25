@@ -330,9 +330,6 @@
 		}
 	],
 	"gui_light": "front",
-	"overrides": [
-		{"predicate": {"blocking": 1}, "model": "arsenal:item/unique_shield_2_blocking"}
-	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [0, -180, 0],

@@ -395,9 +395,6 @@
 			}
 		}
 	],
-	"overrides": [
-		{"predicate": {"blocking": 1}, "model": "arsenal:item/unique_shield_1_blocking"}
-	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [0, 0, 180],

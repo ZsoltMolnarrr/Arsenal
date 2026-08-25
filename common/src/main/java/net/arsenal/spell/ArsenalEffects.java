@@ -31,7 +31,7 @@ public class ArsenalEffects {
             new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0x888800),
             new EffectConfig(List.of(
                     new AttributeModifier(
-                            EntityAttributes.GENERIC_JUMP_STRENGTH.getIdAsString(),
+                            EntityAttributes.JUMP_STRENGTH.getIdAsString(),
                             0,
                             EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                     )
@@ -45,12 +45,12 @@ public class ArsenalEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
+                                    EntityAttributes.MOVEMENT_SPEED.getIdAsString(),
                                     -0.25F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
+                                    EntityAttributes.ATTACK_SPEED.getIdAsString(),
                                     -0.25F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -80,7 +80,7 @@ public class ArsenalEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ARMOR.getIdAsString(),
+                                    EntityAttributes.ARMOR.getIdAsString(),
                                     -0.3F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -95,7 +95,7 @@ public class ArsenalEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    EntityAttributes.ATTACK_DAMAGE.getIdAsString(),
                                     0.05F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -125,12 +125,12 @@ public class ArsenalEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE.getIdAsString(),
+                                    EntityAttributes.KNOCKBACK_RESISTANCE.getIdAsString(),
                                     3F,
                                     EntityAttributeModifier.Operation.ADD_VALUE
                             ),
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ARMOR_TOUGHNESS.getIdAsString(),
+                                    EntityAttributes.ARMOR_TOUGHNESS.getIdAsString(),
                                     0.5F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -160,7 +160,7 @@ public class ArsenalEffects {
             new AbsorptionStatusEffect(StatusEffectCategory.BENEFICIAL, 0xffffcc),
             new EffectConfig(List.of(
                     new AttributeModifier(
-                            EntityAttributes.GENERIC_MAX_ABSORPTION.getIdAsString(),
+                            EntityAttributes.MAX_ABSORPTION.getIdAsString(),
                             2,
                             EntityAttributeModifier.Operation.ADD_VALUE
                     )

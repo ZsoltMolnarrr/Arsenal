@@ -212,7 +212,7 @@ public class ArsenalSpells {
         trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
-        radianceTargetAndImpact(spell, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
+        radianceTargetAndImpact(spell, EntityAttributes.ATTACK_DAMAGE.getIdAsString());
         configureCooldown(spell, 3F);
         spell.cost.cooldown.hosting_item = false;
 
@@ -431,7 +431,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        flameCloud(spell, 0.25F, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
+        flameCloud(spell, 0.25F, EntityAttributes.ATTACK_DAMAGE.getIdAsString());
 
         configureCooldown(spell, 3);
         spell.cost.batching = true;
@@ -623,7 +623,7 @@ public class ArsenalSpells {
         // the "sole modifier" default is only deterministic for single-modifier effects.
         var description = "On melee hit: {trigger_chance} chance to slow movement and attack speed of the the target by "
                 + TooltipTokens.effect(ArsenalEffects.FROSTBITE.id, 0,
-                        Identifier.of(EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString()),
+                        Identifier.of(EntityAttributes.MOVEMENT_SPEED.getIdAsString()),
                         TooltipTokens.Format.ABS)
                 + ", for {effect_duration} seconds.";
 
@@ -689,7 +689,7 @@ public class ArsenalSpells {
 
     private static void leechingEffect(Spell spell) {
         var leech = new Spell.Impact();
-        leech.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        leech.attribute = EntityAttributes.MAX_HEALTH.getIdAsString();
         leech.attribute_from_target = true;
         leech.action = new Spell.Impact.Action();
         leech.action.apply_to_caster = true;

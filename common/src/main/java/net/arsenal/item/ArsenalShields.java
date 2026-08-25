@@ -2,8 +2,10 @@ package net.arsenal.item;
 
 import net.arsenal.ArsenalMod;
 import net.arsenal.spell.ArsenalSounds;
+import net.arsenal.item.shield.VanillaShields;
 import net.arsenal.spell.ArsenalSpells;
-import net.fabric_extras.shield_api.item.CustomShieldItem;
+import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Rarity;
@@ -26,8 +28,19 @@ public class ArsenalShields {
         return entry;
     }
 
+    /// Deliberately *not* `Shields.toughness/health`: SpellEngine still spells those attribute ids the
+    /// 1.21.1 way (`minecraft:generic.armor_toughness`, `generic.max_health`) and 1.21.2 dropped the
+    /// `generic.` prefix, so they no longer resolve (silently — see LESSONS §4.19). Values are unchanged.
     private static final List<AttributeModifier> UNIQUE_ATTRIBUTES =
-            List.of(Shields.toughness(2), Shields.health(6));
+            List.of(toughness(2), health(6));
+
+    private static AttributeModifier toughness(float value) {
+        return new AttributeModifier(EntityAttributes.ARMOR_TOUGHNESS.getIdAsString(), value, Operation.ADD_VALUE);
+    }
+
+    private static AttributeModifier health(float value) {
+        return new AttributeModifier(EntityAttributes.MAX_HEALTH.getIdAsString(), value, Operation.ADD_VALUE);
+    }
 
     // MARK: Shields
 
@@ -51,6 +64,6 @@ public class ArsenalShields {
     }
 
     public static void register(Map<String, ShieldConfig> configs) {
-        Shield.register(configs, entries, Group.KEY, CustomShieldItem::new);
+        Shield.register(configs, entries, Group.KEY, VanillaShields::create);
     }
 }
