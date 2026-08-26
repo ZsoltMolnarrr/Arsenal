@@ -58,6 +58,13 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
                     new RPGSeriesDataGen.ShieldEntry(entry.id(), entry.lootProperties)
             ).toList();
             generateShieldTags(shieldEntries);
+
+            // Anvil repair tags (`minecraft:repairable`), one per material
+            for (var repair: ArsenalItemTags.REPAIR_TAGS) {
+                var tag = builder(repair.tag());
+                repair.required().forEach(id -> tag.add(RegistryKey.of(RegistryKeys.ITEM, id)));
+                repair.optional().forEach(id -> tag.addOptional(RegistryKey.of(RegistryKeys.ITEM, id)));
+            }
         }
     }
 
