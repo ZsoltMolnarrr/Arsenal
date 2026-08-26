@@ -1,6 +1,6 @@
 package net.arsenal.client.particle;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.spell.fx.ParticleGroup;
 

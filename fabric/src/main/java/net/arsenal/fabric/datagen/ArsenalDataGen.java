@@ -7,11 +7,11 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.arsenal.ArsenalMod;
 import net.arsenal.spell.ArsenalEffects;
 import net.arsenal.spell.ArsenalSounds;
@@ -39,14 +39,14 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class ItemTagGenerator extends RPGSeriesDataGen.ItemTagGenerator {
-        public ItemTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        public ItemTagGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
         @Override
-        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+        protected void addTags(HolderLookup.Provider wrapperLookup) {
             var all = builder(ArsenalItemTags.ALL);
-            ArsenalWeapons.entries.forEach(entry -> all.addOptional(RegistryKey.of(RegistryKeys.ITEM, entry.id())));
+            ArsenalWeapons.entries.forEach(entry -> all.addOptional(ResourceKey.create(Registries.ITEM, entry.id())));
             generateWeaponTags(ArsenalWeapons.entries);
 
             var bowEntries = ArsenalBows.entries.stream().map(entry ->
@@ -62,33 +62,33 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
             // Anvil repair tags (`minecraft:repairable`), one per material
             for (var repair: ArsenalItemTags.REPAIR_TAGS) {
                 var tag = builder(repair.tag());
-                repair.required().forEach(id -> tag.add(RegistryKey.of(RegistryKeys.ITEM, id)));
-                repair.optional().forEach(id -> tag.addOptional(RegistryKey.of(RegistryKeys.ITEM, id)));
+                repair.required().forEach(id -> tag.add(ResourceKey.create(Registries.ITEM, id)));
+                repair.optional().forEach(id -> tag.addOptional(ResourceKey.create(Registries.ITEM, id)));
             }
         }
     }
 
     public static class SpellTagGenerator extends FabricTagProvider<Spell> {
-        public SpellTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        public SpellTagGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, SpellRegistry.KEY, registriesFuture);
         }
 
         @Override
-        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+        protected void addTags(HolderLookup.Provider wrapperLookup) {
             ArsenalSpells.all.forEach(entry -> {
                 for (var category: entry.categories()) {
-                    var tagKey = TagKey.of(SpellRegistry.KEY, Identifier.of(ArsenalMod.NAMESPACE, category.toString().toLowerCase()));
+                    var tagKey = TagKey.create(SpellRegistry.KEY, Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, category.toString().toLowerCase()));
                     var tag = builder(tagKey);
-                    tag.addOptional(RegistryKey.of(SpellRegistry.KEY, entry.id()));
+                    tag.addOptional(ResourceKey.create(SpellRegistry.KEY, entry.id()));
                 }
             });
 
             // 1.21.6: `addOptionalTag` takes a `TagKey`, not an `Identifier`.
-            var arcane = TagKey.of(SpellRegistry.KEY, Identifier.of("wizards", "weapon/arcane_staff"));
-            var fire = TagKey.of(SpellRegistry.KEY, Identifier.of("wizards", "weapon/fire_staff"));
-            var frost = TagKey.of(SpellRegistry.KEY, Identifier.of("wizards", "weapon/frost_staff"));
-            var wizard = TagKey.of(SpellRegistry.KEY, Identifier.of("wizards", "weapon/wizard_staff"));
-            var holy = TagKey.of(SpellRegistry.KEY, Identifier.of("paladins", "weapon/holy_staff"));
+            var arcane = TagKey.create(SpellRegistry.KEY, Identifier.fromNamespaceAndPath("wizards", "weapon/arcane_staff"));
+            var fire = TagKey.create(SpellRegistry.KEY, Identifier.fromNamespaceAndPath("wizards", "weapon/fire_staff"));
+            var frost = TagKey.create(SpellRegistry.KEY, Identifier.fromNamespaceAndPath("wizards", "weapon/frost_staff"));
+            var wizard = TagKey.create(SpellRegistry.KEY, Identifier.fromNamespaceAndPath("wizards", "weapon/wizard_staff"));
+            var holy = TagKey.create(SpellRegistry.KEY, Identifier.fromNamespaceAndPath("paladins", "weapon/holy_staff"));
 
             builder(ArsenalSpellGroups.STAFF_ARCANE_FIRE)
                     .addOptionalTag(arcane)
@@ -108,58 +108,58 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
                     .addOptionalTag(holy);
 
             builder(ArsenalSpellGroups.ONE_HANDED_SLASHER)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.SWIFT_STRIKES.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.CLEAVE.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.SWIPE.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.SWIFT_STRIKES.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.CLEAVE.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.SWIPE.id()));
 
             builder(ArsenalSpellGroups.TWO_HANDED_SLASHER)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.FLURRY.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.WHIRLWIND.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.THRUST.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.FLURRY.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.WHIRLWIND.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.THRUST.id()));
 
             builder(ArsenalSpellGroups.CLAYMORE_HAMMER)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.FLURRY.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.GROUND_SLAM.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.FLURRY.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.GROUND_SLAM.id()));
             builder(ArsenalSpellGroups.CLAYMORE_DOUBLE_AXE)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.FLURRY.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.WHIRLWIND.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.FLURRY.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.WHIRLWIND.id()));
             builder(ArsenalSpellGroups.CLAYMORE_GLAIVE)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.FLURRY.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.THRUST.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.FLURRY.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.THRUST.id()));
             builder(ArsenalSpellGroups.SPEAR_GLAIVE)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.IMPALE.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.THRUST.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.IMPALE.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.THRUST.id()));
             builder(ArsenalSpellGroups.DAGGER_SICKLE)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.FAN_OF_KNIVES.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.SWIPE.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.FAN_OF_KNIVES.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.SWIPE.id()));
             builder(ArsenalSpellGroups.SICKLE_AXE)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.SWIPE.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.CLEAVE.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.SWIPE.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.CLEAVE.id()));
             builder(ArsenalSpellGroups.DOUBLE_AXE_HAMMER)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.GROUND_SLAM.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.WHIRLWIND.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.GROUND_SLAM.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.WHIRLWIND.id()));
             builder(ArsenalSpellGroups.GLAIVE_DOUBLE_AXE)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.THRUST.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.WHIRLWIND.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.THRUST.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.WHIRLWIND.id()));
             builder(ArsenalSpellGroups.MACE_SWORD)
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.SMASH.id()))
-                    .addOptional(RegistryKey.of(SpellRegistry.KEY, WeaponSkills.SWIFT_STRIKES.id()));
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.SMASH.id()))
+                    .addOptional(ResourceKey.create(SpellRegistry.KEY, WeaponSkills.SWIFT_STRIKES.id()));
         }
     }
 
     public static class LangGenerator extends FabricLanguageProvider {
-        protected LangGenerator(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        protected LangGenerator(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, "en_us", registryLookup);
         }
 
         @Override
-        public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder translationBuilder) {
             translationBuilder.add(Group.translationKey, "Arsenal");
             ArsenalWeapons.entries.forEach(entry ->
-                translationBuilder.add(entry.item().getTranslationKey(), entry.translatedName())
+                translationBuilder.add(entry.item().getDescriptionId(), entry.translatedName())
             );
             ArsenalBows.entries.forEach(entry ->
-                translationBuilder.add(entry.item().getTranslationKey(), entry.translatedName())
+                translationBuilder.add(entry.item().getDescriptionId(), entry.translatedName())
             );
             ArsenalShields.entries.forEach(entry ->
                 translationBuilder.add(entry.translationKey(), entry.translatedName())
@@ -170,14 +170,14 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
                 translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".description" , entry.description());
             });
             ArsenalEffects.entries.forEach(entry -> {
-                translationBuilder.add(entry.effect.getTranslationKey(), entry.title);
-                translationBuilder.add(entry.effect.getTranslationKey() + ".description", entry.description);
+                translationBuilder.add(entry.effect.getDescriptionId(), entry.title);
+                translationBuilder.add(entry.effect.getDescriptionId() + ".description", entry.description);
             });
         }
     }
 
     public static class SpellGen extends SpellGenerator {
-        public SpellGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        public SpellGen(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
@@ -190,7 +190,7 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class SoundGen extends SimpleSoundGeneratorV2 {
-        public SoundGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        public SoundGen(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
@@ -206,7 +206,7 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class WeaponGen extends WeaponAttributeGenerator {
-        public WeaponGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        public WeaponGen(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 

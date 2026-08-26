@@ -1,15 +1,14 @@
 package net.arsenal.spell;
 
 import net.arsenal.ArsenalMod;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.resources.Identifier;
 import java.util.ArrayList;
 
 public class ArsenalProjectiles {
     public record Entry(Identifier id) { }
     public static final ArrayList<Entry> all = new ArrayList<>();
     public static Entry entry(String name) {
-        var entry = new Entry(Identifier.of(ArsenalMod.NAMESPACE, "spell_projectile/" + name));
+        var entry = new Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, "spell_projectile/" + name));
         all.add(entry);
         return entry;
     }

@@ -1,7 +1,7 @@
 package net.arsenal.spell;
 
 import net.arsenal.ArsenalMod;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.tags.TagKey;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.tags.SpellTags;
 

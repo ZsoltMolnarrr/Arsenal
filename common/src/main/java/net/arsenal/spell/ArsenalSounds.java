@@ -1,7 +1,7 @@
 package net.arsenal.spell;
 
 import net.arsenal.ArsenalMod;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.spell_engine.fx.SpellEngineSounds;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class ArsenalSounds {
         return entry;
     }
     private static SpellEngineSounds.Entry entry(String name) {
-        return new SpellEngineSounds.Entry(Identifier.of(ArsenalMod.NAMESPACE, name));
+        return new SpellEngineSounds.Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, name));
     }
 
     public static final SpellEngineSounds.Entry shield_equip = add(entry("shield_equip").variants(3));

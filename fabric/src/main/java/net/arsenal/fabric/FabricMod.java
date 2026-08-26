@@ -4,9 +4,9 @@ import net.arsenal.ArsenalMod;
 import net.arsenal.item.Group;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 
 public final class FabricMod implements ModInitializer {
     @Override
@@ -17,9 +17,9 @@ public final class FabricMod implements ModInitializer {
         // Create and register item group (Fabric-specific)
         Group.GROUP = FabricItemGroup.builder()
                 .icon(Group.ICON)
-                .displayName(Text.translatable(Group.translationKey))
+                .title(Component.translatable(Group.translationKey))
                 .build();
-        Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Group.KEY, Group.GROUP);
 
         ArsenalMod.registerItems();
         ArsenalMod.registerEffects();

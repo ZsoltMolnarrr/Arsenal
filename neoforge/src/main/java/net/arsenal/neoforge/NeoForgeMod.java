@@ -1,15 +1,15 @@
 package net.arsenal.neoforge;
 
 import net.arsenal.ArsenalMod;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.text.Text;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.arsenal.item.Group;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
 
 @Mod(ArsenalMod.NAMESPACE)
 public final class NeoForgeMod {
@@ -20,21 +20,21 @@ public final class NeoForgeMod {
     }
 
     public static void register(RegisterEvent event) {
-        event.register(RegistryKeys.SOUND_EVENT, reg -> {
+        event.register(Registries.SOUND_EVENT, reg -> {
             ArsenalMod.registerSounds();
         });
-        event.register(RegistryKeys.ITEM_GROUP, reg -> {
+        event.register(Registries.CREATIVE_MODE_TAB, reg -> {
             // Create and register item group (NeoForge-specific)
-            Group.GROUP = new ItemGroup.Builder(ItemGroup.Row.TOP, 0)
+            Group.GROUP = new CreativeModeTab.Builder(CreativeModeTab.Row.TOP, 0)
                     .icon(Group.ICON)
-                    .displayName(Text.translatable(Group.translationKey))
+                    .title(Component.translatable(Group.translationKey))
                     .build();
-            Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
+            Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Group.KEY, Group.GROUP);
         });
-        event.register(RegistryKeys.ITEM, reg -> {
+        event.register(Registries.ITEM, reg -> {
             ArsenalMod.registerItems();
         });
-        event.register(RegistryKeys.STATUS_EFFECT, reg -> {
+        event.register(Registries.MOB_EFFECT, reg -> {
             ArsenalMod.registerEffects();
         });
     }

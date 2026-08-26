@@ -2,9 +2,9 @@ package net.arsenal.item;
 
 import net.arsenal.ArsenalMod;
 import net.arsenal.spell.ArsenalSpells;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Rarity;
 import net.arsenal.spell.ArsenalSpellGroups;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.util.Rarity;
 import net.spell_engine.rpg_series.config.AttributeModifier;
 import net.spell_engine.rpg_series.config.WeaponConfig;
 import net.spell_engine.api.spell.container.SpellContainers;
@@ -40,7 +40,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_claymore_sw = add(Weapons.claymore(ArsenalMod.NAMESPACE, "unique_claymore_sw", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_GOLD_BLOCK)
             .translatedName("Apolyon, the Soul-Render")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.CLAYMORE_DOUBLE_AXE.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.CLAYMORE_DOUBLE_AXE.location().toString())
             .withAdditionalSpell(ArsenalSpells.rampaging_melee.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 
@@ -49,43 +49,43 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_staff_damage_1 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_1", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_AMETHYST_BLOCK, List.of(SpellSchools.ARCANE.id, SpellSchools.FROST.id))
             .translatedName("Nexus Key")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FROST.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FROST.location().toString())
             .withAdditionalSpell(ArsenalSpells.cooldown_shot_spell.id().toString())
             .lootTheme(Loot.Theme.GENERIC.toString()));
     public static final Weapon.Entry unique_staff_damage_2 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_2", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_GOLD_BLOCK, List.of(SpellSchools.ARCANE.id, SpellSchools.FIRE.id))
             .translatedName("Antonidas's Staff of Rapt Concentration")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FIRE.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FIRE.location().toString())
             .withAdditionalSpell(ArsenalSpells.chain_reaction_spell.id().toString())
             .lootTheme(Loot.Theme.CRYSTAL.toString()));
     public static final Weapon.Entry unique_staff_damage_3 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_3", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_NETHERITE_SCRAP, List.of(SpellSchools.ARCANE.id, SpellSchools.FIRE.id))
             .translatedName("Draconic Battle Staff")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FIRE.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FIRE.location().toString())
             .withAdditionalSpell(ArsenalSpells.flame_cloud_spell.id().toString())
             .lootTheme(Loot.Theme.FIERY.toString()));
     public static final Weapon.Entry unique_staff_damage_4 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_4", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_NETHERITE_SCRAP, List.of(SpellSchools.FIRE.id, SpellSchools.FROST.id))
             .translatedName("Gargoyle's Bite")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.STAFF_FIRE_FROST.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.STAFF_FIRE_FROST.location().toString())
             .withAdditionalSpell(ArsenalSpells.leeching_spell.id().toString())
             .lootTheme(Loot.Theme.EVIL.toString()));
     public static final Weapon.Entry unique_staff_damage_5 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_5", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_AMETHYST_BLOCK, List.of(SpellSchools.ARCANE.id, SpellSchools.FROST.id))
             .translatedName("Mage Lord Cane")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FROST.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FROST.location().toString())
             .withAdditionalSpell(ArsenalSpells.shockwave_area_spell.id().toString())
             .lootTheme(Loot.Theme.GENERIC.toString()));
     public static final Weapon.Entry unique_staff_damage_6 = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_6", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_NETHERITE_SCRAP, List.of(SpellSchools.ARCANE.id, SpellSchools.FROST.id))
             .translatedName("Endless Winter")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FROST.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FROST.location().toString())
             .withAdditionalSpell(ArsenalSpells.frost_cloud_spell.id().toString())
             .lootTheme(Loot.Theme.FROSTY.toString()));
     public static final Weapon.Entry unique_staff_damage_sw = add(Weapons.damageStaff(ArsenalMod.NAMESPACE, "unique_staff_damage_sw", Equipment.Tier.TIER_5, ItemTags.DIAMOND_TOOL_MATERIALS, List.of(SpellSchools.ARCANE.id, SpellSchools.FIRE.id, SpellSchools.FROST.id))
             .translatedName("Grand Magister's Staff of Torrents")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FIRE_FROST.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_FIRE_FROST.location().toString())
             .withAdditionalSpell(ArsenalSpells.rampaging_spell.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 
@@ -95,7 +95,7 @@ public class ArsenalWeapons {
             .attribute(AttributeModifier.bonus(SpellSchools.ARCANE.id, TIER_5_SPELL_POWER))
             .translatedName("Crystalline Life-Staff")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_HEALING.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.STAFF_ARCANE_HEALING.location().toString())
             .withAdditionalSpell(ArsenalSpells.radiance_spell.id().toString())
             .lootTheme(Loot.Theme.CRYSTAL.toString()));
     public static final Weapon.Entry unique_staff_heal_2 = add(Weapons.healingStaff(ArsenalMod.NAMESPACE, "unique_staff_heal_2", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_IRON_BLOCK)
@@ -126,7 +126,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_spear_sw = add(Weapons.spearWithSkill(ArsenalMod.NAMESPACE, "unique_spear_sw", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_GOLD_BLOCK)
             .translatedName("Mounting Vengeance")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.SPEAR_GLAIVE.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.SPEAR_GLAIVE.location().toString())
             .withAdditionalSpell(ArsenalSpells.leeching_melee.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 
@@ -143,7 +143,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_dagger_sw = add(Weapons.daggerWithSkill(ArsenalMod.NAMESPACE, "unique_dagger_sw", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_GOLD_BLOCK)
             .translatedName("Crux of the Apocalypse")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.DAGGER_SICKLE.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.DAGGER_SICKLE.location().toString())
             .withAdditionalSpell(ArsenalSpells.sundering_melee.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 
@@ -160,7 +160,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_sickle_sw = add(Weapons.sickleWithSkill(ArsenalMod.NAMESPACE, "unique_sickle_sw", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_GOLD_BLOCK)
             .translatedName("Thalassian Sickle")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.SICKLE_AXE.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.SICKLE_AXE.location().toString())
             .withAdditionalSpell(ArsenalSpells.swirling_melee.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 
@@ -169,7 +169,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_longsword_sw = add(Weapons.swordWithSkill(ArsenalMod.NAMESPACE, "unique_longsword_sw", Equipment.Tier.TIER_5, ItemTags.GOLD_TOOL_MATERIALS)
             .translatedName("Dragonscale-Encrusted Longblade")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.ONE_HANDED_SLASHER.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.ONE_HANDED_SLASHER.location().toString())
             .withAdditionalSpell(ArsenalSpells.sundering_melee.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 
@@ -186,7 +186,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_double_axe_sw = add(Weapons.doubleAxeWithSkill(ArsenalMod.NAMESPACE, "unique_double_axe_sw", Equipment.Tier.TIER_5, ItemTags.GOLD_TOOL_MATERIALS)
             .translatedName("Sunreaver War Axe")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.DOUBLE_AXE_HAMMER.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.DOUBLE_AXE_HAMMER.location().toString())
             .withAdditionalSpell(ArsenalSpells.rampaging_melee.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 
@@ -203,7 +203,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_glaive_sw = add(Weapons.glaiveWithSkill(ArsenalMod.NAMESPACE, "unique_glaive_sw", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_GOLD_BLOCK)
             .translatedName("Shivering Felspine")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.GLAIVE_DOUBLE_AXE.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.GLAIVE_DOUBLE_AXE.location().toString())
             .withAdditionalSpell(ArsenalSpells.swirling_melee.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 
@@ -235,7 +235,7 @@ public class ArsenalWeapons {
     public static final Weapon.Entry unique_mace_sw = add(Weapons.maceWithSkill(ArsenalMod.NAMESPACE, "unique_mace_sw", Equipment.Tier.TIER_5, ArsenalItemTags.REPAIRS_GOLD_BLOCK)
             .translatedName("Archon's Scepter")
             .spellContainer(SpellContainers.forMagicWeapon())
-            .withSpellChoices(ArsenalSpellGroups.MACE_SWORD.id().toString())
+            .withSpellChoices(ArsenalSpellGroups.MACE_SWORD.location().toString())
             .withAdditionalSpell(ArsenalSpells.guarding_strike_melee.id().toString())
             .lootTheme(Loot.Theme.ELVEN.toString()));
 

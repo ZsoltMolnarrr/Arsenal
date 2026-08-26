@@ -1,13 +1,11 @@
 package net.arsenal.spell;
 
 import net.arsenal.ArsenalMod;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.rpg_foundation.ranged_weapon.api.EntityAttributes_RangedWeapon;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.Identifier;
 import net.spell_engine.rpg_series.config.AttributeModifier;
 import net.spell_engine.rpg_series.config.ConfigFile;
 import net.spell_engine.rpg_series.config.EffectConfig;
@@ -25,144 +23,144 @@ public class ArsenalEffects {
         return entry;
     }
 
-    public static Effects.Entry STUN = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE,"stun"),
+    public static Effects.Entry STUN = add(new Effects.Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE,"stun"),
             "Stunned",
             "Cannot move or act.",
-            new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0x888800),
+            new CustomStatusEffect(MobEffectCategory.HARMFUL, 0x888800),
             new EffectConfig(List.of(
                     new AttributeModifier(
-                            EntityAttributes.JUMP_STRENGTH.getIdAsString(),
+                            Attributes.JUMP_STRENGTH.getRegisteredName(),
                             0,
-                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                            net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                     )
             ))
     ));
 
-    public static Effects.Entry FROSTBITE = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "frostbite"),
+    public static Effects.Entry FROSTBITE = add(new Effects.Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, "frostbite"),
             "Frostbite",
             "Slower movement and attack speed.",
-            new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0x99ccff),
+            new CustomStatusEffect(MobEffectCategory.HARMFUL, 0x99ccff),
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.MOVEMENT_SPEED.getIdAsString(),
+                                    Attributes.MOVEMENT_SPEED.getRegisteredName(),
                                     -0.25F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
                             new AttributeModifier(
-                                    EntityAttributes.ATTACK_SPEED.getIdAsString(),
+                                    Attributes.ATTACK_SPEED.getRegisteredName(),
                                     -0.25F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
 
-    public static Effects.Entry GUARDING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "guarding"),
+    public static Effects.Entry GUARDING = add(new Effects.Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, "guarding"),
             "Guarding",
             "Increased defense.",
-            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00ff00),
+            new CustomStatusEffect(MobEffectCategory.BENEFICIAL, 0x00ff00),
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
                                     SpellEngineAttributes.DAMAGE_TAKEN.id.toString(),
                                     -0.3F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
 
-    public static Effects.Entry SUNDERING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "sundering"),
+    public static Effects.Entry SUNDERING = add(new Effects.Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, "sundering"),
             "Sundering",
             "Reduced defense.",
-            new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0xff0000),
+            new CustomStatusEffect(MobEffectCategory.HARMFUL, 0xff0000),
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.ARMOR.getIdAsString(),
+                                    Attributes.ARMOR.getRegisteredName(),
                                     -0.3F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
 
-    public static Effects.Entry RAMPAGING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "rampaging"),
+    public static Effects.Entry RAMPAGING = add(new Effects.Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, "rampaging"),
             "Rampaging",
             "Increased attack damage.",
-            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0xff9900),
+            new CustomStatusEffect(MobEffectCategory.BENEFICIAL, 0xff9900),
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.ATTACK_DAMAGE.getIdAsString(),
+                                    Attributes.ATTACK_DAMAGE.getRegisteredName(),
                                     0.05F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
 
-    public static Effects.Entry FOCUSING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "focusing"),
+    public static Effects.Entry FOCUSING = add(new Effects.Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, "focusing"),
             "Focusing",
             "Increased ranged attack damage.",
-            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0xff9900),
+            new CustomStatusEffect(MobEffectCategory.BENEFICIAL, 0xff9900),
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes_RangedWeapon.DAMAGE.id.toString(),
                                     0.1F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
 
-    public static Effects.Entry UNYIELDING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "unyielding"),
+    public static Effects.Entry UNYIELDING = add(new Effects.Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, "unyielding"),
             "Unyielding",
             "Increased knockback resistance and toughness.",
-            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00ff00),
+            new CustomStatusEffect(MobEffectCategory.BENEFICIAL, 0x00ff00),
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.KNOCKBACK_RESISTANCE.getIdAsString(),
+                                    Attributes.KNOCKBACK_RESISTANCE.getRegisteredName(),
                                     3F,
-                                    EntityAttributeModifier.Operation.ADD_VALUE
+                                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE
                             ),
                             new AttributeModifier(
-                                    EntityAttributes.ARMOR_TOUGHNESS.getIdAsString(),
+                                    Attributes.ARMOR_TOUGHNESS.getRegisteredName(),
                                     0.5F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
 
-    public static Effects.Entry SURGING = add(new Effects.Entry(Identifier.of(ArsenalMod.NAMESPACE, "surging"),
+    public static Effects.Entry SURGING = add(new Effects.Entry(Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, "surging"),
             "Surging",
             "Increased spell critical chance.",
-            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x00ff00),
+            new CustomStatusEffect(MobEffectCategory.BENEFICIAL, 0x00ff00),
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
                                     SpellPowerMechanics.CRITICAL_CHANCE.id.toString(),
                                     0.1F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
 
     public static final Effects.Entry ABSORPTION = add(new Effects.Entry(
-            Identifier.of(ArsenalMod.NAMESPACE, "absorption"),
+            Identifier.fromNamespaceAndPath(ArsenalMod.NAMESPACE, "absorption"),
             "Absorption",
             "Increases maximum absorption",
-            new AbsorptionStatusEffect(StatusEffectCategory.BENEFICIAL, 0xffffcc),
+            new AbsorptionStatusEffect(MobEffectCategory.BENEFICIAL, 0xffffcc),
             new EffectConfig(List.of(
                     new AttributeModifier(
-                            EntityAttributes.MAX_ABSORPTION.getIdAsString(),
+                            Attributes.MAX_ABSORPTION.getRegisteredName(),
                             2,
-                            EntityAttributeModifier.Operation.ADD_VALUE
+                            net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE
                     )
             ))
     ));
@@ -174,7 +172,7 @@ public class ArsenalEffects {
             Synchronized.configure(entry.effect, true);
         }
 
-        Synchronized.configure(StatusEffects.POISON.value(), true);
+        Synchronized.configure(MobEffects.POISON.value(), true);
 
         Effects.register(entries, config.effects);
     }

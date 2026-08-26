@@ -3,7 +3,7 @@ package net.arsenal.item;
 import net.arsenal.ArsenalMod;
 import net.arsenal.spell.ArsenalSounds;
 import net.arsenal.spell.ArsenalSpells;
-import net.minecraft.util.Rarity;
+import net.minecraft.world.item.Rarity;
 import net.spell_engine.rpg_series.config.AttributeModifier;
 import net.spell_engine.rpg_series.config.ShieldConfig;
 import net.spell_engine.api.spell.container.SpellContainers;

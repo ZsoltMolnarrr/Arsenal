@@ -1,6 +1,6 @@
 package net.arsenal.util;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
 
