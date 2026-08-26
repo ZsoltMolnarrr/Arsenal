@@ -2,7 +2,7 @@ package net.arsenal.item;
 
 import net.arsenal.ArsenalMod;
 import net.arsenal.spell.ArsenalSpells;
-import net.fabric_extras.ranged_weapon.api.RangedConfig;
+import net.rpg_foundation.ranged_weapon.api.RangedConfig;
 import net.minecraft.util.Rarity;
 import net.spell_engine.api.spell.container.SpellContainers;
 import net.spell_engine.rpg_series.item.Equipment;

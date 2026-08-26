@@ -1,6 +1,6 @@
 package net.arsenal.config;
 
-import net.fabric_extras.ranged_weapon.api.RangedConfig;
+import net.rpg_foundation.ranged_weapon.api.RangedConfig;
 
 import java.util.LinkedHashMap;
 
