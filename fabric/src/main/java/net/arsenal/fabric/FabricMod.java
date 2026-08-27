@@ -3,7 +3,7 @@ package net.arsenal.fabric;
 import net.arsenal.ArsenalMod;
 import net.arsenal.item.Group;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -15,7 +15,7 @@ public final class FabricMod implements ModInitializer {
         ArsenalMod.registerSounds();
 
         // Create and register item group (Fabric-specific)
-        Group.GROUP = FabricItemGroup.builder()
+        Group.GROUP = FabricCreativeModeTab.builder()
                 .icon(Group.ICON)
                 .title(Component.translatable(Group.translationKey))
                 .build();
