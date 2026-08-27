@@ -1,3 +1,8 @@
+# 1.5.1
+
+- Updated to Minecraft 26.1.2 (Fabric and NeoForge)
+- Requires Java 25
+
 # 1.5.0
 
 - Adopt Spell Engine 1.10 changes
