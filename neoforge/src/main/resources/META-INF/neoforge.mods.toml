@@ -10,12 +10,12 @@ authors = "Daedelus"
 description = '''
 Legendary weapons from the past - not crafted, but conquered.
 '''
-logoFile = "icon.png"
+iconFile = "icon.png"
 
 [[dependencies.arsenal]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.2,)"
 ordering = "NONE"
 side = "BOTH"
 
