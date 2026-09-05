@@ -1,5 +1,6 @@
 # 1.5.1
 
+- Updated for Minecraft 26.2
 - Updated to Minecraft 26.1.2 (Fabric and NeoForge)
 - Requires Java 25
 
