@@ -6,6 +6,11 @@ import net.arsenal.item.ArsenalShields;
 import net.arsenal.item.ArsenalWeapons;
 import net.arsenal.spell.ArsenalEffects;
 import net.arsenal.spell.ArsenalSounds;
+import net.arsenal.item.Group;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.text.Text;
 import net.spell_engine.rpg_series.config.ConfigFile;
 import net.tiny_config.ConfigManager;
 
@@ -49,6 +54,14 @@ public class ArsenalMod {
     }
 
     public static void registerItems() {
+        // The item group is created here (not per-loader) so both entrypoints share one code path.
+        // On Forge this runs inside the `ITEM` RegisterEvent window; `minecraft:item_group` is a
+        // vanilla-only registry that stays unfrozen for the whole phase, so that is fine.
+        Group.GROUP = new ItemGroup.Builder(ItemGroup.Row.TOP, 0)
+                .icon(Group.ICON)
+                .displayName(Text.translatable(Group.translationKey))
+                .build();
+        Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
         ArsenalWeapons.register(itemConfig.value.weapons);
         itemConfig.save();
         ArsenalBows.register(rangedConfig.value.ranged_weapons);

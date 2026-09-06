@@ -1,0 +1,53 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "All Rights Reserved"
+
+[[mods]]
+modId = "arsenal"
+version = "${version}"
+displayName = "Arsenal (RPG Series)"
+authors = "Daedelus"
+description = '''
+Legendary weapons from the past - not crafted, but conquered.
+'''
+logoFile = "icon.png"
+
+[[dependencies.arsenal]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.arsenal]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.arsenal]]
+modId = "spell_engine"
+mandatory = true
+versionRange = "[1.10.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# Unique bows / crossbows are RangedWeaponAPI `CustomBow` / `CustomCrossbow` instances.
+[[dependencies.arsenal]]
+modId = "ranged_weapon_api"
+mandatory = true
+versionRange = "[2.3.4,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# Unique shields are `net.fabric_extras.shield_api.item.CustomShieldItem` instances (see ArsenalShields).
+[[dependencies.arsenal]]
+modId = "shield_api"
+mandatory = true
+versionRange = "[2.2.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# Mixin configs are declared in the jar MANIFEST (`MixinConfigs:`) by Loom (`loom.forge.mixinConfig`),
+# not in this file — the `[[mixins]]` table is NeoForge-only.

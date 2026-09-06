@@ -7,5 +7,5 @@ import net.minecraft.util.Identifier;
 import net.arsenal.ArsenalMod;
 
 public class ArsenalItemTags {
-    public static final TagKey<Item> ALL = TagKey.of(RegistryKeys.ITEM, Identifier.of(ArsenalMod.NAMESPACE, "all"));
+    public static final TagKey<Item> ALL = TagKey.of(RegistryKeys.ITEM, new Identifier(ArsenalMod.NAMESPACE, "all"));
 }

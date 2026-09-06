@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -28,6 +29,14 @@ import net.spell_engine.rpg_series.datagen.WeaponSkills;
 import java.util.concurrent.CompletableFuture;
 
 public class ArsenalDataGen implements DataGeneratorEntrypoint {
+    /// Required for the `SpellTagGenerator` below: Fabric's `DynamicRegistries.registerSynced` only feeds
+    /// the *runtime* RegistryLoader, so a `FabricTagProvider<Spell>` dies with `Registry ... not found`
+    /// unless the entrypoint also contributes `SpellRegistry.KEY` to the datagen `WrapperLookup`.
+    @Override
+    public void buildRegistry(RegistryBuilder registryBuilder) {
+        RPGSeriesDataGen.buildRegistry(registryBuilder);
+    }
+
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
@@ -72,17 +81,17 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             ArsenalSpells.all.forEach(entry -> {
                 for (var category: entry.categories()) {
-                    var tagKey = TagKey.of(SpellRegistry.KEY, Identifier.of(ArsenalMod.NAMESPACE, category.toString().toLowerCase()));
+                    var tagKey = TagKey.of(SpellRegistry.KEY, new Identifier(ArsenalMod.NAMESPACE, category.toString().toLowerCase()));
                     var tag = getOrCreateTagBuilder(tagKey);
                     tag.addOptional(entry.id());
                 }
             });
 
-            var arcane = Identifier.of("wizards", "weapon/arcane_staff");
-            var fire = Identifier.of("wizards", "weapon/fire_staff");
-            var frost = Identifier.of("wizards", "weapon/frost_staff");
-            var wizard = Identifier.of("wizards", "weapon/wizard_staff");
-            var holy = Identifier.of("paladins", "weapon/holy_staff");
+            var arcane = new Identifier("wizards", "weapon/arcane_staff");
+            var fire = new Identifier("wizards", "weapon/fire_staff");
+            var frost = new Identifier("wizards", "weapon/frost_staff");
+            var wizard = new Identifier("wizards", "weapon/wizard_staff");
+            var holy = new Identifier("paladins", "weapon/holy_staff");
 
             getOrCreateTagBuilder(ArsenalSpellGroups.STAFF_ARCANE_FIRE)
                     .addOptionalTag(arcane)
@@ -142,12 +151,12 @@ public class ArsenalDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class LangGenerator extends FabricLanguageProvider {
-        protected LangGenerator(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-            super(dataOutput, "en_us", registryLookup);
+        protected LangGenerator(FabricDataOutput dataOutput) {
+            super(dataOutput, "en_us");
         }
 
         @Override
-        public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        public void generateTranslations(TranslationBuilder translationBuilder) {
             translationBuilder.add(Group.translationKey, "Arsenal");
             ArsenalWeapons.entries.forEach(entry ->
                 translationBuilder.add(entry.item().getTranslationKey(), entry.translatedName())

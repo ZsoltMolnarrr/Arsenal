@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     {
       "id": "#wizards:weapon/wizard_staff",

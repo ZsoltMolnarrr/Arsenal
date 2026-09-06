@@ -20,13 +20,13 @@
       "net.arsenal.fabric.datagen.ArsenalDataGen"
     ]
   },
-  "mixins": [
-    "arsenal.mixins.json"
-  ],
   "depends": {
-    "minecraft": ">=${minecraft_compat_version}",
-    "fabricloader": ">=${fabric_loader_version}",
-    "spell_engine": ">=${spell_engine_version}",
-    "ranged_weapon_api": ">=${ranged_weapon_api_version}"
+    "minecraft": "~1.20.1",
+    "fabricloader": ">=0.19.5",
+    "java": ">=17",
+    "fabric-api": "*",
+    "spell_engine": ">=1.10.5",
+    "ranged_weapon_api": ">=2.3.4",
+    "shield_api": ">=2.2.0"
   }
 }

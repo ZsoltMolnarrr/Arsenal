@@ -1,3 +1,13 @@
+# 1.5.0.001
+
+- Minecraft 1.20.1 port (Fabric + Forge 47)
+- Runs on Spell Engine 1.10.5, Spell Power 1.6.0, RangedWeaponAPI 2.3.4 and ShieldAPI 2.2.0
+- Item config: attribute modifier operations are now named `ADDITION` / `MULTIPLY_BASE` / `MULTIPLY_TOTAL`
+  (they were `ADD_VALUE` / `ADD_MULTIPLIED_BASE` / `ADD_MULTIPLIED_TOTAL`) — existing
+  `config/arsenal/{equipment_v2,shields,effects}.json` files need those three names replaced
+- The `stun` effect no longer zeroes jump strength (no such attribute on 1.20.1); the stun itself is unchanged
+- `absorption` grants and revokes its absorption points directly (no max-absorption attribute on 1.20.1)
+
 # 1.5.0
 
 - Adopt Spell Engine 1.10 changes

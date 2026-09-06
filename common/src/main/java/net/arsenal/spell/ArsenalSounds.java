@@ -14,7 +14,7 @@ public class ArsenalSounds {
         return entry;
     }
     private static SpellEngineSounds.Entry entry(String name) {
-        return new SpellEngineSounds.Entry(Identifier.of(ArsenalMod.NAMESPACE, name));
+        return new SpellEngineSounds.Entry(new Identifier(ArsenalMod.NAMESPACE, name));
     }
 
     public static final SpellEngineSounds.Entry shield_equip = add(entry("shield_equip").variants(3));

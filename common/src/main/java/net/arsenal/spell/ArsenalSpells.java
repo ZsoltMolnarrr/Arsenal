@@ -3,7 +3,9 @@ package net.arsenal.spell;
 import net.arsenal.ArsenalMod;
 import net.fabric_extras.ranged_weapon.api.EntityAttributes_RangedWeapon;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.spell.ExternalSpellSchools;
@@ -40,6 +42,12 @@ public class ArsenalSpells {
     private static Entry add(Entry entry) {
         all.add(entry);
         return entry;
+    }
+
+    /// 1.20.1's `EntityAttribute` is a plain object with no id accessor (1.21's `getIdAsString()`),
+    /// so the registry has to be asked.
+    private static String attributeId(EntityAttribute attribute) {
+        return Registries.ATTRIBUTE.getId(attribute).toString();
     }
 
     /// A percentage baked directly into a description literal. The description is a lang value and
@@ -196,7 +204,7 @@ public class ArsenalSpells {
     private static long HOLY_COLOR = Color.HOLY.toRGBA();
     public static Entry radiance_melee = add(radiance_melee());
     private static Entry radiance_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "radiance_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "radiance_melee");
         var title = "Radiance";
         var description = "On melee hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
@@ -212,7 +220,7 @@ public class ArsenalSpells {
         trigger.aoe_source_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
-        radianceTargetAndImpact(spell, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
+        radianceTargetAndImpact(spell, attributeId(EntityAttributes.GENERIC_ATTACK_DAMAGE));
         configureCooldown(spell, 3F);
         spell.cost.cooldown.hosting_item = false;
 
@@ -221,7 +229,7 @@ public class ArsenalSpells {
 
     public static Entry radiance_ranged = add(radiance_ranged());
     private static Entry radiance_ranged() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "radiance_ranged");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "radiance_ranged");
         var title = "Radiance";
         var description = "On arrow hit: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
@@ -243,7 +251,7 @@ public class ArsenalSpells {
 
     public static Entry radiance_spell = add(radiance_spell());
     private static Entry radiance_spell() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "radiance_spell");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "radiance_spell");
         var title = "Radiance";
         var description = "On spell cast: {trigger_chance} chance to heal yourself and nearby allies by {heal}.";
         var spell = passiveSpellBase();
@@ -290,7 +298,7 @@ public class ArsenalSpells {
 
     public static Entry stunning_melee = add(stunning_melee());
     private static Entry stunning_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "stunning_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "stunning_melee");
         var title = "Stunning";
         var description = "On melee hit: {trigger_chance} chance to stun the targets for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -319,7 +327,7 @@ public class ArsenalSpells {
 
     public static Entry exploding_melee = add(exploding_melee());
     private static Entry exploding_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "exploding_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "exploding_melee");
         var title = "Exploding";
         var description = "On melee hit: {trigger_chance} chance to cause fiery explosion on a target, dealing {damage} damage.";
         var spell = passiveSpellBase();
@@ -356,7 +364,7 @@ public class ArsenalSpells {
     public static final Color WITHER_COLOR = Color.from(0x333333);
     public static Entry wither_melee = add(wither_melee());
     private static Entry wither_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "wither_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "wither_melee");
         var title = "Withering";
         var description = "On melee hit: {trigger_chance_1} chance to inflict the target with strong Wither effect for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -382,7 +390,7 @@ public class ArsenalSpells {
 
     public static Entry wither_ranged = add(wither_ranged());
     private static Entry wither_ranged() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "wither_ranged");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "wither_ranged");
         var title = "Withering";
         var description = "On arrow hit: {trigger_chance} chance to inflict the target with strong Wither effect for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -415,7 +423,7 @@ public class ArsenalSpells {
 
     public static Entry flame_cloud_melee = add(flame_cloud_melee());
     private static Entry flame_cloud_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "flame_cloud_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "flame_cloud_melee");
         var title = "Flame Strike";
         var description = "On melee hit: {trigger_chance} chance to ignite the area around the target, dealing {damage} damage per second.";
         var spell = passiveSpellBase();
@@ -431,7 +439,7 @@ public class ArsenalSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        flameCloud(spell, 0.25F, EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString());
+        flameCloud(spell, 0.25F, attributeId(EntityAttributes.GENERIC_ATTACK_DAMAGE));
 
         configureCooldown(spell, 3);
         spell.cost.batching = true;
@@ -441,7 +449,7 @@ public class ArsenalSpells {
 
     public static Entry flame_cloud_ranged = add(flame_cloud_ranged());
     private static Entry flame_cloud_ranged() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "flame_cloud_ranged");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "flame_cloud_ranged");
         var title = "Flame Strike";
         var description = "On arrow hit: {trigger_chance} chance to ignite the area around the target, dealing {damage} damage per second.";
         var spell = passiveSpellBase();
@@ -463,7 +471,7 @@ public class ArsenalSpells {
 
     public static Entry flame_cloud_spell = add(flame_cloud_spell());
     private static Entry flame_cloud_spell() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "flame_cloud_spell");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "flame_cloud_spell");
         var title = "Flame Strike";
         var description = "On spell hit: {trigger_chance} chance to ignite the area around the target, dealing {damage} damage per second.";
         var spell = passiveSpellBase();
@@ -527,7 +535,7 @@ public class ArsenalSpells {
 
     public static Entry poison_cloud_melee = add(poison_cloud_melee());
     private static Entry poison_cloud_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "poison_cloud_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "poison_cloud_melee");
         var title = "Poison Cloud";
         var description = "On melee hit: {trigger_chance} chance to create a toxic cloud around the target, lasting for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -554,7 +562,7 @@ public class ArsenalSpells {
 
     public static Entry poison_cloud_ranged = add(poison_cloud_ranged());
     private static Entry poison_cloud_ranged() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "poison_cloud_ranged");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "poison_cloud_ranged");
         var title = "Poison Cloud";
         var description = "On arrow hit: {trigger_chance} chance to create a toxic cloud around the target, lasting for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -617,13 +625,13 @@ public class ArsenalSpells {
 
     public static Entry slowing_melee = add(slowing_melee());
     private static Entry slowing_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "slowing_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "slowing_melee");
         var title = "Frostbite";
         // Frostbite carries two equal modifiers (movement + attack speed); name one explicitly since
         // the "sole modifier" default is only deterministic for single-modifier effects.
         var description = "On melee hit: {trigger_chance} chance to slow movement and attack speed of the the target by "
                 + TooltipTokens.effect(ArsenalEffects.FROSTBITE.id, 0,
-                        Identifier.of(EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString()),
+                        new Identifier(attributeId(EntityAttributes.GENERIC_MOVEMENT_SPEED)),
                         TooltipTokens.Format.ABS)
                 + ", for {effect_duration} seconds.";
 
@@ -657,7 +665,7 @@ public class ArsenalSpells {
     public static Color LEECHING_COLOR = Color.from(0xff3333);
     public static Entry leeching_melee = add(leeching_melee());
     private static Entry leeching_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "leeching_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "leeching_melee");
         var title = "Leeching";
         var description = "Defeating enemies heals you by a small portion of their max health.";
         var spell = passiveSpellBase();
@@ -674,7 +682,7 @@ public class ArsenalSpells {
 
     public static Entry leeching_spell = add(leeching_spell());
     private static Entry leeching_spell() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "leeching_spell");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "leeching_spell");
         var title = "Leeching";
         var description = "Defeating enemies heals you by a small portion of their max health.";
         var spell = passiveSpellBase();
@@ -689,7 +697,7 @@ public class ArsenalSpells {
 
     private static void leechingEffect(Spell spell) {
         var leech = new Spell.Impact();
-        leech.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        leech.attribute = attributeId(EntityAttributes.GENERIC_MAX_HEALTH);
         leech.attribute_from_target = true;
         leech.action = new Spell.Impact.Action();
         leech.action.apply_to_caster = true;
@@ -713,7 +721,7 @@ public class ArsenalSpells {
 
     public static Entry swirling_melee = add(swirling_melee());
     private static Entry swirling_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "swirling_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "swirling_melee");
         var title = "Swirling";
         var description = "The last attack in a combo performs a swirling attack, dealing {damage} damage to nearby enemies.";
         var spell = passiveSpellBase();
@@ -754,7 +762,7 @@ public class ArsenalSpells {
     public static final Color GUARDING_COLOR = Color.from(0x66ccff);
     public static Entry guarding_strike_melee = add(guarding_strike_melee());
     private static Entry guarding_strike_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "guarding_strike_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "guarding_strike_melee");
         var title = "Guarding Strike";
         var description = "Defeating enemies grants you and nearby allies a temporary effect reducing damage taken by "
                 + TooltipTokens.effect(ArsenalEffects.GUARDING.id, 0, null, TooltipTokens.Format.ABS)
@@ -792,7 +800,7 @@ public class ArsenalSpells {
     public static Color SUNDERING_COLOR = Color.from(0x595959);
     public static Entry sundering_melee = add(sundering_melee());
     private static Entry sundering_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "sundering_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "sundering_melee");
         var title = "Sundering";
         var description = "On melee hit: {trigger_chance} chance to reduce the target's armor by "
                 + TooltipTokens.effect(ArsenalEffects.SUNDERING.id, 0, null, TooltipTokens.Format.ABS)
@@ -827,7 +835,7 @@ public class ArsenalSpells {
     public static Color UNYIELDING_COLOR = Color.from(0xff4a53);
     public static Entry unyielding_shield = add(unyielding_shield());
     private static Entry unyielding_shield() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "unyielding_shield");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "unyielding_shield");
         var title = "Unyielding";
         var description = "Blocking grants you increased knockback resistance and armor toughness, lasting {effect_duration} seconds.";
         var effect = ArsenalEffects.UNYIELDING;
@@ -855,7 +863,7 @@ public class ArsenalSpells {
 
     public static Entry guarding_shield = add(guarding_shield());
     private static Entry guarding_shield() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "guarding_shield");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "guarding_shield");
         var title = "Guarding";
         var description = "On shield block: {trigger_chance} chance to reduce damage taken by "
                 + TooltipTokens.effect(ArsenalEffects.GUARDING.id, 0, null, TooltipTokens.Format.ABS)
@@ -887,7 +895,7 @@ public class ArsenalSpells {
     public static final Color SPIKED_COLOR = Color.from(0xbfbfbf);
     public static Entry spiked_shield = add(spiked_shield());
     private static Entry spiked_shield() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "spiked_shield");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "spiked_shield");
         var title = "Spiked";
         var description = "On shield block: {trigger_chance} chance to deal {damage} damage to the attacker.";
 
@@ -915,7 +923,7 @@ public class ArsenalSpells {
 
     public static Entry bonus_shot_ranged = add(bonus_shot_ranged());
     private static Entry bonus_shot_ranged() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "bonus_shot_ranged");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "bonus_shot_ranged");
         var title = "Bonus Shot";
         var description = "On arrow hit: {trigger_chance} chance to shoot an additional arrow.";
         var spell = passiveSpellBase();
@@ -957,7 +965,7 @@ public class ArsenalSpells {
     public static Color RAMPAGING_COLOR = Color.from(0xff471a);
     public static Entry rampaging_melee = add(rampaging_melee());
     private static Entry rampaging_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "rampaging_melee");
         var title = "Rampaging";
         var effect = ArsenalEffects.RAMPAGING;
         var description = "Defeating enemies grants " + title + " effect, increasing your damage by "
@@ -1005,7 +1013,7 @@ public class ArsenalSpells {
     public static Color FOCUSING_COLOR = Color.from(0x99ff66);
     public static Entry rampaging_ranged = add(rampaging_ranged());
     private static Entry rampaging_ranged() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_ranged");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "rampaging_ranged");
         var effect = ArsenalEffects.FOCUSING;
         var title = "Focusing";
         var description = "Defeating enemies grants " + effect.title + " effect, increasing your damage by "
@@ -1051,7 +1059,7 @@ public class ArsenalSpells {
     public static final Color SURGING_COLOR = Color.from(0x99ffff);
     public static Entry rampaging_spell = add(rampaging_spell());
     private static Entry rampaging_spell() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "rampaging_spell");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "rampaging_spell");
         var effect = ArsenalEffects.SURGING;
         var title = "Surging";
         var description = "Defeating enemies grants " + effect.title + " effect, increasing your spell critical chance by "
@@ -1095,7 +1103,7 @@ public class ArsenalSpells {
     public static final Color FROST_CLOUD_COLOR = Color.from(0xccffff);
     public static Entry frost_cloud_spell = add(frost_cloud_spell());
     private static Entry frost_cloud_spell() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "frost_cloud_spell");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "frost_cloud_spell");
         var title = "Frosty Puddle";
         var description = "On spell hit: {trigger_chance} chance to create a freezing zone around the target, slowing its movement and attack speed, lasting for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -1158,7 +1166,7 @@ public class ArsenalSpells {
     public static Color COOLDOWN_SHOT_COLOR = Color.from(0xffccff);
     public static Entry cooldown_shot_spell = add(cooldown_shot_spell());
     private static Entry cooldown_shot_spell() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "cooldown_shot_spell");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "cooldown_shot_spell");
         var title = "Cooldown Shot";
         var description = "On spell critical hit: {trigger_chance} chance to reset your spell cooldowns.";
 
@@ -1199,7 +1207,7 @@ public class ArsenalSpells {
     public static final Color SHOCKWAVE_COLOR = Color.from(0xa7e5f5);
     public static Entry shockwave_melee = add(shockwave_melee());
     private static Entry shockwave_melee() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "shockwave_melee");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "shockwave_melee");
         var title = "Shockwave";
         var description = "The last attack in a combo sends a shockwave forward, dealing {damage} damage to enemies in its path.";
         var spell = passiveSpellBase();
@@ -1253,7 +1261,7 @@ public class ArsenalSpells {
     public static Entry shockwave_area_spell = add(shockwave_area_spell());
     private static Entry shockwave_area_spell() {
         var cooldown_threshold = 5;
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "shockwave_area_spell");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "shockwave_area_spell");
         var title = "Shockwave Area";
         var description = "Damaging spells with longer than " + cooldown_threshold + " seconds cooldown, send shockwaves around you, dealing {damage} damage to enemies in their path.";
         var spell = passiveSpellBase();
@@ -1313,7 +1321,7 @@ public class ArsenalSpells {
     public static final Color CHAIN_REACTION_COLOR = Color.from(0xe4dfff);
     public static Entry chain_reaction_spell = add(chain_reaction_spell());
     private static Entry chain_reaction_spell() {
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "chain_reaction_spell");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "chain_reaction_spell");
         var title = "Chain Reaction";
         var description = "On spell critical hit: launches a spell projectile with chain reaction, dealing {damage} spell damage.";
         var spell = passiveSpellBase();
@@ -1372,7 +1380,7 @@ public class ArsenalSpells {
         var threshold = 0.5F;
         var duration = 6;
 
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "guardian_heal");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "guardian_heal");
         var title = "Guardian Remedy";
         var description = "Healing targets under " + bakedPercent(threshold)
                 + " health grants them a temporary absorption shield, lasting {effect_duration} seconds.";
@@ -1414,7 +1422,7 @@ public class ArsenalSpells {
     private static Entry cooldown_heal() {
         var threshold = 0.5F;
 
-        var id = Identifier.of(ArsenalMod.NAMESPACE, "cooldown_heal");
+        var id = new Identifier(ArsenalMod.NAMESPACE, "cooldown_heal");
         var title = "Cooldown Touch";
         var description = "Healing targets under " + bakedPercent(threshold)
                 + " health, has {trigger_chance} chance to reset your spell cooldowns.";
