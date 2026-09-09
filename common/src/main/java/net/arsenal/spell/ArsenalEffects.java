@@ -169,7 +169,13 @@ public class ArsenalEffects {
             new EffectConfig(List.of())
     ));
 
-    public static void register(ConfigFile.Effects config) {
+    /// Stun's action lock-out plus client synchronization for every Arsenal effect (and vanilla poison,
+    /// which the poison-cloud weapon skills apply). Creation only — nothing is registered here, so a
+    /// loader that registers the effects itself (Forge) calls this before its registration loop.
+    ///
+    /// Every call takes the raw {@link Effects.Entry#effect}, never `Entry#entry`, so this does not depend
+    /// on registration order and needs no `Effects.linkEntries` beforehand. Idempotent.
+    public static void configureEffects() {
         ActionImpairing.configure(STUN.effect, EntityActionsAllowed.STUN);
 
         for (var entry: entries) {
@@ -177,7 +183,10 @@ public class ArsenalEffects {
         }
 
         Synchronized.configure(StatusEffects.POISON, true);
+    }
 
+    public static void register(ConfigFile.Effects config) {
+        configureEffects();
         Effects.register(entries, config.effects);
     }
 }

@@ -53,15 +53,27 @@ public class ArsenalMod {
         ArsenalSounds.register();
     }
 
-    public static void registerItems() {
-        // The item group is created here (not per-loader) so both entrypoints share one code path.
-        // On Forge this runs inside the `ITEM` RegisterEvent window; `minecraft:item_group` is a
-        // vanilla-only registry that stays unfrozen for the whole phase, so that is fine.
+    /// Builds `arsenal:generic` into {@link Group#GROUP}. Creation only — nothing is written into the
+    /// ITEM_GROUP registry here, so a loader that registers the group itself (Forge, through the
+    /// `RegisterEvent` helper) calls this from its `creative_mode_tab` window. The icon is a `Supplier`
+    /// that `ItemGroup#getIcon` resolves lazily, so no item has to exist yet. Idempotent.
+    public static void createItemGroup() {
+        if (Group.GROUP != null) {
+            return;
+        }
         Group.GROUP = new ItemGroup.Builder(ItemGroup.Row.TOP, 0)
                 .icon(Group.ICON)
                 .displayName(Text.translatable(Group.translationKey))
                 .build();
+    }
+
+    public static void registerItemGroup() {
+        createItemGroup();
         Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
+    }
+
+    public static void registerItems() {
+        registerItemGroup();
         ArsenalWeapons.register(itemConfig.value.weapons);
         itemConfig.save();
         ArsenalBows.register(rangedConfig.value.ranged_weapons);
