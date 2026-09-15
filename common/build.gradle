@@ -33,7 +33,7 @@ dependencies {
 
     // Ecosystem libraries: the Modrinth maven for the released ones, mavenLocal for the 1.20.1-modern ports.
     modImplementation("maven.modrinth:tiny-config:${rootProject.tiny_config_version}-${platform}")
-    modImplementation("net.fabric_extras:shield_api-${platform}:${rootProject.shield_api_version}")
+    modImplementation("maven.modrinth:shield-api:${rootProject.shield_api_version}-${platform}")
     modImplementation("net.foundation:ranged_weapon_api-${platform}:${rootProject.ranged_weapon_api_version}")
     modImplementation("net.spell_power:spell_power-${platform}:${rootProject.spell_power_version}")
     // `transitive = false`: SpellEngine's local-maven pom drags in Cardinal Components, whose

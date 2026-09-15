@@ -83,8 +83,8 @@ dependencies {
     // needs a pin. `localRuntime` keeps it out of the published POM. Never 0.4.1 (see gradle.properties).
     localRuntime("io.github.llamalad7:mixinextras-forge:${rootProject.mixin_extras_version}")
 
-    // ShieldAPI 2.2.0.001 from mavenLocal (1.20.1-modern port, Fabric + Forge). JiJ'd, as on Fabric.
-    include(modImplementation("net.fabric_extras:shield_api-${platform}:${rootProject.shield_api_version}"))
+    // ShieldAPI 2.2.0+1.20.1 from the Modrinth maven (Fabric + Forge). JiJ'd, as on Fabric.
+    include(modImplementation("maven.modrinth:shield-api:${rootProject.shield_api_version}-${platform}"))
 }
 
 processResources {
