@@ -1,5 +1,18 @@
 # 1.5.0.001
 
+> ### ⚠️ Read this before updating
+>
+> This release is a **major technical overhaul and is not backwards compatible.**
+>
+> - **Requires the matching Spell Engine release.** This version will not run on Spell Engine
+>   **0.9.x**, and mods built against 0.9.x will not work alongside it.
+> - **Update the whole set together.** Spell Engine and every RPG Series mod must be on
+>   matching versions. Mixing in an older add-on will break at startup or misbehave in play.
+> - **Spell books must be re-obtained.** Spell books from an older world no longer carry valid
+>   spell data. Re-craft them, or re-bind their spells at the Spell Binding Table.
+>
+> **Back up your world before updating.**
+
 - Minecraft 1.20.1 port (Fabric + Forge 47)
 - Runs on Spell Engine 1.10.5, Spell Power 1.6.0, RangedWeaponAPI 2.3.4 and ShieldAPI 2.2.0
 - Item config: attribute modifier operations are now named `ADDITION` / `MULTIPLY_BASE` / `MULTIPLY_TOTAL`
