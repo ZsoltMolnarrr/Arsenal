@@ -27,6 +27,6 @@
     "fabric-api": "*",
     "spell_engine": ">=1.10.5",
     "ranged_weapon_api": ">=2.3.4",
-    "shield_api": ">=2.2.0"
+    "shield_api": "*"
   }
 }
