@@ -13,7 +13,7 @@
 >
 > **Back up your world before updating.**
 
-- Accept any Shield API version (built against Shield API 1.1.0)
+- Shield API requirement relaxed to any version newer than 1.1.0 (built against Shield API 2.2.0)
 
 # 1.5.0+1.20.1
 
